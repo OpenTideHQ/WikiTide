@@ -1,0 +1,76 @@
+#   
+
+
+
+> 
+
+| Name                          | Field          | SubField             | SubSubField      | SubSubSubField     | Description                                                                                                                                                                                                                                                                                                                                                                                            | Type                  | Example   |
+|:------------------------------|:---------------|:---------------------|:-----------------|:-------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------|:----------|
+| Schema identifier and version | `schema`       |                      |                  |                    | Identifier of the schema at its current version                                                                                                                                                                                                                                                                                                                                                        | string                |           |
+| ♻️ Status of the use-case     | `status`       |                      |                  |                    | Define the status according to use case development life cycle process                                                                                                                                                                                                                                                                                                                                 | string                | STAGING   |
+| 👥 Development Contributors    | `contributors` |                      |                  |                    | Individuals who supported creating, enriching or tuning the detection.                                                                                                                                                                                                                                                                                                                                 | array                 |           |
+| 🏢 Target Tenants              | `tenants`      |                      |                  |                    | Override the default organizations and deploy to selected tenants only.                                                                                                                                                                                                                                                                                                                                | array                 |           |
+| 🚩 Flags                       | `flags`        |                      |                  |                    | Flags allow to customize the rule behaviour using the modifiers framework                                                                                                                                                                                                                                                                                                                              | array                 |           |
+| Rule Details                  | `details`      |                      |                  |                    | You may use these attributes to optionally override them, if not they will be retrieved from the relevant existing MDR attributes.                                                                                                                                                                                                                                                                     | object                |           |
+| 🎫 Rule Name Override          |                | `name`               |                  |                    | Overrides the MDR Name which is used by default as the rule name                                                                                                                                                                                                                                                                                                                                       | string                |           |
+| 🔬 Rule Description Override   |                | `description`        |                  |                    | Overrides the MDR Name which is used by default as the rule name                                                                                                                                                                                                                                                                                                                                       | string                |           |
+| 💣 Rule Severity Override      |                | `severity`           |                  |                    | Overrides the MDR severity value which is used by default as the rule name                                                                                                                                                                                                                                                                                                                             | string                |           |
+| Expiration Date               |                | `expiration`         |                  |                    | Rules are considered Permanent until a date is specified in this field, then they become Temporary. Expects YYYY/MM/DD, at most 6 months from the time of deployment.                                                                                                                                                                                                                                  | string                |           |
+| Rule Condition                | `condition`    |                      |                  |                    | Configurations for the custom rule. Supports Single Event and Correlation rule types.   ⚠️ Once a rule condition is selected, you can't change it during development as it will fail any further updates. You'll need to delete your rule and start over,  if you wish you continue in the same file you'll need to delete any rule_id that was added by the deployer to allow it to deploy a new one. | object                |           |
+| Detection Type                |                | `type`               |                  |                    |                                                                                                                                                                                                                                                                                                                                                                                                        | string                |           |
+| Single Event Rule Type        |                | `single_event`       |                  |                    | Use this Rule Type if you wish to generate one alert for every match of the query, without further correlations                                                                                                                                                                                                                                                                                        | object                |           |
+| 🔎 S1QL Query (2.0)            |                |                      | `query`          |                    | S1 Query Language Version 2.0 Query. Version 1.0 will not be supported.                                                                                                                                                                                                                                                                                                                                | string                |           |
+| Correlation Rule Type         |                | `correlation`        |                  |                    | Create a custom detection rule that correlates multiple events over time.                                                                                                                                                                                                                                                                                                                              | object                |           |
+| Correlation Entity            |                |                      | `entity`         |                    | A common entity used to group matching events. IMPORTANT: To use the response section, you must select a Process entity                                                                                                                                                                                                                                                                                | string                |           |
+| Match in Order                |                |                      | `match_in_order` |                    | Set to True to require subqueries to match in sequence to trigger an alert.                                                                                                                                                                                                                                                                                                                            | boolean               |           |
+| Time Window                   |                |                      | `time_window`    |                    | The period of time in minutes in which subqueries must match to trigger an alert.                                                                                                                                                                                                                                                                                                                      | string                |           |
+| Sub Queries                   |                |                      | `sub_queries`    |                    | The list of subqueries for the custom detection rule.                                                                                                                                                                                                                                                                                                                                                  | array                 |           |
+| 🔎 S1QL 2.0 Sub Query          |                |                      |                  | `query`            | Sub Query, in S1QL 2.0. 1.0 not suported.                                                                                                                                                                                                                                                                                                                                                              | string                |           |
+| Matches Required              |                |                      |                  | `matches_required` | The number of times the subquery must match.                                                                                                                                                                                                                                                                                                                                                           | integer               |           |
+| Cool off Period               |                | `cool_off`           |                  |                    | Receive only one alert and suppress additional alerts when a rule is triggered multiple times during the cool-off period. Mitigation actions set in the rule will not be applied to suppressed alerts. Expects a value in minute or hour, from 1m to 1440m or 1h to 24h.                                                                                                                               | string                |           |
+| Active Response               | `response`     |                      |                  |                    | When this rule matches a SentinelOne endpoint event, these Storyline Active Responses will be performed. Note: XDR response actions triggered by STAR rules can be configured from the Markteplace package.                                                                                                                                                                                            | object                |           |
+| Treat as threat               |                | `treat_as_threat`    |                  |                    | If selected, the Agent generates a threat from the alert and applies a selected policy.                                                                                                                                                                                                                                                                                                                | ['string', 'boolean'] |           |
+| Network Quarantine            |                | `network_quarantine` |                  |                    | If selected, the system automatically quarantines the alerted endpoints. You can reconnect the endpoints from the Sentinels page or Endpoint Details.                                                                                                                                                                                                                                                  | boolean               |           |
+
+### Template
+
+``
+
+```yaml
+  #schema: sentinel_one::1.0
+  #status: DEVELOPMENT
+  #contributors:
+    #-
+  #tenants:
+    #-
+  #flags:
+    #-
+  
+  #details:
+    #name: 
+    #description: |
+      #...
+    #severity: 
+    #expiration: 
+  
+  condition:
+    #single_event:
+      #query: |
+        #...
+  
+    #correlation:
+      #entity: 
+      #match_in_order: true
+      #time_window: 
+      #sub_queries:
+        #- query: |
+            #...
+          #matches_required: 1
+  
+    #cool_off: 
+  
+  response:
+    treat_as_threat: false
+    network_quarantine: false
+```
+
