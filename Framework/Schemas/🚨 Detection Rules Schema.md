@@ -97,6 +97,12 @@ response:
     #containment: |
       #...
 
-configurations: {}
+configurations:
+  #crowdstrike: 
+  #carbon_black_cloud: 
+  #sentinel_one: 
+  #splunk: 
+  #defender_for_endpoint: 
+  #sentinel:
 ```
 

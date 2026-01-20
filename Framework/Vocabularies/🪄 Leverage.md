@@ -27,4 +27,7 @@
 | LVG0015 | 💅 Modify privileges          | Modify privileges or permissions                                                                                                                                                                                |
 | LVG0016 | ✨ Modify data                | Modify stored data or content                                                                                                                                                                                   |
 | LVG0017 | 📦 Software installation      | Software installation or code modification                                                                                                                                                                      |
+| LVG0018 | 🔭 Information Gathering      | Gathering information about the target system, network, or environment to inform subsequent attack phases.                                                                                                      |
+| LVG0019 | ⚙️ Process Manipulation      | Ability to interfere with or alter physical process operations in industrial control environments.                                                                                                              |
+| LVG0020 | ⚠️ Safety Bypass             | Circumvention or disabling of safety instrumented systems or protective controls.                                                                                                                               |
 

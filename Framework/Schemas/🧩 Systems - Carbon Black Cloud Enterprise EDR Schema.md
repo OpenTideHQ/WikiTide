@@ -7,7 +7,7 @@
 | Name                                | Field           | Description                                                                                                                                              | Type    | Example                                      |
 |:------------------------------------|:----------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|:--------|:---------------------------------------------|
 | Schema identifier and version       | `schema`        | Identifier of the schema at its current version                                                                                                          | string  |                                              |
-| ♻️ Status of the use-case           | `status`        | Define the status according to use case development life cycle process                                                                                   | string  | STAGING                                      |
+| Status of the use-case              | `status`        | Define the status according to use case development life cycle process                                                                                   | string  |                                              |
 | 👥 Development Contributors          | `contributors`  | Individuals who supported creating, enriching or tuning the detection.                                                                                   | array   |                                              |
 | 🏢 Organizations                     | `organizations` | Override the default organizations the deployment will configure the reports onto.                                                                       | array   |                                              |
 | 🔎 Watchlist                         | `watchlist`     | Override the default watchlist the report is added to.                                                                                                   | string  | Advanced_Threats                             |
@@ -22,7 +22,7 @@
 
 ```yaml
   schema: carbon_black_cloud::2.0
-  status: DEVELOPMENT
+  status: 
   #contributors:
     #-
   #report: 

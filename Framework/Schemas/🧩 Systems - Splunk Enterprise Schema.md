@@ -7,7 +7,7 @@
 | Name                               | Field             | SubField          | SubSubField   | Description                                                                                                                                                                                                                                    | Type    | Example                                                          |
 |:-----------------------------------|:------------------|:------------------|:--------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------|:-----------------------------------------------------------------|
 | Schema identifier and version      | `schema`          |                   |               | Identifier of the schema at its current version                                                                                                                                                                                                | string  |                                                                  |
-| ♻️ Status of the use-case          | `status`          |                   |               | Define the status according to use case development life cycle process                                                                                                                                                                         | string  | STAGING                                                          |
+| Status of the use-case             | `status`          |                   |               | Define the status according to use case development life cycle process                                                                                                                                                                         | string  |                                                                  |
 | 👥 Development Contributors         | `contributors`    |                   |               | Individuals who supported creating, enriching or tuning the detection.                                                                                                                                                                         | array   |                                                                  |
 | ⚖️ Event threshold                 | `threshold`       |                   |               | If amount of events is higher than threshold (during the timeframe) the alert is triggered. Default = 0.                                                                                                                                       | integer | 10                                                               |
 | 🗜️ Throttling parameters           | `throttling`      |                   |               | Configuration for throttling incoming alerts                                                                                                                                                                                                   | object  |                                                                  |
@@ -45,7 +45,7 @@
 
 ```yaml
   schema: splunk::2.1
-  status: DEVELOPMENT
+  status: 
   #contributors:
     #-
   #threshold: 0

@@ -49,7 +49,7 @@
 
 ### Template
 
-`TVM0001 - Object Name.yaml`
+`Object Name.yaml`
 
 ```yaml
 name: 

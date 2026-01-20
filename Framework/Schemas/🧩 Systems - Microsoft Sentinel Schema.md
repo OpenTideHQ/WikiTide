@@ -7,10 +7,13 @@
 | Name                            | Field          | SubField             | SubSubField               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 | Type                  | Example                                           |
 |:--------------------------------|:---------------|:---------------------|:--------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------|:--------------------------------------------------|
 | Schema identifier and version   | `schema`       |                      |                           | Identifier of the schema at its current version                                                                                                                                                                                                                                                                                                                                                                                             | string                |                                                   |
-| ♻️ Status of the use-case       | `status`       |                      |                           | Define the status according to use case development life cycle process                                                                                                                                                                                                                                                                                                                                                                      | string                | STAGING                                           |
+| Status of the use-case          | `status`       |                      |                           | Define the status according to use case development life cycle process                                                                                                                                                                                                                                                                                                                                                                      | string                |                                                   |
 | 👥 Development Contributors      | `contributors` |                      |                           | Individuals who supported creating, enriching or tuning the detection.                                                                                                                                                                                                                                                                                                                                                                      | array                 |                                                   |
 | 🏢 Target Tenants                | `tenants`      |                      |                           | Override the default organizations and deploy to selected tenants only.                                                                                                                                                                                                                                                                                                                                                                     | array                 |                                                   |
 | 🚩 Flags                         | `flags`        |                      |                           | Flags allow to customize the rule behaviour using the modifiers framework                                                                                                                                                                                                                                                                                                                                                                   | array                 |                                                   |
+| Template Information            | `template`     |                      |                           | Optional metadata about the template this rule was created from. You can find this information in the Sentinel GUI when viewing template rule. This will enable tracking of rules created from templates in the Sentinel GUI                                                                                                                                                                                                                | object                |                                                   |
+| 🔑 UUID of the template rule     |                | `uuid`               |                           | The uuid of the alert rule template used to create this rule. You can find this information in the Sentinel rule repository (https://github.com/Azure/Azure-Sentinel/), or by browsing https://analyticsrules.exchange/                                                                                                                                                                                                                     | string                |                                                   |
+| 🏷️ Template Version             |                | `version`            |                           | The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 1.0.2                                                                                                                                                                                                                                                                                                               | string                |                                                   |
 | Alert Trigger                   | `trigger`      |                      |                           | Event trigger configuration                                                                                                                                                                                                                                                                                                                                                                                                                 | object                |                                                   |
 | 🔫 None                          |                | `operator`           |                           | The operation against the threshold that triggers alert rule.  ⚠️ If you create a NRT rule, this value must be removed or commented out (NRT rules trigger an alert on the first match)                                                                                                                                                                                                                                                     |                       |                                                   |
 | ⚖️ Event threshold              |                | `threshold`          |                           | If amount of events is higher than threshold (during the timeframe) the alert is triggered.   ⚠️ If you create a NRT rule, this value must be removed or commented out (NRT rules trigger an alert on the first match)                                                                                                                                                                                                                      | integer               | 10                                                |
@@ -25,7 +28,7 @@
 | 🔬 Alert Description Format      |                | `description`        |                           | Free text with field names embedded using the format {{columnName}}. Up to 5000 chars and 3 placeholders                                                                                                                                                                                                                                                                                                                                    | string                | rule {{columnName1}} display name                 |
 | 💣 Alert Severity                |                | `severity`           |                           | Severity the alert will be raised with. Overrides MDR Base Severity                                                                                                                                                                                                                                                                                                                                                                         | string                |                                                   |
 | MITRE ATT&CK Tactics            |                | `tactics`            |                           | Mapping of relevant tactics                                                                                                                                                                                                                                                                                                                                                                                                                 | array                 |                                                   |
-| MITRE ATT&CK Tactics            |                | `techniques`         |                           | Mapping of relevant tactics - Warning : it's currently not possible to support all valid techniques as a schema for each target system, as they all support different variants and version of ATT&CK. You must check on the GUI what techniques are available and replicate here.                                                                                                                                                           | array                 |                                                   |
+| MITRE ATT&CK Techniques         |                | `techniques`         |                           | Mapping of relevant tactics - Warning : it's currently not possible to support all valid techniques as a schema for each target system, as they all support different variants and version of ATT&CK. You must check on the GUI what techniques are available and replicate here.                                                                                                                                                           | array                 |                                                   |
 | 💬 Custom Details                |                | `custom_details`     |                           | Surface particular event parameters and their values in alerts that comprise those events, by adding key-value pairs below.                                                                                                                                                                                                                                                                                                                 | array                 |                                                   |
 | 🗝️ None                         |                |                      | `key`                     | Enter a name of your choosing that will appear as the field name in alerts.                                                                                                                                                                                                                                                                                                                                                                 | string                |                                                   |
 | 💽 None                          |                |                      | `column`                  | Choose the column which value should be added as a custom detail. Must exist in the result of the query.                                                                                                                                                                                                                                                                                                                                    | string                |                                                   |
@@ -54,14 +57,18 @@
 ``
 
 ```yaml
-  schema: sentinel::2.1
-  status: DEVELOPMENT
+  schema: sentinel::2.3
+  status: 
   #contributors:
     #-
   #tenants:
     #-
   #flags:
     #-
+  
+  #template:
+    #uuid: 
+    #version: 
   
   trigger:
     operator: GreaterThan
@@ -78,6 +85,9 @@
     #title: 
     #description: |
       #...
+    #severity: 
+    #tactics:
+      #-
     #custom_details:
       #- key: 
         #column: 
@@ -94,11 +104,11 @@
       #grouping_lookback: 
       #matching: AllEntities
   
-  #entities:
-    #- entity: 
-      #mappings:
-        #- identifier: 
-          #column: 
+  entities:
+    - entity: 
+      mappings:
+        - identifier: 
+          column: 
   
   query: |
     ...
