@@ -124,24 +124,24 @@
 
 flowchart LR
 
-d0522985-6001-4e25-a5ff-2dc87bf2fee8[Windows credential access attempt]
+fe243f7f-ffc5-49c0-94e6-293ae2411ad6[Windows User and Group Enumeration with specific tools]
 3b1026c6-7d04-4b91-ba6f-abc68e993616[Abusing Lolbins to Enumerate Local and Domain Accounts and Groups]
+d0522985-6001-4e25-a5ff-2dc87bf2fee8[Windows credential access attempt]
 35c76d6c-2ac7-486e-b0b7-b56f6b110bec[Password hash cracking on Windows]
 03cc9593-e7cf-484b-ae9c-684bf6f7199f[Pass the ticket using Kerberos ticket]
 d5039f2c-9fcc-4ba3-ad6a-da8c891ba745[Abuse of Windows Utilities]
 8bc82ff8-e106-4377-98f1-2cb912631ffa[User information gathering in Linux systems]
 e2d8ce6b-f21e-4444-a828-0c6b722a9c93[Local user account added]
 75415bc5-6615-487e-a69c-7a4ffc196996[Lateral movement using Impacket framework]
-fe243f7f-ffc5-49c0-94e6-293ae2411ad6[Windows User and Group Enumeration with specific tools]
 
+subgraph Discovery
+fe243f7f-ffc5-49c0-94e6-293ae2411ad6
+3b1026c6-7d04-4b91-ba6f-abc68e993616
+end
 subgraph Credential Access
 d0522985-6001-4e25-a5ff-2dc87bf2fee8
 35c76d6c-2ac7-486e-b0b7-b56f6b110bec
 75415bc5-6615-487e-a69c-7a4ffc196996
-end
-subgraph Discovery
-3b1026c6-7d04-4b91-ba6f-abc68e993616
-fe243f7f-ffc5-49c0-94e6-293ae2411ad6
 end
 subgraph Defense Evasion
 03cc9593-e7cf-484b-ae9c-684bf6f7199f
@@ -157,47 +157,48 @@ e2d8ce6b-f21e-4444-a828-0c6b722a9c93
 end
 
 Windows[(Windows)]
-ActiveDirectory[(Active Directory)]
 AWSEC2[(AWS EC2)]
 AWSECS[(AWS ECS)]
 AWSEKS[(AWS EKS)]
 Linux[(Linux)]
 macOS[(macOS)]
-APT29{{APT29}}
-APT28{{APT28}}
-LazarusGroup{{Lazarus Group}}
-UNC2452{{UNC2452}}
-APT1{{APT1}}
-Chimera{{Chimera}}
-APT32{{APT32}}
-Ke3chang{{Ke3chang}}
-APT15{{APT15}}
-FIN6{{FIN6}}
-Dragonfly{{Dragonfly}}
-ENERGETICBEAR{{ENERGETIC BEAR}}
-BRONZEBUTLER{{BRONZE BUTLER}}
-Tick{{Tick}}
+ActiveDirectory[(Active Directory)]
 WizardSpider{{Wizard Spider}}
 UNC1878{{UNC1878}}
 APT38{{APT38}}
-EmberBear{{Ember Bear}}
-DEV-0586{{DEV-0586}}
+LazarusGroup{{Lazarus Group}}
+Dragonfly{{Dragonfly}}
+ENERGETICBEAR{{ENERGETIC BEAR}}
 menuPass{{menuPass}}
 APT10{{APT10}}
+Chimera{{Chimera}}
 APT20{{APT20}}
+FIN6{{FIN6}}
+Ke3chang{{Ke3chang}}
+APT15{{APT15}}
 MuddyWater{{MuddyWater}}
 Turla{{Turla}}
 OilRig{{OilRig}}
+BRONZEBUTLER{{BRONZE BUTLER}}
+Tick{{Tick}}
 FoxKitten{{Fox Kitten}}
+APT29{{APT29}}
+UNC2452{{UNC2452}}
+APT1{{APT1}}
+APT32{{APT32}}
+APT28{{APT28}}
+EmberBear{{Ember Bear}}
+DEV-0586{{DEV-0586}}
 
-d0522985-6001-4e25-a5ff-2dc87bf2fee8 -.->|targets| Windows
-d0522985-6001-4e25-a5ff-2dc87bf2fee8 -.->|targets| ActiveDirectory
+fe243f7f-ffc5-49c0-94e6-293ae2411ad6 -.->|targets| Windows
 3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEC2
 3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSECS
 3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEKS
 3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Linux
 3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| macOS
 3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Windows
+d0522985-6001-4e25-a5ff-2dc87bf2fee8 -.->|targets| Windows
+d0522985-6001-4e25-a5ff-2dc87bf2fee8 -.->|targets| ActiveDirectory
 35c76d6c-2ac7-486e-b0b7-b56f6b110bec -.->|targets| Windows
 35c76d6c-2ac7-486e-b0b7-b56f6b110bec -.->|targets| ActiveDirectory
 03cc9593-e7cf-484b-ae9c-684bf6f7199f -.->|targets| Windows
@@ -208,33 +209,6 @@ e2d8ce6b-f21e-4444-a828-0c6b722a9c93 -.->|targets| Windows
 e2d8ce6b-f21e-4444-a828-0c6b722a9c93 -.->|targets| Linux
 e2d8ce6b-f21e-4444-a828-0c6b722a9c93 -.->|targets| macOS
 75415bc5-6615-487e-a69c-7a4ffc196996 -.->|targets| Windows
-fe243f7f-ffc5-49c0-94e6-293ae2411ad6 -.->|targets| Windows
-APT29 -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
-APT28 -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
-LazarusGroup -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
-APT29 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
-UNC2452 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
-APT1 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
-Chimera -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
-APT32 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
-Ke3chang -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
-APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
-FIN6 -.-> |performs| 35c76d6c-2ac7-486e-b0b7-b56f6b110bec
-Dragonfly -.-> |performs| 35c76d6c-2ac7-486e-b0b7-b56f6b110bec
-ENERGETICBEAR -.-> |performs| 35c76d6c-2ac7-486e-b0b7-b56f6b110bec
-APT29 -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
-UNC2452 -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
-APT32 -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
-BRONZEBUTLER -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
-Tick -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
-APT29 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
-UNC2452 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
-WizardSpider -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
-UNC1878 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
-APT38 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
-LazarusGroup -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
-EmberBear -.-> |performs| 75415bc5-6615-487e-a69c-7a4ffc196996
-DEV-0586 -.-> |performs| 75415bc5-6615-487e-a69c-7a4ffc196996
 WizardSpider -.-> |performs| fe243f7f-ffc5-49c0-94e6-293ae2411ad6
 UNC1878 -.-> |performs| fe243f7f-ffc5-49c0-94e6-293ae2411ad6
 APT38 -.-> |performs| fe243f7f-ffc5-49c0-94e6-293ae2411ad6
@@ -254,7 +228,34 @@ OilRig -.-> |performs| fe243f7f-ffc5-49c0-94e6-293ae2411ad6
 BRONZEBUTLER -.-> |performs| fe243f7f-ffc5-49c0-94e6-293ae2411ad6
 Tick -.-> |performs| fe243f7f-ffc5-49c0-94e6-293ae2411ad6
 FoxKitten -.-> |performs| fe243f7f-ffc5-49c0-94e6-293ae2411ad6
+APT29 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
+UNC2452 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
+APT1 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
+Chimera -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
+APT32 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
+Ke3chang -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
+APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
+APT29 -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
+APT28 -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
+LazarusGroup -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
+FIN6 -.-> |performs| 35c76d6c-2ac7-486e-b0b7-b56f6b110bec
+Dragonfly -.-> |performs| 35c76d6c-2ac7-486e-b0b7-b56f6b110bec
+ENERGETICBEAR -.-> |performs| 35c76d6c-2ac7-486e-b0b7-b56f6b110bec
+APT29 -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
+UNC2452 -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
+APT32 -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
+BRONZEBUTLER -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
+Tick -.-> |performs| 03cc9593-e7cf-484b-ae9c-684bf6f7199f
+APT29 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
+UNC2452 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
+WizardSpider -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
+UNC1878 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
+APT38 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
+LazarusGroup -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
+EmberBear -.-> |performs| 75415bc5-6615-487e-a69c-7a4ffc196996
+DEV-0586 -.-> |performs| 75415bc5-6615-487e-a69c-7a4ffc196996
 
+fe243f7f-ffc5-49c0-94e6-293ae2411ad6 <-->|synergize| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 3b1026c6-7d04-4b91-ba6f-abc68e993616 -->|preceeds| d0522985-6001-4e25-a5ff-2dc87bf2fee8
 35c76d6c-2ac7-486e-b0b7-b56f6b110bec -->|preceeds| d0522985-6001-4e25-a5ff-2dc87bf2fee8
 03cc9593-e7cf-484b-ae9c-684bf6f7199f -->|preceeds| d0522985-6001-4e25-a5ff-2dc87bf2fee8
@@ -262,7 +263,6 @@ d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -->|preceeds| d0522985-6001-4e25-a5ff-2dc87
 8bc82ff8-e106-4377-98f1-2cb912631ffa -->|succeeds| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 8bc82ff8-e106-4377-98f1-2cb912631ffa -->|succeeds| e2d8ce6b-f21e-4444-a828-0c6b722a9c93
 75415bc5-6615-487e-a69c-7a4ffc196996 -->|succeeds| 3b1026c6-7d04-4b91-ba6f-abc68e993616
-fe243f7f-ffc5-49c0-94e6-293ae2411ad6 <-->|synergize| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 
 ```
 
@@ -272,6 +272,7 @@ fe243f7f-ffc5-49c0-94e6-293ae2411ad6 <-->|synergize| 3b1026c6-7d04-4b91-ba6f-abc
 
 | ☣️ Vector                                                                                                                                                                                                                                                                                                              | ⛓️ Link              | 🎯 Target                                                                                                                                                                                                                                                                                                                                         | ⛰️ Terrain                                                                                                                                                                                          | 🗡️ ATT&CK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Windows User and Group Enumeration with specific tools](../Threat%20Vectors/☣️%20Windows%20User%20and%20Group%20Enumeration%20with%20specific%20tools.md 'Adversaries may attempt to enumerate the environment and list all local system and domain accounts or groupsTo achieve this purpose, they can use vari...') | `support::synergize` | [Abusing Lolbins to Enumerate Local and Domain Accounts and Groups](../Threat%20Vectors/☣️%20Abusing%20Lolbins%20to%20Enumerate%20Local%20and%20Domain%20Accounts%20and%20Groups.md 'Adversaries may attempt to enumerate the environment and list alllocal system and domain accounts or groups  To achieve this purpose, they can use var...') | Adversaries can take advantage of already compromised system (Windows or  Linux OS or OSX) to run commands.                                                                                         | [T1087.001 : Account Discovery: Local Account](https://attack.mitre.org/techniques/T1087/001 'Adversaries may attempt to get a listing of local system accounts This information can help adversaries determine which local accounts exist on a syst'), [T1087.002 : Account Discovery: Domain Account](https://attack.mitre.org/techniques/T1087/002 'Adversaries may attempt to get a listing of domain accounts This information can help adversaries determine which domain accounts exist to aid in foll'), [T1069.001 : Permission Groups Discovery: Local Groups](https://attack.mitre.org/techniques/T1069/001 'Adversaries may attempt to find local system groups and permission settings The knowledge of local system permission groups can help adversaries deter'), [T1069.002 : Permission Groups Discovery: Domain Groups](https://attack.mitre.org/techniques/T1069/002 'Adversaries may attempt to find domain-level groups and permission settings The knowledge of domain-level permission groups can help adversaries deter')                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | [Windows credential access attempt](../Threat%20Vectors/☣️%20Windows%20credential%20access%20attempt.md 'Windows credential access refers to techniques used by threatactors to steal authentication information such as passwords,hashes, tokens, or Kerberos ...')                                                   | `sequence::preceeds` | [Abusing Lolbins to Enumerate Local and Domain Accounts and Groups](../Threat%20Vectors/☣️%20Abusing%20Lolbins%20to%20Enumerate%20Local%20and%20Domain%20Accounts%20and%20Groups.md 'Adversaries may attempt to enumerate the environment and list alllocal system and domain accounts or groups  To achieve this purpose, they can use var...') | Adversaries can take advantage of already compromised system (Windows or  Linux OS or OSX) to run commands.                                                                                         | [T1087.001 : Account Discovery: Local Account](https://attack.mitre.org/techniques/T1087/001 'Adversaries may attempt to get a listing of local system accounts This information can help adversaries determine which local accounts exist on a syst'), [T1087.002 : Account Discovery: Domain Account](https://attack.mitre.org/techniques/T1087/002 'Adversaries may attempt to get a listing of domain accounts This information can help adversaries determine which domain accounts exist to aid in foll'), [T1069.001 : Permission Groups Discovery: Local Groups](https://attack.mitre.org/techniques/T1069/001 'Adversaries may attempt to find local system groups and permission settings The knowledge of local system permission groups can help adversaries deter'), [T1069.002 : Permission Groups Discovery: Domain Groups](https://attack.mitre.org/techniques/T1069/002 'Adversaries may attempt to find domain-level groups and permission settings The knowledge of domain-level permission groups can help adversaries deter')                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | [Windows credential access attempt](../Threat%20Vectors/☣️%20Windows%20credential%20access%20attempt.md 'Windows credential access refers to techniques used by threatactors to steal authentication information such as passwords,hashes, tokens, or Kerberos ...')                                                   | `sequence::preceeds` | [Password hash cracking on Windows](../Threat%20Vectors/☣️%20Password%20hash%20cracking%20on%20Windows.md 'Threat actors often extract valid credentials from target systems Whenthese credentials are in a hashed format, threat actors may use differentmethods...')                                                                           | A threat actor is using already compromised Windows endpoint.                                                                                                                                       | [T1110.002 : Brute Force: Password Cracking](https://attack.mitre.org/techniques/T1110/002 'Adversaries may use password cracking to attempt to recover usable credentials, such as plaintext passwords, when credential material such as password')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | [Windows credential access attempt](../Threat%20Vectors/☣️%20Windows%20credential%20access%20attempt.md 'Windows credential access refers to techniques used by threatactors to steal authentication information such as passwords,hashes, tokens, or Kerberos ...')                                                   | `sequence::preceeds` | [Pass the ticket using Kerberos ticket](../Threat%20Vectors/☣️%20Pass%20the%20ticket%20using%20Kerberos%20ticket.md 'Pass-the-Ticket using Kerberos tickets is an advanced method wherein threat actors illicitly extract and exploit Kerberos tickets to gain unauthorized...')                                                                 | Adversaries need to compromise an asset and be able to execute commands.                                                                                                                            | [T1550.003 : Use Alternate Authentication Material: Pass the Ticket](https://attack.mitre.org/techniques/T1550/003 'Adversaries may pass the ticket using stolen Kerberos tickets to move laterally within an environment, bypassing normal system access controls Pass th')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
@@ -279,7 +280,6 @@ fe243f7f-ffc5-49c0-94e6-293ae2411ad6 <-->|synergize| 3b1026c6-7d04-4b91-ba6f-abc
 | [User information gathering in Linux systems](../Threat%20Vectors/☣️%20User%20information%20gathering%20in%20Linux%20systems.md 'Threat actors use various methods and tools to collect user data on Linuxsystems Some of them are given below### Common methods used for gathering of ...')                           | `sequence::succeeds` | [Abusing Lolbins to Enumerate Local and Domain Accounts and Groups](../Threat%20Vectors/☣️%20Abusing%20Lolbins%20to%20Enumerate%20Local%20and%20Domain%20Accounts%20and%20Groups.md 'Adversaries may attempt to enumerate the environment and list alllocal system and domain accounts or groups  To achieve this purpose, they can use var...') | Adversaries can take advantage of already compromised system (Windows or  Linux OS or OSX) to run commands.                                                                                         | [T1087.001 : Account Discovery: Local Account](https://attack.mitre.org/techniques/T1087/001 'Adversaries may attempt to get a listing of local system accounts This information can help adversaries determine which local accounts exist on a syst'), [T1087.002 : Account Discovery: Domain Account](https://attack.mitre.org/techniques/T1087/002 'Adversaries may attempt to get a listing of domain accounts This information can help adversaries determine which domain accounts exist to aid in foll'), [T1069.001 : Permission Groups Discovery: Local Groups](https://attack.mitre.org/techniques/T1069/001 'Adversaries may attempt to find local system groups and permission settings The knowledge of local system permission groups can help adversaries deter'), [T1069.002 : Permission Groups Discovery: Domain Groups](https://attack.mitre.org/techniques/T1069/002 'Adversaries may attempt to find domain-level groups and permission settings The knowledge of domain-level permission groups can help adversaries deter')                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | [User information gathering in Linux systems](../Threat%20Vectors/☣️%20User%20information%20gathering%20in%20Linux%20systems.md 'Threat actors use various methods and tools to collect user data on Linuxsystems Some of them are given below### Common methods used for gathering of ...')                           | `sequence::succeeds` | [Local user account added](../Threat%20Vectors/☣️%20Local%20user%20account%20added.md 'Threat actors may add or modify local user accounts on compromised systems to establish persistence, maintain unauthorized access, and potentially esc...')                                                                                               | Adversary must have existing administrative privileges on a compromised host  within the targeted infrastructure to create or modify local user accounts.                                           | [T1136.001 : Create Account: Local Account](https://attack.mitre.org/techniques/T1136/001 'Adversaries may create a local account to maintain access to victim systems Local accounts are those configured by an organization for use by users, r')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | [Lateral movement using Impacket framework](../Threat%20Vectors/☣️%20Lateral%20movement%20using%20Impacket%20framework.md 'Threat actors conduct lateral movement with valid network credentialsobtained from credential harvesting To conduct lateral movement moreefficiently, ...')                                 | `sequence::succeeds` | [Abusing Lolbins to Enumerate Local and Domain Accounts and Groups](../Threat%20Vectors/☣️%20Abusing%20Lolbins%20to%20Enumerate%20Local%20and%20Domain%20Accounts%20and%20Groups.md 'Adversaries may attempt to enumerate the environment and list alllocal system and domain accounts or groups  To achieve this purpose, they can use var...') | Adversaries can take advantage of already compromised system (Windows or  Linux OS or OSX) to run commands.                                                                                         | [T1087.001 : Account Discovery: Local Account](https://attack.mitre.org/techniques/T1087/001 'Adversaries may attempt to get a listing of local system accounts This information can help adversaries determine which local accounts exist on a syst'), [T1087.002 : Account Discovery: Domain Account](https://attack.mitre.org/techniques/T1087/002 'Adversaries may attempt to get a listing of domain accounts This information can help adversaries determine which domain accounts exist to aid in foll'), [T1069.001 : Permission Groups Discovery: Local Groups](https://attack.mitre.org/techniques/T1069/001 'Adversaries may attempt to find local system groups and permission settings The knowledge of local system permission groups can help adversaries deter'), [T1069.002 : Permission Groups Discovery: Domain Groups](https://attack.mitre.org/techniques/T1069/002 'Adversaries may attempt to find domain-level groups and permission settings The knowledge of domain-level permission groups can help adversaries deter')                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| [Windows User and Group Enumeration with specific tools](../Threat%20Vectors/☣️%20Windows%20User%20and%20Group%20Enumeration%20with%20specific%20tools.md 'Adversaries may attempt to enumerate the environment and list all local system and domain accounts or groupsTo achieve this purpose, they can use vari...') | `support::synergize` | [Abusing Lolbins to Enumerate Local and Domain Accounts and Groups](../Threat%20Vectors/☣️%20Abusing%20Lolbins%20to%20Enumerate%20Local%20and%20Domain%20Accounts%20and%20Groups.md 'Adversaries may attempt to enumerate the environment and list alllocal system and domain accounts or groups  To achieve this purpose, they can use var...') | Adversaries can take advantage of already compromised system (Windows or  Linux OS or OSX) to run commands.                                                                                         | [T1087.001 : Account Discovery: Local Account](https://attack.mitre.org/techniques/T1087/001 'Adversaries may attempt to get a listing of local system accounts This information can help adversaries determine which local accounts exist on a syst'), [T1087.002 : Account Discovery: Domain Account](https://attack.mitre.org/techniques/T1087/002 'Adversaries may attempt to get a listing of domain accounts This information can help adversaries determine which domain accounts exist to aid in foll'), [T1069.001 : Permission Groups Discovery: Local Groups](https://attack.mitre.org/techniques/T1069/001 'Adversaries may attempt to find local system groups and permission settings The knowledge of local system permission groups can help adversaries deter'), [T1069.002 : Permission Groups Discovery: Domain Groups](https://attack.mitre.org/techniques/T1069/002 'Adversaries may attempt to find domain-level groups and permission settings The knowledge of domain-level permission groups can help adversaries deter')                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 
 </details>
 &nbsp; 
