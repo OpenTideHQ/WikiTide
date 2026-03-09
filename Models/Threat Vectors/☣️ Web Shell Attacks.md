@@ -72,10 +72,6 @@ CVE-2024-21888>CVE-2024-21888]
 CVE-2024-21893>CVE-2024-21893]
 CVE-2023-46805>CVE-2023-46805]
 CVE-2024-22024>CVE-2024-22024]
-Placeholder[(Placeholder)]
-Linux[(Linux)]
-Windows[(Windows)]
-macOS[(macOS)]
 Gelsemium{{Gelsemium}}
 APT29{{APT29}}
 UNC2452{{UNC2452}}
@@ -87,11 +83,6 @@ UNC2452{{UNC2452}}
 810057c6-cb84-41e4-add4-ae56b52c8ab7 -.->|exploits| CVE-2024-21888
 810057c6-cb84-41e4-add4-ae56b52c8ab7 -.->|exploits| CVE-2024-21893
 810057c6-cb84-41e4-add4-ae56b52c8ab7 -.->|exploits| CVE-2024-22024
-4b1c47ee-f45a-4b89-98e7-e943bcd5dd19 -.->|targets| Placeholder
-4d6104e3-10d4-4a12-b081-d937df848891 -.->|targets| Linux
-4d6104e3-10d4-4a12-b081-d937df848891 -.->|targets| Windows
-4d6104e3-10d4-4a12-b081-d937df848891 -.->|targets| macOS
-810057c6-cb84-41e4-add4-ae56b52c8ab7 -.->|targets| Placeholder
 Gelsemium -.-> |performs| 4b1c47ee-f45a-4b89-98e7-e943bcd5dd19
 APT29 -.-> |performs| 4d6104e3-10d4-4a12-b081-d937df848891
 UNC2452 -.-> |performs| 4d6104e3-10d4-4a12-b081-d937df848891
@@ -127,7 +118,7 @@ Gelsemium -.-> |performs| 810057c6-cb84-41e4-add4-ae56b52c8ab7
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -137,7 +128,7 @@ Gelsemium -.-> |performs| 810057c6-cb84-41e4-add4-ae56b52c8ab7
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -145,7 +136,7 @@ Gelsemium -.-> |performs| 810057c6-cb84-41e4-add4-ae56b52c8ab7
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -189,6 +180,8 @@ Gelsemium -.-> |performs| 810057c6-cb84-41e4-add4-ae56b52c8ab7
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

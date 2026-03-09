@@ -109,9 +109,6 @@ subgraph Persistence
 66277f27-d57b-47f8-bc9c-b024c7cd1313
 end
 
-Windows[(Windows)]
-ActiveDirectory[(Active Directory)]
-PowerShell[(PowerShell)]
 WIZARDSPIDER{{WIZARD SPIDER}}
 APT29{{APT29}}
 LazarusGroup{{Lazarus Group}}
@@ -133,15 +130,6 @@ ENERGETICBEAR{{ENERGETIC BEAR}}
 FoxKitten{{Fox Kitten}}
 OilRig{{OilRig}}
 
-596d294a-9aa8-41b2-9507-5c9d605de6b4 -.->|targets| Windows
-66277f27-d57b-47f8-bc9c-b024c7cd1313 -.->|targets| Windows
-66277f27-d57b-47f8-bc9c-b024c7cd1313 -.->|targets| ActiveDirectory
-66277f27-d57b-47f8-bc9c-b024c7cd1313 -.->|targets| PowerShell
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| Windows
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| ActiveDirectory
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| PowerShell
-06523ed4-7881-4466-9ac5-f8417e972d13 -.->|targets| Windows
-d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -.->|targets| Windows
 WIZARDSPIDER -.-> |performs| 596d294a-9aa8-41b2-9507-5c9d605de6b4
 APT29 -.-> |performs| 596d294a-9aa8-41b2-9507-5c9d605de6b4
 LazarusGroup -.-> |performs| 596d294a-9aa8-41b2-9507-5c9d605de6b4
@@ -216,7 +204,7 @@ e3d7cb59-7aca-4c3d-b488-48c785930b6d -->|preceeds| 596d294a-9aa8-41b2-9507-5c9d6
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -224,7 +212,7 @@ e3d7cb59-7aca-4c3d-b488-48c785930b6d -->|preceeds| 596d294a-9aa8-41b2-9507-5c9d6
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -234,7 +222,7 @@ e3d7cb59-7aca-4c3d-b488-48c785930b6d -->|preceeds| 596d294a-9aa8-41b2-9507-5c9d6
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -281,6 +269,8 @@ e3d7cb59-7aca-4c3d-b488-48c785930b6d -->|preceeds| 596d294a-9aa8-41b2-9507-5c9d6
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

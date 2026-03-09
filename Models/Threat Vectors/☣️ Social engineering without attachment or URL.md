@@ -111,18 +111,6 @@ subgraph Credential Access
 4a807ac4-f764-41b1-ae6f-94239041d349
 end
 
-Azure[(Azure)]
-AzureAD[(Azure AD)]
-Office365[(Office 365)]
-AWS[(AWS)]
-Windows[(Windows)]
-macOS[(macOS)]
-Android[(Android)]
-iOS[(iOS)]
-MicrosoftTeams[(Microsoft Teams)]
-Github[(Github)]
-Gitlab[(Gitlab)]
-EULogin[(EU Login)]
 APT28{{APT28}}
 Kimsuky{{Kimsuky}}
 LazarusGroup{{Lazarus Group}}
@@ -146,37 +134,6 @@ GreyEnergy{{GreyEnergy}}
 Chimera{{Chimera}}
 TA406{{TA406}}
 
-2900d389-3098-49d3-8166-5b2612d03576 -.->|targets| Azure
-2900d389-3098-49d3-8166-5b2612d03576 -.->|targets| AzureAD
-2900d389-3098-49d3-8166-5b2612d03576 -.->|targets| Office365
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| AWS
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| Azure
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| Office365
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| Windows
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| macOS
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| Android
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| iOS
-58b98d75-fc63-4662-8908-a2a7f4200902 -.->|targets| Windows
-58b98d75-fc63-4662-8908-a2a7f4200902 -.->|targets| AWS
-06c60af1-5fa8-493c-bf9b-6b2e215819f1 -.->|targets| MicrosoftTeams
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Windows
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Office365
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Android
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| iOS
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Windows
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Office365
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Android
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| iOS
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Github
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Gitlab
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| EULogin
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| Android
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Android
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| EULogin
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| AzureAD
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Office365
 APT28 -.-> |performs| 2900d389-3098-49d3-8166-5b2612d03576
 Kimsuky -.-> |performs| 2900d389-3098-49d3-8166-5b2612d03576
 LazarusGroup -.-> |performs| 2900d389-3098-49d3-8166-5b2612d03576
@@ -255,7 +212,7 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -266,7 +223,7 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -277,7 +234,7 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -330,6 +287,8 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

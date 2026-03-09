@@ -84,8 +84,6 @@ subgraph Execution
 06523ed4-7881-4466-9ac5-f8417e972d13
 end
 
-Office365[(Office 365)]
-Windows[(Windows)]
 DeepPanda{{Deep Panda}}
 APT19{{APT19}}
 APT32{{APT32}}
@@ -99,9 +97,6 @@ OilRig{{OilRig}}
 APT29{{APT29}}
 UNC2452{{UNC2452}}
 
-f2c59a8e-3b1f-4a99-80f0-3675b8c1f184 -.->|targets| Office365
-f2c59a8e-3b1f-4a99-80f0-3675b8c1f184 -.->|targets| Windows
-06523ed4-7881-4466-9ac5-f8417e972d13 -.->|targets| Windows
 DeepPanda -.-> |performs| 06523ed4-7881-4466-9ac5-f8417e972d13
 APT19 -.-> |performs| 06523ed4-7881-4466-9ac5-f8417e972d13
 APT32 -.-> |performs| 06523ed4-7881-4466-9ac5-f8417e972d13
@@ -143,7 +138,7 @@ UNC2452 -.-> |performs| 06523ed4-7881-4466-9ac5-f8417e972d13
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -153,7 +148,7 @@ UNC2452 -.-> |performs| 06523ed4-7881-4466-9ac5-f8417e972d13
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -167,7 +162,7 @@ UNC2452 -.-> |performs| 06523ed4-7881-4466-9ac5-f8417e972d13
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -213,6 +208,8 @@ UNC2452 -.-> |performs| 06523ed4-7881-4466-9ac5-f8417e972d13
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

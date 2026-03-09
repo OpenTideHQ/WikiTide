@@ -116,11 +116,6 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065
 4a807ac4-f764-41b1-ae6f-94239041d349
 end
 
-EULogin[(EU Login)]
-Android[(Android)]
-iOS[(iOS)]
-AzureAD[(Azure AD)]
-Office365[(Office 365)]
 LAPSUS${{LAPSUS$}}
 LAPSUS{{LAPSUS}}
 APT29{{APT29}}
@@ -131,18 +126,6 @@ Chimera{{Chimera}}
 Kimsuky{{Kimsuky}}
 TA406{{TA406}}
 
-a1a17bd4-ec7e-4302-aedf-96ee7c436065 -.->|targets| EULogin
-a1a17bd4-ec7e-4302-aedf-96ee7c436065 -.->|targets| Android
-a1a17bd4-ec7e-4302-aedf-96ee7c436065 -.->|targets| iOS
-a1a17bd4-ec7e-4302-aedf-96ee7c436065 -.->|targets| AzureAD
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| EULogin
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| Android
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Android
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| EULogin
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| AzureAD
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Office365
 LAPSUS$ -.-> |performs| a1a17bd4-ec7e-4302-aedf-96ee7c436065
 LAPSUS -.-> |performs| a1a17bd4-ec7e-4302-aedf-96ee7c436065
 APT29 -.-> |performs| a1a17bd4-ec7e-4302-aedf-96ee7c436065
@@ -193,7 +176,7 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065 -->|implements| 4a807ac4-f764-41b1-ae6f-942
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -203,7 +186,7 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065 -->|implements| 4a807ac4-f764-41b1-ae6f-942
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -215,11 +198,11 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065 -->|implements| 4a807ac4-f764-41b1-ae6f-942
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
-  - ` EU Login` : Placeholder
+  - ` EU Login` : 
  - ` Android` : Placeholder
  - ` iOS` : Placeholder
  - ` Azure AD` : Placeholder
@@ -260,6 +243,8 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065 -->|implements| 4a807ac4-f764-41b1-ae6f-942
  [`🤔 Unlikely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Improbable (improbably) - 20-45%
 
 ---
+
+
 
 
 

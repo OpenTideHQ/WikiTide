@@ -101,12 +101,6 @@ subgraph Discovery
 3b1026c6-7d04-4b91-ba6f-abc68e993616
 end
 
-Linux[(Linux)]
-Windows[(Windows)]
-macOS[(macOS)]
-AWSEC2[(AWS EC2)]
-AWSECS[(AWS ECS)]
-AWSEKS[(AWS EKS)]
 APT29{{APT29}}
 UNC2452{{UNC2452}}
 APT1{{APT1}}
@@ -115,16 +109,6 @@ APT32{{APT32}}
 Ke3chang{{Ke3chang}}
 APT15{{APT15}}
 
-8bc82ff8-e106-4377-98f1-2cb912631ffa -.->|targets| Linux
-e2d8ce6b-f21e-4444-a828-0c6b722a9c93 -.->|targets| Windows
-e2d8ce6b-f21e-4444-a828-0c6b722a9c93 -.->|targets| Linux
-e2d8ce6b-f21e-4444-a828-0c6b722a9c93 -.->|targets| macOS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEC2
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSECS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEKS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Linux
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| macOS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Windows
 APT29 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 UNC2452 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 APT1 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
@@ -163,7 +147,7 @@ APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -172,7 +156,7 @@ APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -186,7 +170,7 @@ APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -232,6 +216,8 @@ APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

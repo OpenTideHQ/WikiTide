@@ -105,8 +105,6 @@ subgraph Execution
 d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
 end
 
-Windows[(Windows)]
-PowerShell[(PowerShell)]
 FIN7{{FIN7}}
 Turla{{Turla}}
 APT29{{APT29}}
@@ -116,9 +114,6 @@ UNC1878{{UNC1878}}
 APT38{{APT38}}
 LazarusGroup{{Lazarus Group}}
 
-765be5d9-4f79-4e3d-b894-fa428f285ab5 -.->|targets| Windows
-765be5d9-4f79-4e3d-b894-fa428f285ab5 -.->|targets| PowerShell
-d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -.->|targets| Windows
 FIN7 -.-> |performs| 765be5d9-4f79-4e3d-b894-fa428f285ab5
 Turla -.-> |performs| 765be5d9-4f79-4e3d-b894-fa428f285ab5
 APT29 -.-> |performs| 765be5d9-4f79-4e3d-b894-fa428f285ab5
@@ -158,7 +153,7 @@ LazarusGroup -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -166,7 +161,7 @@ LazarusGroup -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -177,7 +172,7 @@ LazarusGroup -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -222,6 +217,8 @@ LazarusGroup -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

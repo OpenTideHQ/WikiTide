@@ -108,20 +108,6 @@ subgraph Persistence
 66277f27-d57b-47f8-bc9c-b024c7cd1313
 end
 
-Windows[(Windows)]
-ActiveDirectory[(Active Directory)]
-PowerShell[(PowerShell)]
-AWSVPC[(AWS VPC)]
-Azure[(Azure)]
-Linux[(Linux)]
-macOS[(macOS)]
-ApacheHTTPServer[(Apache HTTP Server)]
-Android[(Android)]
-iOS[(iOS)]
-NetworkRouter[(Network Router)]
-AWSEC2[(AWS EC2)]
-AWSECS[(AWS ECS)]
-AWSEKS[(AWS EKS)]
 APT29{{APT29}}
 UNC2452{{UNC2452}}
 WizardSpider{{Wizard Spider}}
@@ -151,49 +137,6 @@ CobaltGroup{{Cobalt Group}}
 Cobalt{{Cobalt}}
 Turla{{Turla}}
 
-767f10bd-1947-44e3-b999-5fbf50d99027 -.->|targets| Windows
-767f10bd-1947-44e3-b999-5fbf50d99027 -.->|targets| ActiveDirectory
-d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -.->|targets| Windows
-86f62c3a-6556-4a64-a9f5-a79168ad42d9 -.->|targets| Windows
-86f62c3a-6556-4a64-a9f5-a79168ad42d9 -.->|targets| PowerShell
-59d2eb7f-63cd-4ac4-9608-e65663fea667 -.->|targets| Windows
-59d2eb7f-63cd-4ac4-9608-e65663fea667 -.->|targets| PowerShell
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| ActiveDirectory
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| AWSVPC
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| Azure
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| Windows
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| Linux
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| macOS
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| ApacheHTTPServer
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| Android
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| iOS
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| NetworkRouter
-d0522985-6001-4e25-a5ff-2dc87bf2fee8 -.->|targets| Windows
-d0522985-6001-4e25-a5ff-2dc87bf2fee8 -.->|targets| ActiveDirectory
-35c76d6c-2ac7-486e-b0b7-b56f6b110bec -.->|targets| Windows
-35c76d6c-2ac7-486e-b0b7-b56f6b110bec -.->|targets| ActiveDirectory
-03cc9593-e7cf-484b-ae9c-684bf6f7199f -.->|targets| Windows
-03cc9593-e7cf-484b-ae9c-684bf6f7199f -.->|targets| ActiveDirectory
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEC2
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSECS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEKS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Linux
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| macOS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Windows
-66277f27-d57b-47f8-bc9c-b024c7cd1313 -.->|targets| Windows
-66277f27-d57b-47f8-bc9c-b024c7cd1313 -.->|targets| ActiveDirectory
-66277f27-d57b-47f8-bc9c-b024c7cd1313 -.->|targets| PowerShell
-596d294a-9aa8-41b2-9507-5c9d605de6b4 -.->|targets| Windows
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| Windows
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| ActiveDirectory
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| PowerShell
-06523ed4-7881-4466-9ac5-f8417e972d13 -.->|targets| Windows
-426a0ab5-66e7-4149-82b0-6357a1cf4b4b -.->|targets| Windows
-d5892ae6-d022-4ac8-858c-c2756067cdac -.->|targets| Windows
-d5892ae6-d022-4ac8-858c-c2756067cdac -.->|targets| ActiveDirectory
-d5892ae6-d022-4ac8-858c-c2756067cdac -.->|targets| PowerShell
-765be5d9-4f79-4e3d-b894-fa428f285ab5 -.->|targets| Windows
-765be5d9-4f79-4e3d-b894-fa428f285ab5 -.->|targets| PowerShell
 APT29 -.-> |performs| 767f10bd-1947-44e3-b999-5fbf50d99027
 UNC2452 -.-> |performs| 767f10bd-1947-44e3-b999-5fbf50d99027
 WizardSpider -.-> |performs| 767f10bd-1947-44e3-b999-5fbf50d99027
@@ -331,7 +274,7 @@ d5892ae6-d022-4ac8-858c-c2756067cdac -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -339,7 +282,7 @@ d5892ae6-d022-4ac8-858c-c2756067cdac -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -348,7 +291,7 @@ d5892ae6-d022-4ac8-858c-c2756067cdac -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -393,6 +336,8 @@ d5892ae6-d022-4ac8-858c-c2756067cdac -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

@@ -93,15 +93,6 @@ subgraph Delivery
 dd5d942c-bac4-4000-b9a6-ca4fef6cfb84
 end
 
-EULogin[(EU Login)]
-Office365[(Office 365)]
-Android[(Android)]
-iOS[(iOS)]
-AzureAD[(Azure AD)]
-Azure[(Azure)]
-Windows[(Windows)]
-Github[(Github)]
-Gitlab[(Gitlab)]
 APT29{{APT29}}
 UNC2452{{UNC2452}}
 SandwormTeam{{Sandworm Team}}
@@ -122,34 +113,6 @@ RedDelta{{RedDelta}}
 TA505{{TA505}}
 RomCom{{RomCom}}
 
-b0d6bf74-b204-4a48-9509-4499ed795771 -.->|targets| EULogin
-b0d6bf74-b204-4a48-9509-4499ed795771 -.->|targets| Office365
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Android
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| EULogin
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| AzureAD
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Office365
-66aafb61-9a46-4287-8b40-4785b42b77a3 -.->|targets| Office365
-a1a17bd4-ec7e-4302-aedf-96ee7c436065 -.->|targets| EULogin
-a1a17bd4-ec7e-4302-aedf-96ee7c436065 -.->|targets| Android
-a1a17bd4-ec7e-4302-aedf-96ee7c436065 -.->|targets| iOS
-a1a17bd4-ec7e-4302-aedf-96ee7c436065 -.->|targets| AzureAD
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| EULogin
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| Android
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| iOS
-6e988fa7-69c9-4aef-897c-a34fa5066dac -.->|targets| Azure
-6e988fa7-69c9-4aef-897c-a34fa5066dac -.->|targets| Office365
-56500aed-5dec-42a8-a275-f1392abac979 -.->|targets| EULogin
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Windows
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Office365
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Android
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| iOS
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Github
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Gitlab
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Windows
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Office365
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Android
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| iOS
 APT29 -.-> |performs| b0d6bf74-b204-4a48-9509-4499ed795771
 UNC2452 -.-> |performs| b0d6bf74-b204-4a48-9509-4499ed795771
 SandwormTeam -.-> |performs| b0d6bf74-b204-4a48-9509-4499ed795771
@@ -237,7 +200,7 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065 -->|succeeds| 6a7a493a-511a-4c9d-aa9c-4427c
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -248,7 +211,7 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065 -->|succeeds| 6a7a493a-511a-4c9d-aa9c-4427c
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -262,13 +225,13 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065 -->|succeeds| 6a7a493a-511a-4c9d-aa9c-4427c
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
   - ` Android` : Placeholder
  - ` iOS` : Placeholder
- - ` EU Login` : Placeholder
+ - ` EU Login` : 
  - ` Azure AD` : Placeholder
  - ` Office 365` : Placeholder
 
@@ -309,6 +272,8 @@ a1a17bd4-ec7e-4302-aedf-96ee7c436065 -->|succeeds| 6a7a493a-511a-4c9d-aa9c-4427c
  [`♻️ Environment dependent`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Depends
 
 ---
+
+
 
 
 

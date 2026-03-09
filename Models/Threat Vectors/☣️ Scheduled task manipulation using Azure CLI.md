@@ -102,12 +102,6 @@ subgraph Delivery
 dd5d942c-bac4-4000-b9a6-ca4fef6cfb84
 end
 
-Azure[(Azure)]
-AzureAD[(Azure AD)]
-Office365[(Office 365)]
-Windows[(Windows)]
-Android[(Android)]
-iOS[(iOS)]
 HAFNIUM{{HAFNIUM}}
 FoxKitten{{Fox Kitten}}
 APT29{{APT29}}
@@ -121,16 +115,6 @@ RedDelta{{RedDelta}}
 TA505{{TA505}}
 RomCom{{RomCom}}
 
-edfe43fd-4a92-4f2d-a733-40e235be1b25 -.->|targets| Azure
-edfe43fd-4a92-4f2d-a733-40e235be1b25 -.->|targets| AzureAD
-edfe43fd-4a92-4f2d-a733-40e235be1b25 -.->|targets| Office365
-670504aa-cfb8-4d1f-a5ad-16193822085f -.->|targets| Azure
-5e66f826-4c4b-4357-b9c5-2f40da207f34 -.->|targets| Windows
-60c5b065-7d06-4697-850f-c2f80765f10b -.->|targets| Azure
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Windows
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Office365
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Android
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| iOS
 HAFNIUM -.-> |performs| 5e66f826-4c4b-4357-b9c5-2f40da207f34
 FoxKitten -.-> |performs| 5e66f826-4c4b-4357-b9c5-2f40da207f34
 APT29 -.-> |performs| 5e66f826-4c4b-4357-b9c5-2f40da207f34
@@ -180,7 +164,7 @@ edfe43fd-4a92-4f2d-a733-40e235be1b25 <-->|synergize| 5e66f826-4c4b-4357-b9c5-2f4
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -190,7 +174,7 @@ edfe43fd-4a92-4f2d-a733-40e235be1b25 <-->|synergize| 5e66f826-4c4b-4357-b9c5-2f4
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -202,7 +186,7 @@ edfe43fd-4a92-4f2d-a733-40e235be1b25 <-->|synergize| 5e66f826-4c4b-4357-b9c5-2f4
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -251,6 +235,8 @@ edfe43fd-4a92-4f2d-a733-40e235be1b25 <-->|synergize| 5e66f826-4c4b-4357-b9c5-2f4
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

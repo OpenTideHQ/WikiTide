@@ -69,15 +69,10 @@ b330d3a8-1783-4210-9fec-11e6ecfe135e
 end
 
 CVE-2025-8088>CVE-2025-8088]
-Windows[(Windows)]
-Linux[(Linux)]
 APT28{{APT28}}
 RomCom{{RomCom}}
 
 d15bff6c-b902-4975-ad3a-7a18f3026aca -.->|exploits| CVE-2025-8088
-d15bff6c-b902-4975-ad3a-7a18f3026aca -.->|targets| Windows
-b330d3a8-1783-4210-9fec-11e6ecfe135e -.->|targets| Windows
-b330d3a8-1783-4210-9fec-11e6ecfe135e -.->|targets| Linux
 APT28 -.-> |performs| d15bff6c-b902-4975-ad3a-7a18f3026aca
 RomCom -.-> |performs| d15bff6c-b902-4975-ad3a-7a18f3026aca
 
@@ -109,7 +104,7 @@ d15bff6c-b902-4975-ad3a-7a18f3026aca -->|implements| b330d3a8-1783-4210-9fec-11e
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -120,7 +115,7 @@ d15bff6c-b902-4975-ad3a-7a18f3026aca -->|implements| b330d3a8-1783-4210-9fec-11e
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -128,7 +123,7 @@ d15bff6c-b902-4975-ad3a-7a18f3026aca -->|implements| b330d3a8-1783-4210-9fec-11e
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -172,6 +167,8 @@ d15bff6c-b902-4975-ad3a-7a18f3026aca -->|implements| b330d3a8-1783-4210-9fec-11e
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

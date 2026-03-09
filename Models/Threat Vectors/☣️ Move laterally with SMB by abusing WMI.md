@@ -130,12 +130,6 @@ subgraph Discovery
 end
 
 CVE-2025-33073>CVE-2025-33073]
-Windows[(Windows)]
-AWSEC2[(AWS EC2)]
-AWSECS[(AWS ECS)]
-AWSEKS[(AWS EKS)]
-Linux[(Linux)]
-macOS[(macOS)]
 APT39{{APT39}}
 APT32{{APT32}}
 APT29{{APT29}}
@@ -172,15 +166,6 @@ Ke3chang{{Ke3chang}}
 APT15{{APT15}}
 
 02810748-52b5-4d3a-a788-29a948538cd2 -.->|exploits| CVE-2025-33073
-02810748-52b5-4d3a-a788-29a948538cd2 -.->|targets| Windows
-f33a693b-04cd-476e-9067-9deab561e55a -.->|targets| Windows
-75415bc5-6615-487e-a69c-7a4ffc196996 -.->|targets| Windows
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEC2
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSECS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEKS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Linux
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| macOS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Windows
 APT39 -.-> |performs| 02810748-52b5-4d3a-a788-29a948538cd2
 APT32 -.-> |performs| f33a693b-04cd-476e-9067-9deab561e55a
 APT29 -.-> |performs| f33a693b-04cd-476e-9067-9deab561e55a
@@ -252,7 +237,7 @@ APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -260,7 +245,7 @@ APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -274,7 +259,7 @@ APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -316,6 +301,8 @@ APT15 -.-> |performs| 3b1026c6-7d04-4b91-ba6f-abc68e993616
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

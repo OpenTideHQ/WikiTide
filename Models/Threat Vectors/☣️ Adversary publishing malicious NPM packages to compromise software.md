@@ -77,18 +77,9 @@ subgraph Exploitation
 d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4
 end
 
-Windows[(Windows)]
-Linux[(Linux)]
-macOS[(macOS)]
 TraderTraitor{{TraderTraitor}}
 LazarusGroup{{Lazarus Group}}
 
-d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4 -.->|targets| Windows
-d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4 -.->|targets| Linux
-d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4 -.->|targets| macOS
-b6887f4b-eeae-462c-a2ac-7454efb5eabc -.->|targets| Windows
-b6887f4b-eeae-462c-a2ac-7454efb5eabc -.->|targets| macOS
-b6887f4b-eeae-462c-a2ac-7454efb5eabc -.->|targets| Linux
 TraderTraitor -.-> |performs| d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4
 LazarusGroup -.-> |performs| d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4
 
@@ -120,7 +111,7 @@ d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4 -->|implements| b6887f4b-eeae-462c-a2ac-745
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -130,7 +121,7 @@ d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4 -->|implements| b6887f4b-eeae-462c-a2ac-745
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -143,7 +134,7 @@ d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4 -->|implements| b6887f4b-eeae-462c-a2ac-745
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -188,6 +179,8 @@ d24f2b4a-80fc-4ee7-9293-3f6e9e3bbbe4 -->|implements| b6887f4b-eeae-462c-a2ac-745
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

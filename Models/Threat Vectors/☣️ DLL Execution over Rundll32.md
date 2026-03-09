@@ -88,7 +88,6 @@ subgraph Exploitation
 f3a392f7-3268-4c54-8bfa-8117b784f520
 end
 
-Windows[(Windows)]
 APT28{{APT28}}
 SandwormTeam{{Sandworm Team}}
 GreyEnergy{{GreyEnergy}}
@@ -99,8 +98,6 @@ BlueMockingbird{{Blue Mockingbird}}
 MuddyWater{{MuddyWater}}
 TA505{{TA505}}
 
-4110c951-3120-49fb-b54b-3d3aa896296b -.->|targets| Windows
-f3a392f7-3268-4c54-8bfa-8117b784f520 -.->|targets| Windows
 APT28 -.-> |performs| f3a392f7-3268-4c54-8bfa-8117b784f520
 SandwormTeam -.-> |performs| f3a392f7-3268-4c54-8bfa-8117b784f520
 GreyEnergy -.-> |performs| f3a392f7-3268-4c54-8bfa-8117b784f520
@@ -139,7 +136,7 @@ f3a392f7-3268-4c54-8bfa-8117b784f520 -->|preceeds| 4110c951-3120-49fb-b54b-3d3aa
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -149,7 +146,7 @@ f3a392f7-3268-4c54-8bfa-8117b784f520 -->|preceeds| 4110c951-3120-49fb-b54b-3d3aa
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -160,7 +157,7 @@ f3a392f7-3268-4c54-8bfa-8117b784f520 -->|preceeds| 4110c951-3120-49fb-b54b-3d3aa
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -202,6 +199,8 @@ f3a392f7-3268-4c54-8bfa-8117b784f520 -->|preceeds| 4110c951-3120-49fb-b54b-3d3aa
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

@@ -100,15 +100,8 @@ subgraph Exfiltration
 7b122bb4-fc13-438b-a052-4388c501ec59
 end
 
-Windows[(Windows)]
-Linux[(Linux)]
-macOS[(macOS)]
 NightEagle{{NightEagle}}
 
-ddab407e-d09d-4804-a4af-c11213553146 -.->|targets| Windows
-ddab407e-d09d-4804-a4af-c11213553146 -.->|targets| Linux
-ddab407e-d09d-4804-a4af-c11213553146 -.->|targets| macOS
-7b122bb4-fc13-438b-a052-4388c501ec59 -.->|targets| Windows
 NightEagle -.-> |performs| ddab407e-d09d-4804-a4af-c11213553146
 
 ddab407e-d09d-4804-a4af-c11213553146 -->|implements| 7b122bb4-fc13-438b-a052-4388c501ec59
@@ -139,7 +132,7 @@ ddab407e-d09d-4804-a4af-c11213553146 -->|implements| 7b122bb4-fc13-438b-a052-438
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -147,7 +140,7 @@ ddab407e-d09d-4804-a4af-c11213553146 -->|implements| 7b122bb4-fc13-438b-a052-438
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -157,7 +150,7 @@ ddab407e-d09d-4804-a4af-c11213553146 -->|implements| 7b122bb4-fc13-438b-a052-438
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -197,6 +190,8 @@ ddab407e-d09d-4804-a4af-c11213553146 -->|implements| 7b122bb4-fc13-438b-a052-438
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

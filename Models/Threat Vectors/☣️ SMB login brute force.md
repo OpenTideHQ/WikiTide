@@ -135,12 +135,6 @@ fa4c66c6-a69b-4e16-84cb-7ad8c772af41
 cc546bbc-f71c-4538-934c-415d6adc293b
 end
 
-Windows[(Windows)]
-Linux[(Linux)]
-AWS[(AWS)]
-Azure[(Azure)]
-ADFS[(AD FS)]
-ActiveDirectory[(Active Directory)]
 APT41{{APT41}}
 APT29{{APT29}}
 UNC2452{{UNC2452}}
@@ -155,13 +149,6 @@ Leafminer{{Leafminer}}
 RASPITE{{RASPITE}}
 APT33{{APT33}}
 
-fa4c66c6-a69b-4e16-84cb-7ad8c772af41 -.->|targets| Windows
-cc546bbc-f71c-4538-934c-415d6adc293b -.->|targets| Windows
-cc546bbc-f71c-4538-934c-415d6adc293b -.->|targets| Linux
-cc546bbc-f71c-4538-934c-415d6adc293b -.->|targets| AWS
-cc546bbc-f71c-4538-934c-415d6adc293b -.->|targets| Azure
-cc546bbc-f71c-4538-934c-415d6adc293b -.->|targets| ADFS
-cc546bbc-f71c-4538-934c-415d6adc293b -.->|targets| ActiveDirectory
 APT41 -.-> |performs| fa4c66c6-a69b-4e16-84cb-7ad8c772af41
 APT29 -.-> |performs| cc546bbc-f71c-4538-934c-415d6adc293b
 UNC2452 -.-> |performs| cc546bbc-f71c-4538-934c-415d6adc293b
@@ -204,7 +191,7 @@ fa4c66c6-a69b-4e16-84cb-7ad8c772af41 -->|implements| cc546bbc-f71c-4538-934c-415
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -212,7 +199,7 @@ fa4c66c6-a69b-4e16-84cb-7ad8c772af41 -->|implements| cc546bbc-f71c-4538-934c-415
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -224,7 +211,7 @@ fa4c66c6-a69b-4e16-84cb-7ad8c772af41 -->|implements| cc546bbc-f71c-4538-934c-415
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -270,6 +257,8 @@ fa4c66c6-a69b-4e16-84cb-7ad8c772af41 -->|implements| cc546bbc-f71c-4538-934c-415
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

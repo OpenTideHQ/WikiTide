@@ -93,23 +93,9 @@ subgraph Delivery
 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 end
 
-Office365[(Office 365)]
-Github[(Github)]
-Windows[(Windows)]
-Android[(Android)]
-iOS[(iOS)]
-Gitlab[(Gitlab)]
 Kimsuky{{Kimsuky}}
 APT42{{APT42}}
 
-3088db32-843b-439f-9374-f8c04a82b2ec -.->|targets| Office365
-3088db32-843b-439f-9374-f8c04a82b2ec -.->|targets| Github
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Windows
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Office365
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Android
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| iOS
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Github
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Gitlab
 Kimsuky -.-> |performs| 3088db32-843b-439f-9374-f8c04a82b2ec
 APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 
@@ -141,7 +127,7 @@ APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -149,7 +135,7 @@ APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -159,7 +145,7 @@ APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -204,6 +190,8 @@ APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

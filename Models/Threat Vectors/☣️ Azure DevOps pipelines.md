@@ -194,25 +194,6 @@ end
 CVE-2025-29813>CVE-2025-29813]
 CVE-2025-29827>CVE-2025-29827]
 CVE-2023-21553>CVE-2023-21553]
-Azure[(Azure)]
-AzureAD[(Azure AD)]
-Office365[(Office 365)]
-Windows[(Windows)]
-Linux[(Linux)]
-DockerEngine[(Docker Engine)]
-Kubernetes[(Kubernetes)]
-AzureAKS[(Azure AKS)]
-EULogin[(EU Login)]
-PowerShell[(PowerShell)]
-Android[(Android)]
-iOS[(iOS)]
-ActiveDirectory[(Active Directory)]
-AWSIAM[(AWS IAM)]
-Github[(Github)]
-Gitlab[(Gitlab)]
-AWS[(AWS)]
-macOS[(macOS)]
-MicrosoftTeams[(Microsoft Teams)]
 APT28{{APT28}}
 APT29{{APT29}}
 APT33{{APT33}}
@@ -264,93 +245,6 @@ APT38{{APT38}}
 490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|exploits| CVE-2025-29813
 490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|exploits| CVE-2025-29827
 490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|exploits| CVE-2023-21553
-490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|targets| Azure
-490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|targets| AzureAD
-490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|targets| Office365
-490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|targets| Windows
-490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|targets| Linux
-490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|targets| DockerEngine
-490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|targets| Kubernetes
-490a5d5d-5880-45bd-a05d-176878e0ae24 -.->|targets| AzureAKS
-2743bf18-3b86-4721-bf3e-153dcda0b149 -.->|targets| Azure
-2743bf18-3b86-4721-bf3e-153dcda0b149 -.->|targets| AzureAD
-2743bf18-3b86-4721-bf3e-153dcda0b149 -.->|targets| Office365
-2900d389-3098-49d3-8166-5b2612d03576 -.->|targets| Azure
-2900d389-3098-49d3-8166-5b2612d03576 -.->|targets| AzureAD
-2900d389-3098-49d3-8166-5b2612d03576 -.->|targets| Office365
-bb2501d5-99c7-44a6-ac5a-9510102d6611 -.->|targets| Azure
-bb2501d5-99c7-44a6-ac5a-9510102d6611 -.->|targets| AzureAD
-a8c7b250-a2d4-4a0d-82f8-23dc99c77d7b -.->|targets| AzureAD
-66aafb61-9a46-4287-8b40-4785b42b77a3 -.->|targets| Office365
-c698fc79-3ed6-44a7-a9d7-bc447600e4c3 -.->|targets| Azure
-c698fc79-3ed6-44a7-a9d7-bc447600e4c3 -.->|targets| AzureAD
-c698fc79-3ed6-44a7-a9d7-bc447600e4c3 -.->|targets| Office365
-5d43ef75-4637-4a75-b1ed-6716052cff0e -.->|targets| Azure
-5d43ef75-4637-4a75-b1ed-6716052cff0e -.->|targets| AzureAD
-60c5b065-7d06-4697-850f-c2f80765f10b -.->|targets| Azure
-6e988fa7-69c9-4aef-897c-a34fa5066dac -.->|targets| Azure
-6e988fa7-69c9-4aef-897c-a34fa5066dac -.->|targets| Office365
-78d5e363-14db-40c0-a1c4-4ba02a3e60d4 -.->|targets| Azure
-78d5e363-14db-40c0-a1c4-4ba02a3e60d4 -.->|targets| AzureAD
-2fd1cddb-c66d-4a99-9779-31e32b67495e -.->|targets| Azure
-2fd1cddb-c66d-4a99-9779-31e32b67495e -.->|targets| AzureAD
-2fd1cddb-c66d-4a99-9779-31e32b67495e -.->|targets| AzureAKS
-20bd3620-b13b-4895-b291-b1a26bd9aef3 -.->|targets| EULogin
-20bd3620-b13b-4895-b291-b1a26bd9aef3 -.->|targets| Office365
-f18be76e-f2b3-410a-80c5-d67e7b8e7b03 -.->|targets| Office365
-50c7e353-ac1c-48a7-8c98-2515b45f31f4 -.->|targets| Azure
-50c7e353-ac1c-48a7-8c98-2515b45f31f4 -.->|targets| AzureAD
-50c7e353-ac1c-48a7-8c98-2515b45f31f4 -.->|targets| Windows
-50c7e353-ac1c-48a7-8c98-2515b45f31f4 -.->|targets| Linux
-50c7e353-ac1c-48a7-8c98-2515b45f31f4 -.->|targets| PowerShell
-23f6a192-a25d-48b8-a235-7bb55e483682 -.->|targets| Azure
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Android
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| EULogin
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| AzureAD
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Office365
-c7e260d8-d391-41eb-be1a-7f276c99b383 -.->|targets| Azure
-c7e260d8-d391-41eb-be1a-7f276c99b383 -.->|targets| AzureAD
-fe6827f2-efb4-43b3-9ca3-b7d417111b32 -.->|targets| Azure
-fe6827f2-efb4-43b3-9ca3-b7d417111b32 -.->|targets| AzureAD
-fe6827f2-efb4-43b3-9ca3-b7d417111b32 -.->|targets| Office365
-140907eb-c9fb-4330-9d71-656422388b2b -.->|targets| Azure
-140907eb-c9fb-4330-9d71-656422388b2b -.->|targets| AzureAD
-53063205-4404-4e6d-a2f5-d566c6085d96 -.->|targets| Azure
-53063205-4404-4e6d-a2f5-d566c6085d96 -.->|targets| AzureAD
-53063205-4404-4e6d-a2f5-d566c6085d96 -.->|targets| Windows
-53063205-4404-4e6d-a2f5-d566c6085d96 -.->|targets| ActiveDirectory
-53063205-4404-4e6d-a2f5-d566c6085d96 -.->|targets| AzureAKS
-53063205-4404-4e6d-a2f5-d566c6085d96 -.->|targets| Linux
-ca2751c7-8641-4fb0-a90b-30c5987015dc -.->|targets| AzureAD
-61ddc240-e5a6-4ca8-ae77-6b471b498913 -.->|targets| Azure
-61ddc240-e5a6-4ca8-ae77-6b471b498913 -.->|targets| Windows
-61ddc240-e5a6-4ca8-ae77-6b471b498913 -.->|targets| Linux
-f1dc4341-eb45-4d07-8075-b1a6b227cc76 -.->|targets| AWSIAM
-f1dc4341-eb45-4d07-8075-b1a6b227cc76 -.->|targets| AzureAD
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Windows
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Office365
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Android
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| iOS
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Github
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Gitlab
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Windows
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Office365
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Android
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| iOS
-58b98d75-fc63-4662-8908-a2a7f4200902 -.->|targets| Windows
-58b98d75-fc63-4662-8908-a2a7f4200902 -.->|targets| AWS
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| AWS
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| Azure
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| Office365
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| Windows
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| macOS
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| Android
-0cdaee96-8595-4f3f-ba07-758b8be9d359 -.->|targets| iOS
-06c60af1-5fa8-493c-bf9b-6b2e215819f1 -.->|targets| MicrosoftTeams
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| EULogin
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| Android
-6a7a493a-511a-4c9d-aa9c-4427c832a322 -.->|targets| iOS
 APT28 -.-> |performs| 2743bf18-3b86-4721-bf3e-153dcda0b149
 APT29 -.-> |performs| 2743bf18-3b86-4721-bf3e-153dcda0b149
 APT33 -.-> |performs| 2743bf18-3b86-4721-bf3e-153dcda0b149
@@ -545,7 +439,7 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -554,7 +448,7 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -578,7 +472,7 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -642,6 +536,8 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

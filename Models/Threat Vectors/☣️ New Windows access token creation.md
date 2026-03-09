@@ -129,20 +129,12 @@ subgraph Privilege Escalation
 2404055a-10f8-4c50-9e9b-0f26756e7838
 end
 
-Windows[(Windows)]
-ActiveDirectory[(Active Directory)]
-PowerShell[(PowerShell)]
 FIN6{{FIN6}}
 Gelsemium{{Gelsemium}}
 FIN13{{FIN13}}
 HAFNIUM{{HAFNIUM}}
 LazarusGroup{{Lazarus Group}}
 
-1962f0c7-2f2f-4b4c-bab0-733af8033595 -.->|targets| Windows
-349348ca-66f5-41d2-8610-6bb61556d773 -.->|targets| Windows
-2404055a-10f8-4c50-9e9b-0f26756e7838 -.->|targets| ActiveDirectory
-2404055a-10f8-4c50-9e9b-0f26756e7838 -.->|targets| Windows
-2404055a-10f8-4c50-9e9b-0f26756e7838 -.->|targets| PowerShell
 FIN6 -.-> |performs| 1962f0c7-2f2f-4b4c-bab0-733af8033595
 Gelsemium -.-> |performs| 1962f0c7-2f2f-4b4c-bab0-733af8033595
 FIN13 -.-> |performs| 1962f0c7-2f2f-4b4c-bab0-733af8033595
@@ -179,7 +171,7 @@ LazarusGroup -.-> |performs| 2404055a-10f8-4c50-9e9b-0f26756e7838
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -187,7 +179,7 @@ LazarusGroup -.-> |performs| 2404055a-10f8-4c50-9e9b-0f26756e7838
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -199,7 +191,7 @@ LazarusGroup -.-> |performs| 2404055a-10f8-4c50-9e9b-0f26756e7838
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -245,6 +237,8 @@ LazarusGroup -.-> |performs| 2404055a-10f8-4c50-9e9b-0f26756e7838
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

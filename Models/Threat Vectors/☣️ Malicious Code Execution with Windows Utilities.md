@@ -100,9 +100,6 @@ d5892ae6-d022-4ac8-858c-c2756067cdac
 d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
 end
 
-Windows[(Windows)]
-ActiveDirectory[(Active Directory)]
-PowerShell[(PowerShell)]
 FIN7{{FIN7}}
 CobaltGroup{{Cobalt Group}}
 Cobalt{{Cobalt}}
@@ -114,10 +111,6 @@ UNC1878{{UNC1878}}
 APT38{{APT38}}
 LazarusGroup{{Lazarus Group}}
 
-d5892ae6-d022-4ac8-858c-c2756067cdac -.->|targets| Windows
-d5892ae6-d022-4ac8-858c-c2756067cdac -.->|targets| ActiveDirectory
-d5892ae6-d022-4ac8-858c-c2756067cdac -.->|targets| PowerShell
-d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -.->|targets| Windows
 FIN7 -.-> |performs| d5892ae6-d022-4ac8-858c-c2756067cdac
 CobaltGroup -.-> |performs| d5892ae6-d022-4ac8-858c-c2756067cdac
 Cobalt -.-> |performs| d5892ae6-d022-4ac8-858c-c2756067cdac
@@ -157,7 +150,7 @@ d5892ae6-d022-4ac8-858c-c2756067cdac -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -165,7 +158,7 @@ d5892ae6-d022-4ac8-858c-c2756067cdac -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -175,7 +168,7 @@ d5892ae6-d022-4ac8-858c-c2756067cdac -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -221,6 +214,8 @@ d5892ae6-d022-4ac8-858c-c2756067cdac -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

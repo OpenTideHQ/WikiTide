@@ -62,11 +62,6 @@ subgraph Exploitation
 78683822-44dc-41ac-8fef-b5f0968743c9
 end
 
-Windows[(Windows)]
-macOS[(macOS)]
-Linux[(Linux)]
-Azure[(Azure)]
-AWS[(AWS)]
 UNC2452{{UNC2452}}
 APT29{{APT29}}
 HAFNIUM{{HAFNIUM}}
@@ -76,11 +71,6 @@ Ke3chang{{Ke3chang}}
 APT15{{APT15}}
 LazarusGroup{{Lazarus Group}}
 
-1c1c9665-a30e-479b-bd80-1afb7b53ac83 -.->|targets| Windows
-1c1c9665-a30e-479b-bd80-1afb7b53ac83 -.->|targets| macOS
-1c1c9665-a30e-479b-bd80-1afb7b53ac83 -.->|targets| Linux
-78683822-44dc-41ac-8fef-b5f0968743c9 -.->|targets| Azure
-78683822-44dc-41ac-8fef-b5f0968743c9 -.->|targets| AWS
 UNC2452 -.-> |performs| 1c1c9665-a30e-479b-bd80-1afb7b53ac83
 APT29 -.-> |performs| 1c1c9665-a30e-479b-bd80-1afb7b53ac83
 HAFNIUM -.-> |performs| 1c1c9665-a30e-479b-bd80-1afb7b53ac83
@@ -118,7 +108,7 @@ LazarusGroup -.-> |performs| 1c1c9665-a30e-479b-bd80-1afb7b53ac83
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -128,7 +118,7 @@ LazarusGroup -.-> |performs| 1c1c9665-a30e-479b-bd80-1afb7b53ac83
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -140,7 +130,7 @@ LazarusGroup -.-> |performs| 1c1c9665-a30e-479b-bd80-1afb7b53ac83
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -183,6 +173,8 @@ LazarusGroup -.-> |performs| 1c1c9665-a30e-479b-bd80-1afb7b53ac83
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

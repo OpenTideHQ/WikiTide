@@ -170,15 +170,6 @@ end
 
 CVE-2023-23397>CVE-2023-23397]
 CVE-2024-21413>CVE-2024-21413]
-EULogin[(EU Login)]
-Office365[(Office 365)]
-AzureAD[(Azure AD)]
-Windows[(Windows)]
-ActiveDirectory[(Active Directory)]
-Android[(Android)]
-iOS[(iOS)]
-Azure[(Azure)]
-PowerShell[(PowerShell)]
 APT29{{APT29}}
 UNC2452{{UNC2452}}
 SandwormTeam{{Sandworm Team}}
@@ -247,40 +238,6 @@ TA577{{TA577}}
 
 02311e3e-b7b8-4369-9e1e-74c0a844ae0f -.->|exploits| CVE-2023-23397
 02311e3e-b7b8-4369-9e1e-74c0a844ae0f -.->|exploits| CVE-2024-21413
-e8761933-3137-41f7-bf7a-2687cac68524 -.->|targets| EULogin
-e8761933-3137-41f7-bf7a-2687cac68524 -.->|targets| Office365
-e8761933-3137-41f7-bf7a-2687cac68524 -.->|targets| AzureAD
-ec8201d4-c135-406b-a3b5-4a070e80a2ee -.->|targets| Windows
-ec8201d4-c135-406b-a3b5-4a070e80a2ee -.->|targets| ActiveDirectory
-b0d6bf74-b204-4a48-9509-4499ed795771 -.->|targets| EULogin
-b0d6bf74-b204-4a48-9509-4499ed795771 -.->|targets| Office365
-b5e8300c-6887-48c2-a18d-e3d910478fe8 -.->|targets| EULogin
-b5e8300c-6887-48c2-a18d-e3d910478fe8 -.->|targets| Office365
-b5e8300c-6887-48c2-a18d-e3d910478fe8 -.->|targets| AzureAD
-66aafb61-9a46-4287-8b40-4785b42b77a3 -.->|targets| Office365
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Android
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| EULogin
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| AzureAD
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Office365
-5ea50181-1124-49aa-9d2c-c74103e86fd5 -.->|targets| Windows
-03cc9593-e7cf-484b-ae9c-684bf6f7199f -.->|targets| Windows
-03cc9593-e7cf-484b-ae9c-684bf6f7199f -.->|targets| ActiveDirectory
-479a8b31-5f7e-4fd6-94ca-a5556315e1b8 -.->|targets| Windows
-4472e2b0-3dca-4d84-aab0-626fcba04fce -.->|targets| Windows
-7351e2ca-e198-427c-9cfa-202df36f6e2a -.->|targets| ActiveDirectory
-7351e2ca-e198-427c-9cfa-202df36f6e2a -.->|targets| Azure
-7351e2ca-e198-427c-9cfa-202df36f6e2a -.->|targets| Windows
-06523ed4-7881-4466-9ac5-f8417e972d13 -.->|targets| Windows
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| Windows
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| ActiveDirectory
-e3d7cb59-7aca-4c3d-b488-48c785930b6d -.->|targets| PowerShell
-a566e405-e9db-475f-8447-7875fa127716 -.->|targets| Windows
-a566e405-e9db-475f-8447-7875fa127716 -.->|targets| ActiveDirectory
-2d0beed6-6520-4114-be1f-24067628e93c -.->|targets| Windows
-2d0beed6-6520-4114-be1f-24067628e93c -.->|targets| PowerShell
-02311e3e-b7b8-4369-9e1e-74c0a844ae0f -.->|targets| Windows
-02311e3e-b7b8-4369-9e1e-74c0a844ae0f -.->|targets| Office365
 APT29 -.-> |performs| e8761933-3137-41f7-bf7a-2687cac68524
 UNC2452 -.-> |performs| e8761933-3137-41f7-bf7a-2687cac68524
 SandwormTeam -.-> |performs| e8761933-3137-41f7-bf7a-2687cac68524
@@ -491,7 +448,7 @@ ec8201d4-c135-406b-a3b5-4a070e80a2ee -->|implements| a566e405-e9db-475f-8447-787
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -501,7 +458,7 @@ ec8201d4-c135-406b-a3b5-4a070e80a2ee -->|implements| a566e405-e9db-475f-8447-787
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -516,7 +473,7 @@ ec8201d4-c135-406b-a3b5-4a070e80a2ee -->|implements| a566e405-e9db-475f-8447-787
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -556,6 +513,8 @@ ec8201d4-c135-406b-a3b5-4a070e80a2ee -->|implements| a566e405-e9db-475f-8447-787
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

@@ -116,14 +116,11 @@ subgraph Credential Access
 444e014f-d830-4d0d-9c2e-1f76d80ba380
 end
 
-Windows[(Windows)]
 WIZARDSPIDER{{WIZARD SPIDER}}
 WizardSpider{{Wizard Spider}}
 LAPSUS{{LAPSUS}}
 LAPSUS${{LAPSUS$}}
 
-09b9aee8-3849-4578-8243-17157d6d54e0 -.->|targets| Windows
-444e014f-d830-4d0d-9c2e-1f76d80ba380 -.->|targets| Windows
 WIZARDSPIDER -.-> |performs| 09b9aee8-3849-4578-8243-17157d6d54e0
 WizardSpider -.-> |performs| 09b9aee8-3849-4578-8243-17157d6d54e0
 LAPSUS -.-> |performs| 09b9aee8-3849-4578-8243-17157d6d54e0
@@ -157,7 +154,7 @@ LAPSUS$ -.-> |performs| 09b9aee8-3849-4578-8243-17157d6d54e0
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -167,7 +164,7 @@ LAPSUS$ -.-> |performs| 09b9aee8-3849-4578-8243-17157d6d54e0
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -180,7 +177,7 @@ LAPSUS$ -.-> |performs| 09b9aee8-3849-4578-8243-17157d6d54e0
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -227,6 +224,8 @@ LAPSUS$ -.-> |performs| 09b9aee8-3849-4578-8243-17157d6d54e0
  [`♻️ Environment dependent`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Depends
 
 ---
+
+
 
 
 

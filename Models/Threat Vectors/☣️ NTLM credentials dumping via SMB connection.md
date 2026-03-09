@@ -124,8 +124,6 @@ end
 
 CVE-2023-23397>CVE-2023-23397]
 CVE-2024-21413>CVE-2024-21413]
-Windows[(Windows)]
-Office365[(Office 365)]
 APT28{{APT28}}
 APT1{{APT1}}
 APT39{{APT39}}
@@ -145,9 +143,6 @@ TA577{{TA577}}
 
 02311e3e-b7b8-4369-9e1e-74c0a844ae0f -.->|exploits| CVE-2023-23397
 02311e3e-b7b8-4369-9e1e-74c0a844ae0f -.->|exploits| CVE-2024-21413
-5ea50181-1124-49aa-9d2c-c74103e86fd5 -.->|targets| Windows
-02311e3e-b7b8-4369-9e1e-74c0a844ae0f -.->|targets| Windows
-02311e3e-b7b8-4369-9e1e-74c0a844ae0f -.->|targets| Office365
 APT28 -.-> |performs| 5ea50181-1124-49aa-9d2c-c74103e86fd5
 APT1 -.-> |performs| 5ea50181-1124-49aa-9d2c-c74103e86fd5
 APT39 -.-> |performs| 5ea50181-1124-49aa-9d2c-c74103e86fd5
@@ -194,7 +189,7 @@ TA577 -.-> |performs| 02311e3e-b7b8-4369-9e1e-74c0a844ae0f
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -202,7 +197,7 @@ TA577 -.-> |performs| 02311e3e-b7b8-4369-9e1e-74c0a844ae0f
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -215,7 +210,7 @@ TA577 -.-> |performs| 02311e3e-b7b8-4369-9e1e-74c0a844ae0f
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -257,6 +252,8 @@ TA577 -.-> |performs| 02311e3e-b7b8-4369-9e1e-74c0a844ae0f
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

@@ -130,19 +130,10 @@ a73c2506-8584-4c0b-bfdc-52e33c8bd229
 9a1aeae5-912e-492c-b5d4-8bce91a95dae
 end
 
-ActiveDirectory[(Active Directory)]
-PowerShell[(PowerShell)]
-Windows[(Windows)]
 LazarusGroup{{Lazarus Group}}
 VoltTyphoon{{Volt Typhoon}}
 APT29{{APT29}}
 
-197c06c8-7959-4e28-9ede-b3e7b6f13442 -.->|targets| ActiveDirectory
-197c06c8-7959-4e28-9ede-b3e7b6f13442 -.->|targets| PowerShell
-197c06c8-7959-4e28-9ede-b3e7b6f13442 -.->|targets| Windows
-a73c2506-8584-4c0b-bfdc-52e33c8bd229 -.->|targets| Windows
-9a1aeae5-912e-492c-b5d4-8bce91a95dae -.->|targets| Windows
-ff8c52ac-77d0-4bee-9f6d-e40fc6e0da63 -.->|targets| Windows
 LazarusGroup -.-> |performs| 197c06c8-7959-4e28-9ede-b3e7b6f13442
 VoltTyphoon -.-> |performs| 197c06c8-7959-4e28-9ede-b3e7b6f13442
 APT29 -.-> |performs| a73c2506-8584-4c0b-bfdc-52e33c8bd229
@@ -182,7 +173,7 @@ ff8c52ac-77d0-4bee-9f6d-e40fc6e0da63 -->|implemented| 197c06c8-7959-4e28-9ede-b3
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -190,7 +181,7 @@ ff8c52ac-77d0-4bee-9f6d-e40fc6e0da63 -->|implemented| 197c06c8-7959-4e28-9ede-b3
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -201,7 +192,7 @@ ff8c52ac-77d0-4bee-9f6d-e40fc6e0da63 -->|implemented| 197c06c8-7959-4e28-9ede-b3
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -247,6 +238,8 @@ ff8c52ac-77d0-4bee-9f6d-e40fc6e0da63 -->|implemented| 197c06c8-7959-4e28-9ede-b3
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

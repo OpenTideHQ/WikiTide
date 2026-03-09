@@ -187,13 +187,6 @@ subgraph Execution
 d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
 end
 
-Windows[(Windows)]
-ActiveDirectory[(Active Directory)]
-AWSEC2[(AWS EC2)]
-AWSECS[(AWS ECS)]
-AWSEKS[(AWS EKS)]
-Linux[(Linux)]
-macOS[(macOS)]
 APT29{{APT29}}
 APT28{{APT28}}
 LazarusGroup{{Lazarus Group}}
@@ -212,19 +205,6 @@ WizardSpider{{Wizard Spider}}
 UNC1878{{UNC1878}}
 APT38{{APT38}}
 
-d0522985-6001-4e25-a5ff-2dc87bf2fee8 -.->|targets| Windows
-d0522985-6001-4e25-a5ff-2dc87bf2fee8 -.->|targets| ActiveDirectory
-35c76d6c-2ac7-486e-b0b7-b56f6b110bec -.->|targets| Windows
-35c76d6c-2ac7-486e-b0b7-b56f6b110bec -.->|targets| ActiveDirectory
-03cc9593-e7cf-484b-ae9c-684bf6f7199f -.->|targets| Windows
-03cc9593-e7cf-484b-ae9c-684bf6f7199f -.->|targets| ActiveDirectory
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEC2
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSECS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| AWSEKS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Linux
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| macOS
-3b1026c6-7d04-4b91-ba6f-abc68e993616 -.->|targets| Windows
-d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -.->|targets| Windows
 APT29 -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
 APT28 -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
 LazarusGroup -.-> |performs| d0522985-6001-4e25-a5ff-2dc87bf2fee8
@@ -284,7 +264,7 @@ d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -->|preceeds| d0522985-6001-4e25-a5ff-2dc87
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -294,7 +274,7 @@ d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -->|preceeds| d0522985-6001-4e25-a5ff-2dc87
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -305,7 +285,7 @@ d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -->|preceeds| d0522985-6001-4e25-a5ff-2dc87
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -349,6 +329,8 @@ d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -->|preceeds| d0522985-6001-4e25-a5ff-2dc87
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

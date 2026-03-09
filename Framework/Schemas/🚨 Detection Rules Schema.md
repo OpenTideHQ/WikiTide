@@ -98,11 +98,11 @@ response:
       #...
 
 configurations:
+  #sentinel: 
+  #splunk: 
   #crowdstrike: 
   #carbon_black_cloud: 
-  #sentinel_one: 
-  #splunk: 
   #defender_for_endpoint: 
-  #sentinel:
+  #sentinel_one:
 ```
 

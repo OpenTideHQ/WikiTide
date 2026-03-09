@@ -89,11 +89,6 @@ b0d6bf74-b204-4a48-9509-4499ed795771
 4a807ac4-f764-41b1-ae6f-94239041d349
 end
 
-EULogin[(EU Login)]
-Office365[(Office 365)]
-AzureAD[(Azure AD)]
-Android[(Android)]
-iOS[(iOS)]
 APT29{{APT29}}
 UNC2452{{UNC2452}}
 SandwormTeam{{Sandworm Team}}
@@ -105,17 +100,6 @@ TA406{{TA406}}
 LAPSUS${{LAPSUS$}}
 LAPSUS{{LAPSUS}}
 
-ba88c4a0-bf3b-46cb-b022-050ae22abce8 -.->|targets| EULogin
-ba88c4a0-bf3b-46cb-b022-050ae22abce8 -.->|targets| Office365
-ba88c4a0-bf3b-46cb-b022-050ae22abce8 -.->|targets| AzureAD
-b0d6bf74-b204-4a48-9509-4499ed795771 -.->|targets| EULogin
-b0d6bf74-b204-4a48-9509-4499ed795771 -.->|targets| Office365
-66aafb61-9a46-4287-8b40-4785b42b77a3 -.->|targets| Office365
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Android
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| EULogin
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| AzureAD
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Office365
 APT29 -.-> |performs| b0d6bf74-b204-4a48-9509-4499ed795771
 UNC2452 -.-> |performs| b0d6bf74-b204-4a48-9509-4499ed795771
 SandwormTeam -.-> |performs| b0d6bf74-b204-4a48-9509-4499ed795771
@@ -165,7 +149,7 @@ b0d6bf74-b204-4a48-9509-4499ed795771 -->|implements| 4a807ac4-f764-41b1-ae6f-942
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -176,7 +160,7 @@ b0d6bf74-b204-4a48-9509-4499ed795771 -->|implements| 4a807ac4-f764-41b1-ae6f-942
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -187,11 +171,11 @@ b0d6bf74-b204-4a48-9509-4499ed795771 -->|implements| 4a807ac4-f764-41b1-ae6f-942
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
-  - ` EU Login` : Placeholder
+  - ` EU Login` : 
  - ` Office 365` : Placeholder
  - ` Azure AD` : Placeholder
 
@@ -230,6 +214,8 @@ b0d6bf74-b204-4a48-9509-4499ed795771 -->|implements| 4a807ac4-f764-41b1-ae6f-942
  [`♻️ Environment dependent`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Depends
 
 ---
+
+
 
 
 

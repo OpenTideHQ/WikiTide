@@ -139,23 +139,9 @@ subgraph Delivery
 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 end
 
-GoogleWorkspace[(Google Workspace)]
-Windows[(Windows)]
-Office365[(Office 365)]
-Android[(Android)]
-iOS[(iOS)]
-Github[(Github)]
-Gitlab[(Gitlab)]
 APT41{{APT41}}
 APT42{{APT42}}
 
-3f0b4b8e-6017-406a-9461-740d542d0917 -.->|targets| GoogleWorkspace
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Windows
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Office365
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Android
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| iOS
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Github
-1a68b5eb-0112-424d-a21f-88dda0b6b8df -.->|targets| Gitlab
 APT41 -.-> |performs| 3f0b4b8e-6017-406a-9461-740d542d0917
 APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 
@@ -187,7 +173,7 @@ APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -197,7 +183,7 @@ APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -210,7 +196,7 @@ APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -253,6 +239,8 @@ APT42 -.-> |performs| 1a68b5eb-0112-424d-a21f-88dda0b6b8df
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

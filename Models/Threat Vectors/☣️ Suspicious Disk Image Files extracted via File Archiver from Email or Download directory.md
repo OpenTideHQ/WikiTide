@@ -83,12 +83,6 @@ subgraph Delivery
 dd5d942c-bac4-4000-b9a6-ca4fef6cfb84
 end
 
-macOS[(macOS)]
-Linux[(Linux)]
-Windows[(Windows)]
-Office365[(Office 365)]
-Android[(Android)]
-iOS[(iOS)]
 APT29{{APT29}}
 UNC2452{{UNC2452}}
 WizardSpider{{Wizard Spider}}
@@ -100,13 +94,6 @@ MustangPanda{{Mustang Panda}}
 RedDelta{{RedDelta}}
 RomCom{{RomCom}}
 
-ebdf49a9-52cb-43a5-8849-8110765f4fe1 -.->|targets| macOS
-ebdf49a9-52cb-43a5-8849-8110765f4fe1 -.->|targets| Linux
-ebdf49a9-52cb-43a5-8849-8110765f4fe1 -.->|targets| Windows
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Windows
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Office365
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Android
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| iOS
 APT29 -.-> |performs| ebdf49a9-52cb-43a5-8849-8110765f4fe1
 UNC2452 -.-> |performs| ebdf49a9-52cb-43a5-8849-8110765f4fe1
 WizardSpider -.-> |performs| ebdf49a9-52cb-43a5-8849-8110765f4fe1
@@ -151,7 +138,7 @@ ebdf49a9-52cb-43a5-8849-8110765f4fe1 -->|enabling| dd5d942c-bac4-4000-b9a6-ca4fe
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -159,7 +146,7 @@ ebdf49a9-52cb-43a5-8849-8110765f4fe1 -->|enabling| dd5d942c-bac4-4000-b9a6-ca4fe
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -171,7 +158,7 @@ ebdf49a9-52cb-43a5-8849-8110765f4fe1 -->|enabling| dd5d942c-bac4-4000-b9a6-ca4fe
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -216,6 +203,8 @@ ebdf49a9-52cb-43a5-8849-8110765f4fe1 -->|enabling| dd5d942c-bac4-4000-b9a6-ca4fe
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

@@ -108,15 +108,8 @@ subgraph Exfiltration
 901dd804-00cc-4034-85aa-3d10e257c16c
 end
 
-Windows[(Windows)]
-Linux[(Linux)]
-NetworkRouter[(Network Router)]
 APT3{{APT3}}
 
-5e6af460-db12-4278-b44d-7a7a3fa7fe76 -.->|targets| Windows
-5e6af460-db12-4278-b44d-7a7a3fa7fe76 -.->|targets| Linux
-901dd804-00cc-4034-85aa-3d10e257c16c -.->|targets| Windows
-901dd804-00cc-4034-85aa-3d10e257c16c -.->|targets| NetworkRouter
 APT3 -.-> |performs| 5e6af460-db12-4278-b44d-7a7a3fa7fe76
 APT3 -.-> |performs| 901dd804-00cc-4034-85aa-3d10e257c16c
 
@@ -148,7 +141,7 @@ APT3 -.-> |performs| 901dd804-00cc-4034-85aa-3d10e257c16c
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -156,7 +149,7 @@ APT3 -.-> |performs| 901dd804-00cc-4034-85aa-3d10e257c16c
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -166,7 +159,7 @@ APT3 -.-> |performs| 901dd804-00cc-4034-85aa-3d10e257c16c
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -212,6 +205,8 @@ APT3 -.-> |performs| 901dd804-00cc-4034-85aa-3d10e257c16c
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

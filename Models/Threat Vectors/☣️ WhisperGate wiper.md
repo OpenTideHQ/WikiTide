@@ -124,16 +124,11 @@ subgraph Defense Evasion
 d5add960-1b86-41d4-869a-1defd392c8f9
 end
 
-Windows[(Windows)]
-PowerShell[(PowerShell)]
 APT29{{APT29}}
 LazarusGroup{{Lazarus Group}}
 EmberBear{{Ember Bear}}
 DEV-0586{{DEV-0586}}
 
-d5add960-1b86-41d4-869a-1defd392c8f9 -.->|targets| Windows
-68ab86f6-378d-4371-ad01-6209fb95d57d -.->|targets| Windows
-68ab86f6-378d-4371-ad01-6209fb95d57d -.->|targets| PowerShell
 APT29 -.-> |performs| d5add960-1b86-41d4-869a-1defd392c8f9
 LazarusGroup -.-> |performs| d5add960-1b86-41d4-869a-1defd392c8f9
 EmberBear -.-> |performs| 68ab86f6-378d-4371-ad01-6209fb95d57d
@@ -159,7 +154,7 @@ DEV-0586 -.-> |performs| 68ab86f6-378d-4371-ad01-6209fb95d57d
 
 ## Model Data
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -168,7 +163,7 @@ DEV-0586 -.-> |performs| 68ab86f6-378d-4371-ad01-6209fb95d57d
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -185,7 +180,7 @@ DEV-0586 -.-> |performs| 68ab86f6-378d-4371-ad01-6209fb95d57d
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -230,6 +225,8 @@ DEV-0586 -.-> |performs| 68ab86f6-378d-4371-ad01-6209fb95d57d
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

@@ -112,14 +112,6 @@ subgraph Delivery
 dd5d942c-bac4-4000-b9a6-ca4fef6cfb84
 end
 
-Windows[(Windows)]
-macOS[(macOS)]
-Linux[(Linux)]
-MicrosoftTeams[(Microsoft Teams)]
-iOS[(iOS)]
-Android[(Android)]
-AWS[(AWS)]
-Office365[(Office 365)]
 APT29{{APT29}}
 UNC2452{{UNC2452}}
 WizardSpider{{Wizard Spider}}
@@ -131,20 +123,6 @@ RedDelta{{RedDelta}}
 TA505{{TA505}}
 RomCom{{RomCom}}
 
-60bd6a35-3a71-47c2-8110-4562fb40976c -.->|targets| Windows
-60bd6a35-3a71-47c2-8110-4562fb40976c -.->|targets| macOS
-60bd6a35-3a71-47c2-8110-4562fb40976c -.->|targets| Linux
-c4456134-df7b-4969-b5ff-a24794996890 -.->|targets| Windows
-c4456134-df7b-4969-b5ff-a24794996890 -.->|targets| MicrosoftTeams
-c4456134-df7b-4969-b5ff-a24794996890 -.->|targets| iOS
-c4456134-df7b-4969-b5ff-a24794996890 -.->|targets| Android
-06c60af1-5fa8-493c-bf9b-6b2e215819f1 -.->|targets| MicrosoftTeams
-58b98d75-fc63-4662-8908-a2a7f4200902 -.->|targets| Windows
-58b98d75-fc63-4662-8908-a2a7f4200902 -.->|targets| AWS
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Windows
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Office365
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Android
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| iOS
 APT29 -.-> |performs| 06c60af1-5fa8-493c-bf9b-6b2e215819f1
 UNC2452 -.-> |performs| 06c60af1-5fa8-493c-bf9b-6b2e215819f1
 APT29 -.-> |performs| 58b98d75-fc63-4662-8908-a2a7f4200902
@@ -194,7 +172,7 @@ c4456134-df7b-4969-b5ff-a24794996890 -->|succeeds| 58b98d75-fc63-4662-8908-a2a7f
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -203,7 +181,7 @@ c4456134-df7b-4969-b5ff-a24794996890 -->|succeeds| 58b98d75-fc63-4662-8908-a2a7f
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -218,7 +196,7 @@ c4456134-df7b-4969-b5ff-a24794996890 -->|succeeds| 58b98d75-fc63-4662-8908-a2a7f
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -267,6 +245,8 @@ c4456134-df7b-4969-b5ff-a24794996890 -->|succeeds| 58b98d75-fc63-4662-8908-a2a7f
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

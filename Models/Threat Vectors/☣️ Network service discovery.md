@@ -115,16 +115,6 @@ subgraph Execution
 d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
 end
 
-ActiveDirectory[(Active Directory)]
-AWSVPC[(AWS VPC)]
-Azure[(Azure)]
-Windows[(Windows)]
-Linux[(Linux)]
-macOS[(macOS)]
-ApacheHTTPServer[(Apache HTTP Server)]
-Android[(Android)]
-iOS[(iOS)]
-NetworkRouter[(Network Router)]
 LazarusGroup{{Lazarus Group}}
 APT29{{APT29}}
 UNC2452{{UNC2452}}
@@ -132,17 +122,6 @@ WizardSpider{{Wizard Spider}}
 UNC1878{{UNC1878}}
 APT38{{APT38}}
 
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| ActiveDirectory
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| AWSVPC
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| Azure
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| Windows
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| Linux
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| macOS
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| ApacheHTTPServer
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| Android
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| iOS
-fd0542bd-1541-42a7-8c07-0e073a198a53 -.->|targets| NetworkRouter
-d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -.->|targets| Windows
 LazarusGroup -.-> |performs| fd0542bd-1541-42a7-8c07-0e073a198a53
 APT29 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
 UNC2452 -.-> |performs| d5039f2c-9fcc-4ba3-ad6a-da8c891ba745
@@ -179,7 +158,7 @@ fd0542bd-1541-42a7-8c07-0e073a198a53 -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -191,7 +170,7 @@ fd0542bd-1541-42a7-8c07-0e073a198a53 -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -211,7 +190,7 @@ fd0542bd-1541-42a7-8c07-0e073a198a53 -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -263,6 +242,8 @@ fd0542bd-1541-42a7-8c07-0e073a198a53 -->|implements| d5039f2c-9fcc-4ba3-ad6a-da8
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

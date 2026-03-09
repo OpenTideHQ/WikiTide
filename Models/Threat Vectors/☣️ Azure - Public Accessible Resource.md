@@ -108,17 +108,6 @@ subgraph Lateral Movement
 9bb31c65-8abd-48fc-afe3-8aca76109737
 end
 
-Azure[(Azure)]
-AzureAD[(Azure AD)]
-Windows[(Windows)]
-Linux[(Linux)]
-PowerShell[(PowerShell)]
-Office365[(Office 365)]
-ADFS[(AD FS)]
-AWSIAM[(AWS IAM)]
-Android[(Android)]
-iOS[(iOS)]
-EULogin[(EU Login)]
 VoltTyphoon{{Volt Typhoon}}
 HAFNIUM{{HAFNIUM}}
 FIN13{{FIN13}}
@@ -134,21 +123,6 @@ TA406{{TA406}}
 LAPSUS${{LAPSUS$}}
 LAPSUS{{LAPSUS}}
 
-9b41d6cf-de4d-44d1-97cc-f3671f4ee5ab -.->|targets| Azure
-b1593e0b-1b3b-462d-9ab6-21d1c136469d -.->|targets| Azure
-b1593e0b-1b3b-462d-9ab6-21d1c136469d -.->|targets| AzureAD
-b1593e0b-1b3b-462d-9ab6-21d1c136469d -.->|targets| Windows
-b1593e0b-1b3b-462d-9ab6-21d1c136469d -.->|targets| Linux
-b1593e0b-1b3b-462d-9ab6-21d1c136469d -.->|targets| PowerShell
-66aafb61-9a46-4287-8b40-4785b42b77a3 -.->|targets| Office365
-9bb31c65-8abd-48fc-afe3-8aca76109737 -.->|targets| AzureAD
-9bb31c65-8abd-48fc-afe3-8aca76109737 -.->|targets| ADFS
-9bb31c65-8abd-48fc-afe3-8aca76109737 -.->|targets| AWSIAM
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Android
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| iOS
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| EULogin
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| AzureAD
-4a807ac4-f764-41b1-ae6f-94239041d349 -.->|targets| Office365
 VoltTyphoon -.-> |performs| b1593e0b-1b3b-462d-9ab6-21d1c136469d
 HAFNIUM -.-> |performs| b1593e0b-1b3b-462d-9ab6-21d1c136469d
 FIN13 -.-> |performs| b1593e0b-1b3b-462d-9ab6-21d1c136469d
@@ -200,7 +174,7 @@ b1593e0b-1b3b-462d-9ab6-21d1c136469d -->|succeeds| 9bb31c65-8abd-48fc-afe3-8aca7
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -209,7 +183,7 @@ b1593e0b-1b3b-462d-9ab6-21d1c136469d -->|succeeds| 9bb31c65-8abd-48fc-afe3-8aca7
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -220,7 +194,7 @@ b1593e0b-1b3b-462d-9ab6-21d1c136469d -->|succeeds| 9bb31c65-8abd-48fc-afe3-8aca7
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -267,6 +241,8 @@ b1593e0b-1b3b-462d-9ab6-21d1c136469d -->|succeeds| 9bb31c65-8abd-48fc-afe3-8aca7
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 

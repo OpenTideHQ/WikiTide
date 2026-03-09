@@ -152,11 +152,6 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84
 end
 
 CVE-2025-8088>CVE-2025-8088]
-Windows[(Windows)]
-PowerShell[(PowerShell)]
-Office365[(Office 365)]
-Android[(Android)]
-iOS[(iOS)]
 RomCom{{RomCom}}
 GamaredonGroup{{Gamaredon Group}}
 FIN7{{FIN7}}
@@ -172,14 +167,6 @@ RedDelta{{RedDelta}}
 TA505{{TA505}}
 
 cce22952-735a-4255-8319-e5e44aef9d85 -.->|exploits| CVE-2025-8088
-cce22952-735a-4255-8319-e5e44aef9d85 -.->|targets| Windows
-86f62c3a-6556-4a64-a9f5-a79168ad42d9 -.->|targets| Windows
-86f62c3a-6556-4a64-a9f5-a79168ad42d9 -.->|targets| PowerShell
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Windows
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Office365
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| Android
-dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -.->|targets| iOS
-d5039f2c-9fcc-4ba3-ad6a-da8c891ba745 -.->|targets| Windows
 RomCom -.-> |performs| cce22952-735a-4255-8319-e5e44aef9d85
 GamaredonGroup -.-> |performs| cce22952-735a-4255-8319-e5e44aef9d85
 FIN7 -.-> |performs| 86f62c3a-6556-4a64-a9f5-a79168ad42d9
@@ -236,7 +223,7 @@ cce22952-735a-4255-8319-e5e44aef9d85 -->|succeeds| dd5d942c-bac4-4000-b9a6-ca4fe
 
 ---
 
-#### **🛰️ Domains**
+#### **🛰️ Domains [DEPRECATED]**
 
  > Infrastructure technologies domain of interest to attackers.
 
@@ -244,7 +231,7 @@ cce22952-735a-4255-8319-e5e44aef9d85 -->|succeeds| dd5d942c-bac4-4000-b9a6-ca4fe
 
 ---
 
-#### **🎯 Targets**
+#### **🎯 Targets [DEPRECATED]**
 
  > Granular delimited technical entities holding a value to the organization, that are targeted by adversaries. They might be also involved in the detection coverage as the target of log collection. Partially inspired by Veris.
 
@@ -254,7 +241,7 @@ cce22952-735a-4255-8319-e5e44aef9d85 -->|succeeds| dd5d942c-bac4-4000-b9a6-ca4fe
 
 ---
 
-#### **💿 Platforms concerned**
+#### **💿 Platforms concerned [DEPRECATED]**
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
@@ -299,6 +286,8 @@ cce22952-735a-4255-8319-e5e44aef9d85 -->|succeeds| dd5d942c-bac4-4000-b9a6-ca4fe
  [`🧐 Likely`](https://www.dni.gov/files/documents/ICD/ICD%20203%20Analytic%20Standards.pdf) : Probable (probably) - 55-80%
 
 ---
+
+
 
 
 
