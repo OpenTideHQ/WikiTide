@@ -213,8 +213,7 @@ dd5d942c-bac4-4000-b9a6-ca4fef6cfb84 -->|preceeds| 0cdaee96-8595-4f3f-ba07-758b8
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
-  - ` EU Login` : 
- - ` Android` : Placeholder
+  - ` Android` : Placeholder
  - ` iOS` : Placeholder
 
 ---

@@ -419,8 +419,7 @@ b0d6bf74-b204-4a48-9509-4499ed795771 -->|implements| 4a807ac4-f764-41b1-ae6f-942
 
  > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
 
-  - ` EU Login` : 
- - ` Office 365` : Placeholder
+  - ` Office 365` : Placeholder
  - ` Azure AD` : Placeholder
 
 ---

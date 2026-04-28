@@ -2,7 +2,7 @@
 
 # Alert Handling Team
 
-`responders`
+`alert_handling_team`
 
 
 

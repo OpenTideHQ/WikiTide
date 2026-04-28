@@ -51,13 +51,18 @@
 | 📍 Entity Identifier             |                |                      | `identifier`              | Identifier used to provide identification for the chosen entity.                                                                                                                                                                                                                                                                                                                                                                            | string                |                                                   |
 | 🪘 Data Table Column             |                |                      | `column`                  | The column name to be mapped to the identifier. Note that it must be a valid column name available in the query result from the KQL chosen.                                                                                                                                                                                                                                                                                                 | string                |                                                   |
 | 🔎 Sentinel KQL Detection Rule   | `query`        |                      |                           | Scheduled query in KQL language                                                                                                                                                                                                                                                                                                                                                                                                             | string                | SignInLogs | evaluate bag_unpack(LocationDetails) |
+| Tenant-Scoped Exclusions        | `exclusions`   |                      |                           | This section adds exclusions, using queries that will be appended to the final query deployed in a per-tenant fashion, and fully documented. You may remove the tenant field, in which case the exclusion will apply to all tenants. You may add multiple exclusion section for the same tenant - in which case they  will be appended in the order that they appear.                                                                       | array                 |                                                   |
+| Tenant                          |                | `tenant`             |                           | The tenant to which the exclusion applied. Remove if the exclusion should be applied to all tenants.                                                                                                                                                                                                                                                                                                                                        | string                |                                                   |
+| Exclusion Reason                |                | `reason`             |                           | Document why the exclusion was added                                                                                                                                                                                                                                                                                                                                                                                                        | string                |                                                   |
+| KQL let bindings                |                | `let`                |                           | Optional map of KQL variables to be declared for this exclusion. Each key will be emitted as a `let` statement and can be referenced in the `query` field. Values must be strings and will be inserted verbatim.                                                                                                                                                                                                                            | object                |                                                   |
+| 🔎 Exclusion KQL                 |                | `query`              |                           | Write here the exclusion query, that will be appended to the base query                                                                                                                                                                                                                                                                                                                                                                     | string                |                                                   |
 
 ### Template
 
 ``
 
 ```yaml
-  schema: sentinel::2.3
+  schema: sentinel::2.4
   status: 
   #contributors:
     #-
@@ -112,5 +117,14 @@
   
   query: |
     ...
+  
+  #exclusions:
+    #- tenant: 
+      #reason: |
+        #...
+      #let:
+        #variable: 
+      #query: |
+        #...
 ```
 

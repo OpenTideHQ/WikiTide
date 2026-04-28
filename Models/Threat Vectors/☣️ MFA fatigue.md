@@ -214,14 +214,6 @@ LAPSUS -.-> |performs| 4a807ac4-f764-41b1-ae6f-94239041d349
 
 ---
 
-#### **💿 Platforms concerned [DEPRECATED]**
-
- > Actual technologies used by the organization that will be exploited by adversaries during a successful attack, and eventually of relevance for detection. Are named by commercial designation.
-
- ` EU Login` : 
-
----
-
 #### **💣 Severity**
 
  > The severity summarizes the overall danger of incident the vector will provoke, and is to be derived (WIP) from impact, leverage, and difficulty to execute.
