@@ -10,7 +10,7 @@
 
 ---
 
-`🔑 UUID : f8a95fcf-c5b0-4db0-bb8b-78e4edaa0544` **|** `🏷️ Version : 2` **|** `🗓️ Creation Date : 2026-03-30` **|** `🗓️ Last Modification : 2026-05-04` **|** `👩‍💻 Model author : None` **|** `👥 Contributors : None` **|** `Sharing Organisation : {'uuid': '56b0a0f0-b0bc-47d9-bb46-02f80ae2065a', 'name': 'EC DIGIT CSOC'}` **|** `🧱 Schema Identifier : dom::1.0`
+`🔑 UUID : f8a95fcf-c5b0-4db0-bb8b-78e4edaa0544` **|** `🏷️ Version : 3` **|** `🗓️ Creation Date : 2026-03-30` **|** `🗓️ Last Modification : 2026-05-04` **|** `👩‍💻 Model author : None` **|** `👥 Contributors : Hold Security Threat Research` **|** `Sharing Organisation : {'uuid': '56b0a0f0-b0bc-47d9-bb46-02f80ae2065a', 'name': 'EC DIGIT CSOC'}` **|** `🧱 Schema Identifier : dom::1.0`
 
 ## 💡 Objective
 
