@@ -74,9 +74,28 @@
 
 
 ### 🌊 OpenTide Objects
-🚫 No related OpenTide objects indexed.
+
+```mermaid
+
+mindmap
+Root[☣️ Late access control enforcement via redirect body leakage]
+    
+      🎯 Detect late access control enforcement via redirect body leakage 
+          📡 Anomalous HTTP 302 response body size 
+          📡 Repeated unauthenticated access attempts to restricted endpoints 
+    
 
 
+```
+
+
+
+
+ **Descendants** 
+
+| 🎯 Detection Objectives                                                                                                                                                                                                                                                                                                                            | 📡 Detection Objective Signals (2)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 🛡️ Detection Models    | 🚨 Detection Rules    |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:---------------------|
+| [Detect late access control enforcement via redirect body leakage](../Detection%20Objectives/🎯%20Detect%20late%20access%20control%20enforcement%20via%20redirect%20body%20leakage.md 'Detect exploitation of a broken access control pattern where web applicationHTTP 302 redirect responses contain the full rendered protected page conte...') | [Detect late access control enforcement via redirect body leakage::Repeated unauthenticated access attempts to restricted endpoints](Detect%20late%20access%20control%20enforcement%20via%20redirect%20body%20leakage#repeated-unauthenticated-access-attempts-to-restricted-endpoints.md 'Detect patterns where a client identified by IP address or sessionrepeatedly sends requests to authenticated or role-restricted endpointsand consisten...')<br>[Detect late access control enforcement via redirect body leakage::Anomalous HTTP 302 response body size](Detect%20late%20access%20control%20enforcement%20via%20redirect%20body%20leakage#anomalous-http-302-response-body-size.md 'Detect HTTP 302 redirect responses that contain unexpectedly largeresponse bodies Legitimate 302 redirects typically have minimal or nobody content us...') | ❌ No Detection Models  | ❌ No Detection Rules |
 
 
 
