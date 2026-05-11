@@ -90,9 +90,27 @@
 | APT27                          | A China-based actor that targets foreign embassies to collect data on government, defence, and technology sectors.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | GreedyTaotie, TG-3390, EMISSARY PANDA, TEMP.Hippo, Red Phoenix, Budworm, Group 35, ZipToken, Iron Tiger, BRONZE UNION, Lucky Mouse, G0027, Iron Taurus, Earth Smilodon, Circle Typhoon, Linen Typhoon                                                                                                     | 🌌 MISP Threat Actor Galaxy | No documented sighting | No documented references |
 
 ### 🌊 OpenTide Objects
-🚫 No related OpenTide objects indexed.
+
+```mermaid
+
+mindmap
+Root[☣️ Powershell with encoded payload passed to cmdline]
+    
+      🎯 Powershell encoded payload to start new process 
+          📡 Powershell encoded payload to start new process 
+    
 
 
+```
+
+
+
+
+ **Descendants** 
+
+| 🎯 Detection Objectives                                                                                                                                                                                                                                                                               | 📡 Detection Objective Signals                                                                                                                                                                                                                                                                                                                                                  | 🛡️ Detection Models    | 🚨 Detection Rules    |
+|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:---------------------|
+| [Powershell encoded payload to start new process](../Detection%20Objectives/🎯%20Powershell%20encoded%20payload%20to%20start%20new%20process.md 'Detect and alert on powershell encoded payload to start new process activityThis detection objective was migrated from a Cyber Detection Model CDM') | [Powershell encoded payload to start new process::Powershell encoded payload to start new process](Powershell%20encoded%20payload%20to%20start%20new%20process#powershell-encoded-payload-to-start-new-process.md 'Adversaries use PowerShell to execute local scripts and execute remote resourcesafter retrieving them using multiple network protocols They can also e...') | ❌ No Detection Models  | ❌ No Detection Rules |
 
 
 
