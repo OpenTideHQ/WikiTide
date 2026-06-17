@@ -51,9 +51,9 @@
 
 ## ⚠️ Response
 
-| 🌡️ Alert Severity                                                                     | ‍🚒 Alert Handling Team                                 | 👣 Playbook link                                 |
-|:--------------------------------------------------------------------------------------|:-------------------------------------------------------|:------------------------------------------------|
-| **High** : Needs attention within tight SLAs alongside a comprehensive investigation. | **CSIRC** : Computer Security Incident Response Centre | No playbook was defined for this detection rule |
+| 🌡️ Alert Severity                                                                     | ‍🚒 Alert Handling Team   | 👣 Playbook link                                 |
+|:--------------------------------------------------------------------------------------|:-------------------------|:------------------------------------------------|
+| **High** : Needs attention within tight SLAs alongside a comprehensive investigation. | **CSIRC** :              | No playbook was defined for this detection rule |
 
 &nbsp;
 
