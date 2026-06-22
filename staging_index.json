@@ -1,1 +1,784 @@
-{"fae8ef2d-99e9-42f4-81ed-d40c515e8d3d": {"name": "SEN Shai-Hulud Anomalous npm Package Publish from Non-Baseline Identity", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "fae8ef2d-99e9-42f4-81ed-d40c515e8d3d", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "9f3abdc4-7c6e-480e-b722-6d31ddd9b2d2", "description": "#### MDR Technical Details\nMicrosoft Sentinel scheduled analytic rule implementing DOM signal\n`9f3abdc4-7c6e-480e-b722-6d31ddd9b2d2` (Anomalous npm Package Publish\nfrom Non-Baseline Host or Identity). Detects burst npm package publish\nactivity from a single GitHub actor, publish events with campaign manifest\nmarkers in audit metadata, and supply-chain feed matches for known\ncompromised versions via `ThreatIntelIndicators`.\n\n#### Detection Criteria\n- Burst threshold: \u2265 3 package publish actions per actor per hour in\n  `GitHubAuditLog` (worm republication pattern).\n- OR audit/commit metadata references `preinstall`, `setup.mjs`,\n  `optionalDependencies`, or orphan TanStack git dependency.\n- OR `ThreatIntelIndicators` match on known Shai-Hulud package versions.\n- Frequency: 1 hour; severity Medium.\n\n#### Exclusion Criteria\n- Monorepo bulk releases and emergency hotfix publishes \u2014 compare against\n  release calendar and require manifest markers for auto-escalation.\n- Maintain per-organisation critical-package publish baseline via watchlist\n  when registry-watcher pipelines are available.\n", "response": {"alert_severity": "Medium", "procedure": {"analysis": "1. List packages published in the burst window.\n2. Compare publish authentication source (CLI vs OIDC) to baseline.\n3. Inspect manifest diffs for `preinstall` / `optionalDependencies` changes.\n4. Cross-check versions against Wiz / OpenSSF malicious-package advisories.\n", "searches": [{"purpose": "Review all package publish actions for the actor", "system": "sentinel", "query": "GitHubAuditLog\n| where TimeGenerated > ago(24h)\n| where Actor == \"{{Actor}}\"\n| where Action has \"packages.\"\n| project TimeGenerated, Action, Repository, Data\n"}], "containment": "Deprecate worm-republished package versions, revoke the publishing token,\nand audit all packages under the compromised maintainer scope.\n"}}, "configurations": {"sentinel": {"schema": "sentinel::2.4", "status": "DEVELOPMENT", "trigger": {"operator": "GreaterThan", "threshold": 0}, "scheduling": {"frequency": "1h", "lookback": "1h"}, "alert": {"create_incident": true, "suppression": false, "title": "Shai-Hulud anomalous npm publish by {{Actor}}", "description": "Burst or suspicious npm package publish activity consistent with\nShai-Hulud worm propagation or trojanised manifest injection.\n", "tactics": ["InitialAccess", "Impact"], "techniques": ["T1195.002", "T1078", "T1485"]}, "grouping": {"event": "AlertPerResult", "alert": {"enabled": false}}, "entities": [{"entity": "Account", "mappings": [{"identifier": "Name", "column": "Actor"}]}], "query": "// Detection: Shai-Hulud anomalous npm package publish\n// DOM signal: 9f3abdc4-7c6e-480e-b722-6d31ddd9b2d2\n// MITRE ATT&CK: T1195.002, T1078\n// Platform: SENTINEL\nlet BurstThreshold = 3;\nlet ManifestMarkers = dynamic([\n    \"preinstall\", \"setup.mjs\", \"optionalDependencies\",\n    \"github:tanstack/router\", \"git+https://github.com/tanstack\"\n]);\nlet CompromisedPackages = dynamic([\n    \"@tanstack/react-router@1.169.5\", \"guardrails-ai@0.10.1\",\n    \"mistralai@2.4.6\", \"@uipath/\", \"@mistralai/\"\n]);\nlet PublishBurst =\nGitHubAuditLog\n| where TimeGenerated > ago(1h)\n| where Action has \"packages.\" and Action has \"publish\"\n| summarize PublishCount = count(),\n    Packages = make_set(Repository, 20)\n    by Actor, bin(TimeGenerated, 1h)\n| where PublishCount >= BurstThreshold\n| extend DetectionReason = strcat(\"publish_burst=\", PublishCount),\n    Repository = tostring(Packages[0]), DataStr = \"\";\nlet ManifestPublish =\nGitHubAuditLog\n| where TimeGenerated > ago(1h)\n| where Action has_any (\"packages.\", \"repo.\", \"git.\")\n| extend DataStr = tostring(Data)\n| where DataStr has_any (ManifestMarkers)\n| summarize arg_max(TimeGenerated, *) by Actor, Repository\n| extend PublishCount = 1,\n    DetectionReason = \"manifest_marker\",\n    Packages = pack_array(Repository);\nlet TiPackageMatch =\nThreatIntelIndicators\n| where TimeGenerated > ago(7d)\n| where ExpirationDateTime > now() and Active == true\n| where Description has_any (\"Shai-Hulud\", \"tanstack\", \"mini-shai-hulud\")\n    or ExternalId has_any (CompromisedPackages)\n| extend Actor = coalesce(tostring(AdditionalData.actor), \"ti_feed\"),\n    Repository = coalesce(tostring(AdditionalData.package), Description),\n    DetectionReason = \"ti_feed_match\", PublishCount = 1, DataStr = Description\n| project TimeGenerated, Actor, Repository, DetectionReason, PublishCount, DataStr, Packages = pack_array(Repository);\nunion PublishBurst, ManifestPublish, TiPackageMatch\n| project TimeGenerated, Actor, Repository, DetectionReason, PublishCount, DataStr\n| order by TimeGenerated desc\n"}}}, "0924c742-8fdb-4ee2-95fe-91d2e5725a90": {"name": "MDE Shai-Hulud Large Encoded Payload Outbound HTTP Exfiltration", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "0924c742-8fdb-4ee2-95fe-91d2e5725a90", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "21a527de-8635-4187-87d4-c9e5f5c1badc", "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`21a527de-8635-4187-87d4-c9e5f5c1badc` (Large Encoded Payload in Outbound\nHTTP from Developer or Build Hosts). Flags high-volume outbound connections\nfrom package-runtime processes to Shai-Hulud exfiltration destinations in\n`DeviceNetworkEvents`, using `SentBytes` as a proxy for encoded credential\nblob uploads where HTTP body inspection is unavailable.\n\n#### Detection Criteria\n- `SentBytes >= 50000` to IOC destinations (`git-tanstack.com`,\n  `filev2.getsession.org`, `api.github.com`, or `83.142.209.194`).\n- Initiating process is node, python, bun, curl, or npm family.\n- Frequency: 1 hour; severity Medium.\n\n#### Exclusion Criteria\n- Legitimate artefact uploads to internal registries \u2014 exclude corporate\n  registry hostnames per deployment.\n- Crash-dump and telemetry uploads \u2014 require IOC destination match.\n", "response": {"alert_severity": "Medium", "procedure": {"analysis": "1. Review bytes sent and destination host.\n2. Correlate with recent package install activity on the device.\n3. Check for preceding bulk secret-file access signals.\n4. Inspect proxy logs if available for request body encoding patterns.\n", "containment": "Block egress to campaign IOC domains and rotate credentials if\nexfiltration coincides with secret-file access.\n"}}, "configurations": {"defender_for_endpoint": {"schema": "defender_for_endpoint::2.1", "status": "DEVELOPMENT", "scheduling": "1H", "alert": {"title": "Shai-Hulud large outbound transfer to {{FileName}} from {{DeviceName}}", "category": "Exfiltration", "techniques": ["T1567.002", "T1071.001", "T1027"], "recommendation": "A package-runtime process sent a large payload to a Shai-Hulud\nexfiltration destination. Correlate with secret harvesting signals.\n"}, "impacted_entities": {"device": "DeviceName"}, "scope": {"selection": "All"}, "query": "// Detection: Shai-Hulud large encoded outbound HTTP exfiltration\n// DOM signal: 21a527de-8635-4187-87d4-c9e5f5c1badc\n// MITRE ATT&CK: T1567.002, T1071.001\n// Platform: DEFENDER\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"filev2.getsession.org\", \"api.github.com\"\n]);\nlet ExfilIp = \"83.142.209.194\";\nlet MinSentBytes = 50000;\nlet PackageRuntimes = dynamic([\n    \"node\", \"node.exe\", \"npm\", \"npm.cmd\", \"pnpm\", \"python\", \"python3\",\n    \"bun\", \"bun.exe\", \"curl\", \"curl.exe\"\n]);\nDeviceNetworkEvents\n| where ActionType == \"ConnectionSuccess\"\n| where RemoteUrl has_any (IocDomains) or RemoteIP == ExfilIp\n| where SentBytes >= MinSentBytes\n| where InitiatingProcessFileName in~ (PackageRuntimes)\n| project Timestamp, DeviceId, ReportId, DeviceName,\n    AccountName = InitiatingProcessAccountName, AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine,\n    FileName = RemoteUrl, ProcessCommandLine = RemoteIP,\n    SentBytes, RemotePort\n"}}}, "c82cfa6b-066f-4ba3-ba07-d7eb642c8099": {"name": "MDE Shai-Hulud Bulk Credential-Candidate File Access on Developer Hosts", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "c82cfa6b-066f-4ba3-ba07-d7eb642c8099", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "b49d0a94-ae13-49b3-8ad8-6c035fa3d681", "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`b49d0a94-ae13-49b3-8ad8-6c035fa3d681` (Bulk Credential-Candidate File\nAccess on Developer or CI Hosts). Aggregates `DeviceFileEvents` to flag\na single process tree touching \u2265 15 distinct secret-pattern paths within\na ten-minute window, filtered to non-interactive package-runtime parents.\n\n#### Detection Criteria\n- Threshold: `PathThreshold = 15` distinct credential-candidate paths per\n  process per 10-minute bin (agreed with stakeholders for developer hosts).\n- Initiating runtime is node, python, or bun without interactive shell parent.\n- Frequency: 1 hour; severity Medium.\n\n#### Exclusion Criteria\n- Backup, DLP, and deliberate secret-scanner service accounts should be\n  excluded via `InitiatingProcessFileName` allowlists per deployment.\n- IDE indexing may touch multiple config files \u2014 tune threshold upward on\n  developer workstations if noise persists.\n", "response": {"alert_severity": "Medium", "procedure": {"analysis": "1. Review the sample paths list for breadth of secret stores accessed.\n2. Confirm the initiating process is rooted in package-manager activity.\n3. Hunt for outbound IOC connections on the same device.\n4. Compare against known backup or security-scanning schedules.\n", "searches": [{"purpose": "Check for Shai-Hulud network IOC egress from the device", "system": "defender_for_endpoint", "query": "DeviceNetworkEvents\n| where DeviceId == \"{{DeviceId}}\"\n| where RemoteUrl has_any (\"git-tanstack\", \"getsession\")\n| project Timestamp, RemoteUrl, RemoteIP, InitiatingProcessFileName\n"}], "containment": "If bulk access coincides with IOC egress or install anomalies, isolate\nthe host and rotate all developer credentials.\n"}}, "configurations": {"defender_for_endpoint": {"schema": "defender_for_endpoint::2.1", "status": "DEVELOPMENT", "scheduling": "1H", "alert": {"title": "Shai-Hulud bulk secret-file access on {{DeviceName}}", "category": "Credential Access", "techniques": ["T1552.001", "T1005"], "recommendation": "A non-interactive runtime accessed many credential-candidate files in\na short window \u2014 consistent with automated secret harvesting after a\ncompromised package install.\n"}, "impacted_entities": {"device": "DeviceName"}, "scope": {"selection": "All"}, "query": "// Detection: Shai-Hulud bulk credential-candidate file access\n// DOM signal: b49d0a94-ae13-49b3-8ad8-6c035fa3d681\n// MITRE ATT&CK: T1552.001\n// Platform: DEFENDER\nlet SecretPatterns = dynamic([\n    \".npmrc\", \".env\", \"credentials\", \"token\", \"secrets\",\n    \"id_rsa\", \"id_ed25519\", \"config.json\", \".ssh\", \".aws\",\n    \".azure\", \".kube\", \".vault\", \"serviceaccount\"\n]);\nlet PathThreshold = 15;\nlet PackageRuntimes = dynamic([\n    \"node\", \"node.exe\", \"python\", \"python3\", \"python.exe\", \"bun\", \"bun.exe\"\n]);\nlet InteractiveParents = dynamic([\n    \"explorer.exe\", \"cmd.exe\", \"powershell.exe\", \"pwsh.exe\",\n    \"WindowsTerminal.exe\", \"Terminal\", \"iTerm2\", \"bash\", \"zsh\", \"sh\"\n]);\nDeviceFileEvents\n| where ActionType in (\"FileCreated\", \"FileModified\") or ActionType has \"Read\"\n| where FolderPath has_any (SecretPatterns) or FileName has_any (SecretPatterns)\n| extend FullPath = strcat(FolderPath, \"\\\\\", FileName)\n| summarize DistinctPaths = dcount(FullPath),\n    SamplePaths = make_set(FullPath, 10)\n    by DeviceId, InitiatingProcessId, InitiatingProcessFileName, bin(Timestamp, 10m)\n| where DistinctPaths >= PathThreshold\n| join kind=inner (\n    DeviceProcessEvents\n    | where InitiatingProcessFileName in~ (PackageRuntimes)\n        or FileName in~ (PackageRuntimes)\n    | where InitiatingProcessFileName !in~ (InteractiveParents)\n    | distinct DeviceId, InitiatingProcessId\n) on DeviceId, InitiatingProcessId\n| join kind=inner (\n    DeviceProcessEvents\n    | summarize arg_max(Timestamp, *) by DeviceId, InitiatingProcessId\n    | project DeviceId, InitiatingProcessId, ReportId, DeviceName,\n        AccountName, AccountSid, Timestamp\n) on DeviceId, InitiatingProcessId\n| project Timestamp, DeviceId, ReportId, DeviceName, AccountName, AccountSid,\n    InitiatingProcessFileName,\n    InitiatingProcessCommandLine = strcat(\"distinct_paths=\", tostring(DistinctPaths)),\n    FileName = \"\", ProcessCommandLine = strcat_array(SamplePaths, \";\"),\n    DistinctPaths\n"}}}, "bd5c57f3-bbb1-441f-8934-7a9b13c73f67": {"name": "SEN Shai-Hulud Large Encoded Payload Outbound HTTP Exfiltration", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "bd5c57f3-bbb1-441f-8934-7a9b13c73f67", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "21a527de-8635-4187-87d4-c9e5f5c1badc", "description": "#### MDR Technical Details\nMicrosoft Sentinel scheduled analytic rule implementing DOM signal\n`21a527de-8635-4187-87d4-c9e5f5c1badc` (Large Encoded Payload in Outbound\nHTTP from Developer or Build Hosts). Uses corporate web-proxy\n`CommonSecurityLog` entries for large POST/PUT requests to Shai-Hulud IOC\ndestinations, complementing the MDE endpoint-network variant.\n\n#### Detection Criteria\n- HTTP POST or PUT to `git-tanstack.com` or `filev2.getsession.org`.\n- Request or response bytes \u2265 50 KB (proxy-dependent field availability).\n- Frequency: 1 hour; severity Medium.\n\n#### Exclusion Criteria\n- Internal artefact registry uploads \u2014 exclude known internal registry\n  hostnames via deployment-specific `let` block.\n- Requires web-proxy connector with body-size or byte-count fields.\n", "response": {"alert_severity": "Medium", "procedure": {"analysis": "1. Review proxy log fields for source host and destination URL.\n2. Correlate source IP with developer workstation or CI runner inventory.\n3. Hunt endpoint telemetry for preceding package install activity.\n", "containment": "Block IOC domains at the proxy and rotate credentials if the source\nhost matches a developer or CI asset.\n"}}, "configurations": {"sentinel": {"schema": "sentinel::2.4", "status": "DEVELOPMENT", "trigger": {"operator": "GreaterThan", "threshold": 0}, "scheduling": {"frequency": "1h", "lookback": "1h"}, "alert": {"create_incident": true, "suppression": false, "title": "Shai-Hulud large HTTP exfil to {{DestinationHostName}}", "description": "Web proxy telemetry shows a large POST/PUT to a Shai-Hulud\nexfiltration destination from a developer or build-network host.\n", "tactics": ["Exfiltration"], "techniques": ["T1567.002", "T1071.001", "T1027"]}, "grouping": {"event": "AlertPerResult", "alert": {"enabled": false}}, "entities": [{"entity": "IP", "mappings": [{"identifier": "Address", "column": "SourceIP"}]}, {"entity": "URL", "mappings": [{"identifier": "Url", "column": "RequestURL"}]}], "query": "// Detection: Shai-Hulud large encoded outbound HTTP exfiltration (proxy)\n// DOM signal: 21a527de-8635-4187-87d4-c9e5f5c1badc\n// MITRE ATT&CK: T1567.002, T1071.001\n// Platform: SENTINEL\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"filev2.getsession.org\"\n]);\nlet MinBytes = 50000;\nCommonSecurityLog\n| where TimeGenerated > ago(1h)\n| where RequestMethod in (\"POST\", \"PUT\")\n| where DestinationHostName has_any (IocDomains)\n    or DestinationIP == \"83.142.209.194\"\n| where ReceivedBytes >= MinBytes or SentBytes >= MinBytes\n| extend RequestURL = strcat(RequestMethod, \" \", DestinationHostName, DestinationURL)\n| project TimeGenerated, SourceIP, DestinationHostName, RequestURL,\n    ReceivedBytes, SentBytes, DeviceVendor, DeviceProduct\n"}}}, "ecd096d2-7fc5-45e3-803f-82d13f940210": {"name": "MDE Shai-Hulud Developer Secret-File Access Followed by Outbound Egress", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "ecd096d2-7fc5-45e3-803f-82d13f940210", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "365e23e8-0367-4adf-b18a-f1440cc66005", "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`365e23e8-0367-4adf-b18a-f1440cc66005` (Developer Secret-File Access\nFollowed by Outbound Network Egress). Joins `DeviceFileEvents` secret-path\nreads with `DeviceNetworkEvents` outbound connections to Shai-Hulud IOC\ndestinations within a five-minute correlation window.\n\n#### Detection Criteria\n- File access on \u2265 2 distinct secret-marker paths (`.npmrc`, `.env`,\n  `.ssh`, cloud credential stores, Vault tokens, etc.).\n- Outbound connection within 5 minutes to `git-tanstack.com`,\n  `*.getsession.org`, or `83.142.209.194`.\n- Same initiating process ID on the device.\n- Frequency: 1 hour; severity High.\n\n#### Exclusion Criteria\n- Legitimate `gh auth login` and cloud SDK tooling may access secret paths \u2014\n  require IOC destination match (not secret access alone).\n- CI secret-injection agents should be excluded per deployment via\n  `InitiatingProcessFileName` allowlists.\n", "response": {"alert_severity": "High", "procedure": {"analysis": "1. Review secret paths accessed and the egress destination.\n2. Trace the initiating process tree back to package-manager activity.\n3. Check for worm propagation (GitHub repo creation, npm publish).\n4. Rotate credentials for all accessed secret stores.\n", "searches": [{"purpose": "Reconstruct process tree around the alert timestamp", "system": "defender_for_endpoint", "query": "DeviceProcessEvents\n| where DeviceId == \"{{DeviceId}}\"\n| where Timestamp between (datetime(\"{{Timestamp}}\") - 30m .. datetime(\"{{Timestamp}}\") + 30m)\n| project Timestamp, FileName, ProcessCommandLine, InitiatingProcessFileName\n| order by Timestamp asc\n"}], "containment": "Isolate the host and block egress to campaign IOC domains. Rotate all\ncredentials reachable from accessed secret paths before rejoining the network.\n"}}, "configurations": {"defender_for_endpoint": {"schema": "defender_for_endpoint::2.1", "status": "DEVELOPMENT", "scheduling": "1H", "alert": {"title": "Shai-Hulud secret access and egress on {{DeviceName}}", "category": "Credential Access", "techniques": ["T1552.001", "T1071.001", "T1567.002"], "recommendation": "A process read developer secret files and connected to a Shai-Hulud\nexfiltration destination within five minutes. Treat as confirmed\nstealer behaviour.\n"}, "impacted_entities": {"device": "DeviceName"}, "scope": {"selection": "All"}, "query": "// Detection: Shai-Hulud secret-file access followed by outbound egress\n// DOM signal: 365e23e8-0367-4adf-b18a-f1440cc66005\n// MITRE ATT&CK: T1552.001, T1071.001\n// Platform: DEFENDER\nlet SecretMarkers = dynamic([\n    \".npmrc\", \".env\", \".git-credentials\", \"id_rsa\", \"id_ed25519\",\n    \".aws\", \"credentials\", \"serviceaccount\", \".vault-token\", \".docker\"\n]);\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"getsession.org\", \"filev2.getsession.org\",\n    \"seed1.getsession.org\", \"seed2.getsession.org\", \"seed3.getsession.org\"\n]);\nlet CorrelationWindow = 5m;\nlet SecretReads =\nDeviceFileEvents\n| where ActionType in (\"FileCreated\", \"FileModified\") or ActionType has \"Read\"\n| where FolderPath has_any (SecretMarkers) or FileName has_any (SecretMarkers)\n| summarize SecretReadTime = min(Timestamp),\n    SecretPathCount = dcount(strcat(FolderPath, FileName)),\n    SecretPaths = make_set(strcat(FolderPath, \"\\\\\", FileName), 10)\n    by DeviceId, InitiatingProcessId, InitiatingProcessFileName;\nlet SecretEgress =\nDeviceNetworkEvents\n| where ActionType == \"ConnectionSuccess\"\n| where RemoteUrl has_any (IocDomains) or RemoteIP == \"83.142.209.194\"\n| project EgressTime = Timestamp, DeviceId, ReportId, DeviceName,\n    InitiatingProcessId, InitiatingProcessFileName,\n    RemoteUrl, RemoteIP, RemotePort, SentBytes;\nSecretReads\n| where SecretPathCount >= 2\n| join kind=inner SecretEgress on DeviceId, InitiatingProcessId\n| where EgressTime between (SecretReadTime .. (SecretReadTime + CorrelationWindow))\n| project Timestamp = EgressTime, DeviceId, ReportId, DeviceName,\n    AccountName = \"\", AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine = strcat_array(SecretPaths, \";\"),\n    FileName = RemoteUrl, ProcessCommandLine = strcat(RemoteIP, \":\", tostring(RemotePort)),\n    SentBytes, SecretPathCount\n"}}}, "2fe6575d-513c-4588-999f-19c13d0fa4f9": {"name": "MDE Shai-Hulud Known On-Disk and Network IOC Match", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "2fe6575d-513c-4588-999f-19c13d0fa4f9", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "678d0786-dfd7-40fb-ba90-3c368ed00342", "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`678d0786-dfd7-40fb-ba90-3c368ed00342` (Known Shai-Hulud On-Disk and\nNetwork Indicator Match). High-specificity artefact matching across\n`DeviceFileEvents` (campaign filenames, SHA-256 hashes, persistence\nartefacts) and `DeviceNetworkEvents` (IOC domains and exfil IP from\npackage-runtime process trees).\n\n#### Detection Criteria\n- File create/modify of `router_init.js`, `setup.mjs`, `gh-token-monitor`,\n  or published sample SHA-256 hashes.\n- OR network connection to `git-tanstack.com`, `*.getsession.org`, or\n  `83.142.209.194` from package-manager process trees.\n- Frequency: 1 hour; severity Critical.\n\n#### Exclusion Criteria\n- None for hash and filename matches \u2014 treat as strong execution evidence.\n- Network-only matches from non-package processes should be reviewed in\n  context of full device activity.\n", "response": {"alert_severity": "High", "procedure": {"analysis": "1. Treat any on-disk IOC match as confirmed execution, not mere dependency\n   declaration.\n2. Search for `gh-token-monitor` persistence before revoking GitHub tokens.\n3. Sweep lockfiles for compromised package versions.\n4. Rotate all reachable credentials.\n", "searches": [{"purpose": "Hunt persistence artefacts on the alerted device", "system": "defender_for_endpoint", "query": "DeviceFileEvents\n| where DeviceId == \"{{DeviceId}}\"\n| where FileName has_any (\"gh-token-monitor\", \"com.user.gh-token-monitor\")\n| project Timestamp, FolderPath, FileName, SHA256\n"}], "containment": "Isolate the endpoint immediately. Remove persistence, malicious packages,\nand IDE-resident copies under `.claude/` and `.vscode/` before token\nrevocation.\n"}}, "configurations": {"defender_for_endpoint": {"schema": "defender_for_endpoint::2.1", "status": "DEVELOPMENT", "scheduling": "1H", "alert": {"title": "Shai-Hulud IOC match on {{DeviceName}} \u2014 {{DetectionType}}", "category": "Malware", "techniques": ["T1195.002", "T1547", "T1071.001"], "recommendation": "Known Shai-Hulud file or network indicator detected. Assume the host\nis compromised and begin incident response immediately.\n"}, "impacted_entities": {"device": "DeviceName"}, "scope": {"selection": "All"}, "query": "// Detection: Shai-Hulud known on-disk and network IOC match\n// DOM signal: 678d0786-dfd7-40fb-ba90-3c368ed00342\n// MITRE ATT&CK: T1195.002, T1547\n// Platform: DEFENDER\nlet PackageManagers = dynamic([\n    \"node\", \"node.exe\", \"npm\", \"npm.cmd\", \"pnpm\", \"pnpm.cmd\",\n    \"yarn\", \"yarn.cmd\", \"npx\", \"corepack\", \"pip\", \"pip3\",\n    \"python\", \"python3\", \"bun\", \"bun.exe\"\n]);\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"getsession.org\", \"filev2.getsession.org\",\n    \"seed1.getsession.org\", \"seed2.getsession.org\", \"seed3.getsession.org\"\n]);\nlet IocFiles = dynamic([\n    \"router_init.js\", \"setup.mjs\", \"router_runtime.js\",\n    \"tanstack_runner.js\", \"gh-token-monitor\",\n    \"com.user.gh-token-monitor.plist\", \"gh-token-monitor.service\",\n    \"transformers.pyz\"\n]);\nlet IocHashes = dynamic([\n    \"ab4fcadaec49c03278063dd269ea5eef82d24f2124a8e15d7b90f2fa8601266c\",\n    \"2ec78d556d696e208927cc503d48e4b5eb56b31abc2870c2ed2e98d6be27fc96\",\n    \"2258284d65f63829bd67eaba01ef6f1ada2f593f9bbe41678b2df360bd90d3df\"\n]);\nlet FileMatch =\nDeviceFileEvents\n| where FileName in~ (IocFiles) or SHA256 in (IocHashes)\n| project Timestamp, DeviceId, ReportId, DeviceName,\n    AccountName = InitiatingProcessAccountName, AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine = FolderPath,\n    FileName, ProcessCommandLine = SHA256,\n    DetectionType = \"file_ioc\";\nlet NetworkMatch =\nDeviceNetworkEvents\n| where ActionType == \"ConnectionSuccess\"\n| where RemoteUrl has_any (IocDomains) or RemoteIP == \"83.142.209.194\"\n| where InitiatingProcessFileName in~ (PackageManagers)\n    or InitiatingProcessCommandLine has_any (IocFiles)\n| project Timestamp, DeviceId, ReportId, DeviceName,\n    AccountName = InitiatingProcessAccountName, AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine,\n    FileName = RemoteUrl, ProcessCommandLine = RemoteIP,\n    DetectionType = \"network_ioc\";\nunion FileMatch, NetworkMatch\n"}}}, "cf614690-69c4-4229-af59-072a9e18583b": {"name": "SEN Shai-Hulud Known Network and IOC Indicator Match", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "cf614690-69c4-4229-af59-072a9e18583b", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "678d0786-dfd7-40fb-ba90-3c368ed00342", "description": "#### MDR Technical Details\nMicrosoft Sentinel scheduled analytic rule implementing DOM signal\n`678d0786-dfd7-40fb-ba90-3c368ed00342` (Known Shai-Hulud On-Disk and\nNetwork Indicator Match). Correlates DNS queries and threat-intelligence\nfeed matches for campaign domains, exfiltration IP, and malicious package\nversion indicators across `DnsEvents`, `CommonSecurityLog`, and\n`ThreatIntelIndicators`.\n\n#### Detection Criteria\n- DNS resolution of `git-tanstack.com` or `*.getsession.org`.\n- OR proxy/firewall log connection to `83.142.209.194`.\n- OR active `ThreatIntelIndicators` entry referencing Shai-Hulud campaign\n  packages or infrastructure.\n- Frequency: 1 hour; severity Critical.\n\n#### Exclusion Criteria\n- Threat-intel feed matches require `Active == true` and unexpired indicators.\n- DNS matches alone on security-research sandboxes should be scoped to\n  developer and CI network segments where possible.\n", "response": {"alert_severity": "High", "procedure": {"analysis": "1. Identify the source host or client IP for the IOC match.\n2. Map the asset to developer workstation or CI runner inventory.\n3. Trigger endpoint IOC sweep on the correlated host.\n4. Check lockfiles and SBOM for compromised package versions.\n", "containment": "Block IOC domains and IP at DNS and proxy layers. Initiate endpoint\nresponse on correlated developer and CI assets.\n"}}, "configurations": {"sentinel": {"schema": "sentinel::2.4", "status": "DEVELOPMENT", "trigger": {"operator": "GreaterThan", "threshold": 0}, "scheduling": {"frequency": "1h", "lookback": "1h"}, "alert": {"create_incident": true, "suppression": false, "title": "Shai-Hulud network IOC match \u2014 {{IndicatorValue}}", "description": "DNS, proxy, or threat-intelligence telemetry matches a known\nShai-Hulud campaign indicator.\n", "tactics": ["CommandAndControl", "Exfiltration"], "techniques": ["T1071.001", "T1567.002", "T1195.002"]}, "grouping": {"event": "AlertPerResult", "alert": {"enabled": false}}, "entities": [{"entity": "IP", "mappings": [{"identifier": "Address", "column": "ClientIP"}]}, {"entity": "DNS", "mappings": [{"identifier": "DomainName", "column": "IndicatorValue"}]}], "query": "// Detection: Shai-Hulud known network and IOC indicator match\n// DOM signal: 678d0786-dfd7-40fb-ba90-3c368ed00342\n// MITRE ATT&CK: T1071.001, T1195.002\n// Platform: SENTINEL\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"getsession.org\", \"filev2.getsession.org\",\n    \"seed1.getsession.org\", \"seed2.getsession.org\", \"seed3.getsession.org\"\n]);\nlet ExfilIp = \"83.142.209.194\";\nlet DnsMatch =\nDnsEvents\n| where TimeGenerated > ago(1h)\n| where Name has_any (IocDomains)\n| project TimeGenerated, ClientIP = ClientIP, IndicatorValue = Name,\n    MatchSource = \"DnsEvents\", IndicatorType = \"domain\";\nlet ProxyMatch =\nCommonSecurityLog\n| where TimeGenerated > ago(1h)\n| where DestinationIP == ExfilIp\n    or DestinationHostName has_any (IocDomains)\n| project TimeGenerated, ClientIP = SourceIP,\n    IndicatorValue = coalesce(DestinationHostName, DestinationIP),\n    MatchSource = \"CommonSecurityLog\", IndicatorType = \"network\";\nlet TiMatch =\nThreatIntelIndicators\n| where TimeGenerated > ago(7d)\n| where ExpirationDateTime > now() and Active == true\n| where Description has_any (\"Shai-Hulud\", \"mini-shai-hulud\", \"git-tanstack\")\n    or DomainName has_any (IocDomains)\n    or NetworkIP == ExfilIp\n| extend IndicatorValue = coalesce(DomainName, NetworkIP, Description)\n| project TimeGenerated, ClientIP = \"\", IndicatorValue,\n    MatchSource = \"ThreatIntelIndicators\", IndicatorType = ThreatType;\nunion DnsMatch, ProxyMatch, TiMatch\n| order by TimeGenerated desc\n"}}}, "bfae62bb-7ce1-46cd-a131-39803832fa9d": {"name": "MDE Shai-Hulud Package Manager Install Spawning Suspicious Child Processes", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "bfae62bb-7ce1-46cd-a131-39803832fa9d", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "a3f7d796-146c-44b0-8d22-7a08daa0d963", "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`a3f7d796-146c-44b0-8d22-7a08daa0d963` (Package Manager Install Spawning\nUnexpected Download or Scripting Child Processes). Correlates\n`DeviceProcessEvents` for package-manager install trees spawning download\nutilities, shells, Bun, or hidden-window PowerShell, and `DeviceFileEvents`\nfor campaign artefact drops (`router_init.js`, `setup.mjs`, etc.).\n\n#### Detection Criteria\n- Parent is npm, pnpm, yarn, pip, python, or node with install/ci/add/update\n  in the command line.\n- Child within the engine lookback is curl, wget, bash, sh, zsh, bun,\n  powershell (hidden/bypass flags), or cscript/wscript.\n- OR file create of known Shai-Hulud hook files outside npm cache paths.\n- Frequency: 1 hour; severity High.\n\n#### Exclusion Criteria\n- Native module builds (`node-gyp`, `esbuild`) excluded by initiating process.\n- Files under npm cache / temp paths excluded for artefact drops.\n- Legitimate postinstall (husky, esbuild fetch) may fire \u2014 correlate with\n  secret-file access or IOC signals before escalation.\n", "response": {"alert_severity": "High", "procedure": {"analysis": "1. Confirm package manager parent command line references install, ci,\n   add, or update.\n2. Inspect child process command line for remote fetch or pipe-to-shell.\n3. Search the device for `router_init.js`, `setup.mjs`, and lockfile\n   entries for `@tanstack/*` compromised versions.\n4. Correlate with other Shai-Hulud DOM signals on the same host.\n", "searches": [{"purpose": "Hunt related file and network IOC activity on the device", "system": "defender_for_endpoint", "query": "let IocFiles = dynamic([\"router_init.js\", \"setup.mjs\", \"gh-token-monitor\"]);\nunion (\n    DeviceFileEvents\n    | where DeviceId == \"{{DeviceId}}\"\n    | where FileName in~ (IocFiles)\n), (\n    DeviceNetworkEvents\n    | where DeviceId == \"{{DeviceId}}\"\n    | where RemoteUrl has \"git-tanstack\"\n)\n"}], "containment": "Isolate the endpoint if install-time child spawning coincides with IOC\nfile creation. Remove malicious packages and persistence before token\nrevocation.\n"}}, "configurations": {"defender_for_endpoint": {"schema": "defender_for_endpoint::2.1", "status": "DEVELOPMENT", "scheduling": "1H", "alert": {"title": "Shai-Hulud install hook spawned {{FileName}} on {{DeviceName}}", "category": "Execution", "techniques": ["T1195.002", "T1546.016", "T1059.007", "T1059.006"], "recommendation": "Package installation spawned an unexpected child process consistent\nwith Shai-Hulud lifecycle hooks. Treat the host as potentially\ncompromised and inspect for stealer activity and worm propagation.\n"}, "impacted_entities": {"device": "DeviceName"}, "scope": {"selection": "All"}, "query": "// Detection: Shai-Hulud package manager install child process anomaly\n// DOM signal: a3f7d796-146c-44b0-8d22-7a08daa0d963\n// MITRE ATT&CK: T1195.002, T1546.016\n// Platform: DEFENDER\nlet PackageManagers = dynamic([\n    \"node\", \"node.exe\", \"npm\", \"npm.cmd\", \"pnpm\", \"pnpm.cmd\",\n    \"yarn\", \"yarn.cmd\", \"npx\", \"corepack\", \"pip\", \"pip3\",\n    \"python\", \"python3\", \"python.exe\"\n]);\nlet SuspiciousChildren = dynamic([\n    \"curl\", \"curl.exe\", \"wget\", \"wget.exe\", \"bash\", \"sh\", \"zsh\",\n    \"bun\", \"bun.exe\", \"cscript.exe\", \"wscript.exe\"\n]);\nlet InstallVerbs = dynamic([\"install\", \" ci\", \"add \", \"update\"]);\nlet MaliciousArtifacts = dynamic([\n    \"router_init.js\", \"setup.mjs\", \"router_runtime.js\", \"tanstack_runner.js\"\n]);\nlet ChildFromInstall =\nDeviceProcessEvents\n| where InitiatingProcessFileName in~ (PackageManagers)\n    or FileName in~ (PackageManagers)\n| where InitiatingProcessCommandLine has_any (InstallVerbs)\n    or ProcessCommandLine has_any (InstallVerbs)\n| where FileName in~ (SuspiciousChildren)\n    or (FileName =~ \"powershell.exe\"\n        and ProcessCommandLine has_any (\n            \"-w hidden\", \"-windowstyle hidden\", \"-ep bypass\",\n            \"-executionpolicy bypass\", \"-EncodedCommand\"))\n| where not(InitiatingProcessFileName in~ (\"node-gyp\", \"esbuild\"))\n| project Timestamp, DeviceId, ReportId, DeviceName, AccountName, AccountSid,\n    InitiatingProcessFileName, InitiatingProcessCommandLine,\n    FileName, ProcessCommandLine, DetectionPath = \"child_process\";\nlet ArtifactDrop =\nDeviceFileEvents\n| where ActionType == \"FileCreated\"\n| where FileName in~ (MaliciousArtifacts)\n| where not(FolderPath has_any (\"\\\\npm\\\\cache\\\\\", \"/.npm/\", \"/tmp/npm-\", \"\\\\AppData\\\\Local\\\\npm-cache\\\\\"))\n| project Timestamp, DeviceId, ReportId, DeviceName,\n    AccountName = InitiatingProcessAccountName, AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine = FolderPath,\n    FileName, ProcessCommandLine = SHA256, DetectionPath = \"artifact_drop\";\nunion ChildFromInstall, ArtifactDrop\n"}}}, "0be66eea-4ae4-4544-811b-52651e20d744": {"name": "RBA_RR - WIN base64 encoded powershell payload", "references": {"public": {"1": "https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules/blob/main/Defender%20For%20Endpoint/PowerShellEncodedReconActivities.md", "2": "https://kqlquery.com/posts/hunting-encoded-powershell/", "3": "https://github.com/Javelinblog/PowerShell-Encoded-Commands-Tool/tree/main?tab=readme-ov-file"}}, "metadata": {"uuid": "0be66eea-4ae4-4544-811b-52651e20d744", "schema": "mdr::2.0", "tlp": "clear", "version": 6, "created": "2024-05-16", "modified": "2026-06-22", "author": "ec-digit-catch@ec.europa.eu"}, "description": "Detect base64 encoded PowerShell payload that could be used to launch \na process or a script.\nThe detection applies up to 2 levels of encoded payload (a first payload \ncontaining a PowerShell command with a second base64 payload).  \n\n### Splunk(Sentinel) investigation guidelines ###\n\nThe alert notification contains\n- host(src_host): the host on which the process was launched.\n- src_user: the account used.\n- ParentProcessName(parent_process): the process launching the PS with base64 payload.\n- NewProcessName(process): PS.\n- CommandLine(command_line): the original command line as seen in logs.\n- payload_b64_ascii [and payload_b64]: the first level of encoded payload. \nThey are always present.\n- payload_level2_b64_ascii [and payload_level2_b64] may also be provided \nif the first level was containing another base64 encoded payload.\nFor Sentinel Alert, you have to decode the base64 string present in command_line field,\nusing CyberChef or any base64 decoding tool.  \n\n### SENTINEL alerts triage ###\nCATCH uses TIDE_LD_005_CSIRC_WL_Win_Base64_Encoded_PS_Payload.csv\nto filter legitimate or benign base64 encoded payloads used by PowerShell \non EC Windows devices running on our Azure IaaS & PaaS tenant.\n\n### ES-SPLUNK alerts triage ###\nCATCH uses SOC_LT_289_WIN_reviewed_base64_encoded_payload-exclude.csv\nto filter legitimate or benign base64 encoded payloads used by PowerShell \non EC Windows devices.\n", "response": {"alert_severity": "High"}, "configurations": {"sentinel": {"schema": "sentinel::2.0", "status": "PRODUCTION", "scheduling": {"frequency": "1h", "lookback": "1h"}, "trigger": {"threshold": 1, "operator": "GreaterThan"}, "alert": {"description": "{{description}}\n", "suppression": false, "create_incident": true}, "grouping": {"event": "AlertPerResult"}, "entities": [{"entity": "Process", "mappings": [{"identifier": "CommandLine", "column": "command_line"}]}, {"entity": "Host", "mappings": [{"identifier": "HostName", "column": "src_host"}, {"identifier": "DnsDomain", "column": "src_nt_domain"}]}, {"entity": "Account", "mappings": [{"identifier": "Name", "column": "src_user"}]}], "query": "let Base64EncodedPS = (\n_GetWatchlist('CSIRC_WL_005')\n| project command_line);\nSecurityEvent\n//we look for process creation\n| where EventID==4688 \n| where isnotempty(CommandLine)\n//field renaming\n    | extend command_line = CommandLine\n    | extend src_host = tostring(split(Computer, '.', 0)[0])\n    | extend src_user = SubjectUserName\n    | extend src_nt_domain = tostring(strcat_array(array_slice(split(Computer, '.'), 1, -1), '.'))\n    | extend user_type = AccountType\n    | extend event_source = EventSourceName\n    | extend signature = Activity\n    | extend process = NewProcessName\n    | extend parent_process = ParentProcessName\n    | extend subscription_temp = split(_ResourceId, \"/subscriptions/\")[1]\n    | extend subscription_id = split(subscription_temp, \"/\")[0]\n//^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$\n| where (command_line has \"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" or command_line has \"C:\\\\Windows\\\\SysWOW64\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\") and (command_line has \"-e\" or command_line has \"-enc\" or command_line has \"-EncodedCommand\")\n| where parent_process !contains \"C:\\\\Packages\\\\Plugins\\\\Microsoft.GuestConfiguration.ConfigurationforWindows\\\\\"\n| where command_line <> \"\\\"C:\\\\windows\\\\System32\\\\WindowsPowershell\\\\v1.0\\\\powershell.exe\\\" -noninteractive -outputFormat xml -NonInteractive -encodedCommand IABbAEUAbgB2AGkAcgBvAG4AbQBlAG4AdABdADoAOgBPAFMAVgBlAHIAcwBpAG8AbgAuAFYAZQByAHMAaQBvAG4AIAA= -inputFormat xml\"\n| where command_line !in~ (Base64EncodedPS)\n| project\n    TimeGenerated,\n    src_host,\n    command_line,\n    src_user,\n    src_nt_domain,\n    user_type,\n    signature,\n    process,\n    parent_process,\n    subscription_id\n| extend description = strcat(\"command_line=\\\"\",command_line,\"\\\" src_host=\\\"\",src_host,\"\\\" src_user=\\\"\",src_user,\"\\\" user_type=\\\"\",user_type,\"\\\" signature=\\\"\",signature,\"\\\" src_nt_domain=\\\"\",src_nt_domain,\"\\\" process=\\\"\",process,\"\\\" parent_process=\\\"\",parent_process,\"\\\" alert_description=\\\" suspicious bases64 encoded PowerShell Payload launched by \",src_user,\" from \",src_host,\"\\\"\")\n"}, "splunk": {"schema": "splunk::2.0", "status": "PRODUCTION", "throttling": {"duration": "2h", "fields": ["host", "src_user", "CommandLine"]}, "scheduling": {"frequency": "15m", "lookback": "15m"}, "risk": {"message": "Suspicious PowerShell Encoded Payload ($matching_pattern$) launched by $src_user$ on $orig_host$", "risk_objects": [{"field": "src_user", "type": "user", "score": 10}, {"field": "host", "type": "system", "score": 10}], "threat_objects": [{"field": "CommandLine", "type": "command"}]}, "query": "`win_security_logs` \n    AND TERM(EventID=4688)\n    AND NewProcessName IN (\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\",\"C:\\\\Windows\\\\SysWOW64\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\")\n    AND ( TERM(C:\\\\WINDOWS\\\\system32\\\\WindowsPowerShell\\\\v1.0\\\\PowerShell.exe) OR TERM(C:\\\\WINDOWS\\\\sysWOW64\\\\WindowsPowerShell\\\\v1.0\\\\PowerShell.exe) )\n    AND (TERM(-e) OR TERM(-enc) OR TERM(-EncodedCommand)) \n    NOT TERM(C:\\\\Windows\\\\CCM\\\\CcmExec.exe) \n| rex field=CommandLine \"(?i)\\s+(-e|-enc|-EncodedCommand)\\s+(?<payload_b64>(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)\" \n| where isnotnull(payload_b64) \n| search `exclude(SOC_LT_289_WIN_reviewed_base64_encoded_payload)` \n| `soc_macro_decode_b64(payload_b64)` \n| fields host, ParentProcessName, src_user, payload_b64_ascii, payload_b64, NewProcessName, CommandLine, _time \n| stats count min(_time) as et, max(_time) as lt, values(ParentProcessName) as ParentProcessName, values(payload_b64_ascii) as payload_b64_ascii, values(payload_b64) as payload_b64 by host src_user NewProcessName CommandLine \n| fields host, count, et, lt, ParentProcessName, src_user, payload_b64_ascii, payload_b64, NewProcessName, CommandLine \n| rename payload_* as payloadlevel1_* \n| rex field=payloadlevel1_b64_ascii \"(?i)\\s?(-e|-enc|-EncodedCommand)\\s?(?<payload_b64>(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$\" \n| search `exclude(SOC_LT_289_WIN_reviewed_base64_encoded_payload)` \n| `soc_macro_decode_b64(payload_b64)` \n| rename payload_* as payload_level2_*, payloadlevel1_* as payload_* \n| rex field=payload_level2_b64_ascii \"(?i)\\s?(-e|-enc|-EncodedCommand)\\s?(?<payload_level3_b64>(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$\" \n| eval payload_b64_ascii_sanitized=replace(payload_b64_ascii,\"\\s+\\\\\\\"[^\\\\\\\"]+\\\\\\\"\\s+\",\" \") \n| lookup SOC_LD_339_RBA_powershell_watch_list_risk_score risk_object_command as payload_b64_ascii_sanitized output comment_description as matching_pattern, risk_confidence, trigger_notable \n| eval payload_level2_b64_ascii_sanitized=replace(payload_level2_b64_ascii,\"\\s+\\\\\\\"[^\\\\\\\"]+\\\\\\\"\\s+\",\" \") \n| lookup SOC_LD_339_RBA_powershell_watch_list_risk_score risk_object_command as payload_level2_b64_ascii_sanitized outputnew comment_description as matching_pattern, risk_confidence, trigger_notable \n| eval RBA_RR_trigger_notable=if(isnotnull(payload_level3_b64) OR trigger_notable==1, 1, null()) \n| eval risk_score_default=10 \n| eval risk_score=if(isnotnull(risk_confidence),max(risk_confidence),risk_score_default) \n| eval matching_pattern=if(isnotnull(matching_pattern),matching_pattern,\"UNLISTED\") \n| fields host, count, RBA_RR_trigger_notable, risk_score, matching_pattern, et, lt, ParentProcessName, src_user, payload_b64_ascii, payload_b64, payload_level2_b64_ascii, payload_level2_b64, NewProcessName, CommandLine, _time \n| `soc_macro_ctime_utc(et)` \n| `soc_macro_ctime_utc(lt)`"}}}, "7eb85d22-2e60-449f-b92c-8cecc28d34c6": {"name": "SEN Shai-Hulud Unexpected GitHub Repository or Workflow Creation", "references": {"public": {"1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised", "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem", "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"}}, "metadata": {"uuid": "7eb85d22-2e60-449f-b92c-8cecc28d34c6", "schema": "mdr::2.1", "version": 1, "created": "2026-06-16", "modified": "2026-06-22", "tlp": "clear", "organisation": {"uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a", "name": "EC DIGIT CSOC"}}, "detection_model": "287114bd-7d58-422d-9711-f5516900b9ce", "description": "#### MDR Technical Details\nMicrosoft Sentinel scheduled analytic rule implementing DOM signal\n`287114bd-7d58-422d-9711-f5516900b9ce` (Unexpected GitHub Repository or\nWorkflow Creation from Anomalous Context). Searches `GitHubAuditLog` and\n`CloudAppEvents` for dead-drop repository markers, suspicious workflow\ncommits, and package-related audit actions.\n\n#### Detection Criteria\n- GitHub audit `Data` or CloudApp `RawEventData` contains campaign strings:\n  `Shai-Hulud: Here We Go Again`, `PUSH UR T3MPRR`, or the token-wipe\n  commit message.\n- OR repository/workflow actions involving `router_init.js`, `setup.mjs`,\n  or `.github/workflows` from GitHub application telemetry.\n- Time window: 1 hour lookback with 1 hour frequency.\n- Severity: High.\n\n#### Exclusion Criteria\n- Legitimate open-source forks and hobby repositories \u2014 correlate with\n  endpoint install anomalies on linked CI runners before escalation.\n- Dune-themed repository names alone are insufficient; require marker\n  strings or malicious workflow file references.\n", "response": {"alert_severity": "High", "procedure": {"analysis": "1. Identify the GitHub actor and repositories affected.\n2. Review repository description and commit messages for campaign markers.\n3. Check whether the actor's token was used from a compromised CI runner.\n4. Correlate with npm publish and endpoint IOC signals.\n", "searches": [{"purpose": "Expand GitHub audit activity for the alerted actor", "system": "sentinel", "query": "GitHubAuditLog\n| where TimeGenerated > ago(24h)\n| where Actor == \"{{Actor}}\"\n| project TimeGenerated, Action, Repository, Data\n| order by TimeGenerated desc\n"}], "containment": "Revoke the compromised GitHub token, delete dead-drop repositories,\nand audit workflow files for malicious publish steps.\n"}}, "configurations": {"sentinel": {"schema": "sentinel::2.4", "status": "DEVELOPMENT", "trigger": {"operator": "GreaterThan", "threshold": 0}, "scheduling": {"frequency": "1h", "lookback": "1h"}, "alert": {"create_incident": true, "suppression": false, "title": "Shai-Hulud GitHub dead-drop activity by {{Actor}}", "description": "GitHub audit or cloud application telemetry matches Shai-Hulud worm\npropagation markers \u2014 dead-drop repositories, workflow injection, or\nsuspicious package-related actions.\n", "tactics": ["InitialAccess", "Persistence", "Exfiltration"], "techniques": ["T1195.002", "T1078", "T1567.002"]}, "grouping": {"event": "AlertPerResult", "alert": {"enabled": false}}, "entities": [{"entity": "Account", "mappings": [{"identifier": "Name", "column": "Actor"}]}, {"entity": "IP", "mappings": [{"identifier": "Address", "column": "IPAddress"}]}], "query": "// Detection: Shai-Hulud unexpected GitHub repository or workflow creation\n// DOM signal: 287114bd-7d58-422d-9711-f5516900b9ce\n// MITRE ATT&CK: T1195.002, T1078\n// Platform: SENTINEL\nlet ShaiHuludMarkers = dynamic([\n    \"Shai-Hulud: Here We Go Again\",\n    \"PUSH UR T3MPRR\",\n    \"IfYouRevokeThisTokenItWillWipeTheComputerOfTheOwner\"\n]);\nlet MaliciousPaths = dynamic([\n    \"router_init.js\", \"setup.mjs\", \".github/workflows\"\n]);\nlet GitHubAudit =\nGitHubAuditLog\n| where TimeGenerated > ago(1h)\n| extend DataStr = tostring(Data)\n| where Action has_any (\"repo.\", \"workflows.\", \"packages.\")\n| where DataStr has_any (ShaiHuludMarkers)\n    or (Action has \"repo.create\" and DataStr has \"dune\")\n| project TimeGenerated, Actor, Action, Repository, DataStr,\n    IPAddress = \"\", Source = \"GitHubAuditLog\";\nlet CloudAppGitHub =\nCloudAppEvents\n| where TimeGenerated > ago(1h)\n| where Application has \"GitHub\"\n| where ActionType has_any (\"Create\", \"Publish\", \"Push\", \"Commit\")\n| extend RawStr = tostring(RawEventData)\n| where RawStr has_any (ShaiHuludMarkers)\n    or ObjectName has_any (MaliciousPaths)\n| project TimeGenerated, Actor = AccountDisplayName, Action = ActionType,\n    Repository = ObjectName, DataStr = RawStr,\n    IPAddress, Source = \"CloudAppEvents\";\nunion GitHubAudit, CloudAppGitHub\n| order by TimeGenerated desc\n"}}}}
+{
+    "fae8ef2d-99e9-42f4-81ed-d40c515e8d3d": {
+        "name": "SEN Shai-Hulud Anomalous npm Package Publish from Non-Baseline Identity",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "fae8ef2d-99e9-42f4-81ed-d40c515e8d3d",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "9f3abdc4-7c6e-480e-b722-6d31ddd9b2d2",
+        "description": "#### MDR Technical Details\nMicrosoft Sentinel scheduled analytic rule implementing DOM signal\n`9f3abdc4-7c6e-480e-b722-6d31ddd9b2d2` (Anomalous npm Package Publish\nfrom Non-Baseline Host or Identity). Detects burst npm package publish\nactivity from a single GitHub actor, publish events with campaign manifest\nmarkers in audit metadata, and supply-chain feed matches for known\ncompromised versions via `ThreatIntelIndicators`.\n\n#### Detection Criteria\n- Burst threshold: \u2265 3 package publish actions per actor per hour in\n  `GitHubAuditLog` (worm republication pattern).\n- OR audit/commit metadata references `preinstall`, `setup.mjs`,\n  `optionalDependencies`, or orphan TanStack git dependency.\n- OR `ThreatIntelIndicators` match on known Shai-Hulud package versions.\n- Frequency: 1 hour; severity Medium.\n\n#### Exclusion Criteria\n- Monorepo bulk releases and emergency hotfix publishes \u2014 compare against\n  release calendar and require manifest markers for auto-escalation.\n- Maintain per-organisation critical-package publish baseline via watchlist\n  when registry-watcher pipelines are available.\n",
+        "response": {
+            "alert_severity": "Medium",
+            "procedure": {
+                "analysis": "1. List packages published in the burst window.\n2. Compare publish authentication source (CLI vs OIDC) to baseline.\n3. Inspect manifest diffs for `preinstall` / `optionalDependencies` changes.\n4. Cross-check versions against Wiz / OpenSSF malicious-package advisories.\n",
+                "searches": [
+                    {
+                        "purpose": "Review all package publish actions for the actor",
+                        "system": "sentinel",
+                        "query": "GitHubAuditLog\n| where TimeGenerated > ago(24h)\n| where Actor == \"{{Actor}}\"\n| where Action has \"packages.\"\n| project TimeGenerated, Action, Repository, Data\n"
+                    }
+                ],
+                "containment": "Deprecate worm-republished package versions, revoke the publishing token,\nand audit all packages under the compromised maintainer scope.\n"
+            }
+        },
+        "configurations": {
+            "sentinel": {
+                "schema": "sentinel::2.4",
+                "status": "DEVELOPMENT",
+                "trigger": {
+                    "operator": "GreaterThan",
+                    "threshold": 0
+                },
+                "scheduling": {
+                    "frequency": "1h",
+                    "lookback": "1h"
+                },
+                "alert": {
+                    "create_incident": true,
+                    "suppression": false,
+                    "title": "Shai-Hulud anomalous npm publish by {{Actor}}",
+                    "description": "Burst or suspicious npm package publish activity consistent with\nShai-Hulud worm propagation or trojanised manifest injection.\n",
+                    "tactics": [
+                        "InitialAccess",
+                        "Impact"
+                    ],
+                    "techniques": [
+                        "T1195.002",
+                        "T1078",
+                        "T1485"
+                    ]
+                },
+                "grouping": {
+                    "event": "AlertPerResult",
+                    "alert": {
+                        "enabled": false
+                    }
+                },
+                "entities": [
+                    {
+                        "entity": "Account",
+                        "mappings": [
+                            {
+                                "identifier": "Name",
+                                "column": "Actor"
+                            }
+                        ]
+                    }
+                ],
+                "query": "// Detection: Shai-Hulud anomalous npm package publish\n// DOM signal: 9f3abdc4-7c6e-480e-b722-6d31ddd9b2d2\n// MITRE ATT&CK: T1195.002, T1078\n// Platform: SENTINEL\nlet BurstThreshold = 3;\nlet ManifestMarkers = dynamic([\n    \"preinstall\", \"setup.mjs\", \"optionalDependencies\",\n    \"github:tanstack/router\", \"git+https://github.com/tanstack\"\n]);\nlet CompromisedPackages = dynamic([\n    \"@tanstack/react-router@1.169.5\", \"guardrails-ai@0.10.1\",\n    \"mistralai@2.4.6\", \"@uipath/\", \"@mistralai/\"\n]);\nlet PublishBurst =\nGitHubAuditLog\n| where TimeGenerated > ago(1h)\n| where Action has \"packages.\" and Action has \"publish\"\n| summarize PublishCount = count(),\n    Packages = make_set(Repository, 20)\n    by Actor, bin(TimeGenerated, 1h)\n| where PublishCount >= BurstThreshold\n| extend DetectionReason = strcat(\"publish_burst=\", PublishCount),\n    Repository = tostring(Packages[0]), DataStr = \"\";\nlet ManifestPublish =\nGitHubAuditLog\n| where TimeGenerated > ago(1h)\n| where Action has_any (\"packages.\", \"repo.\", \"git.\")\n| extend DataStr = tostring(Data)\n| where DataStr has_any (ManifestMarkers)\n| summarize arg_max(TimeGenerated, *) by Actor, Repository\n| extend PublishCount = 1,\n    DetectionReason = \"manifest_marker\",\n    Packages = pack_array(Repository);\nlet TiPackageMatch =\nThreatIntelIndicators\n| where TimeGenerated > ago(7d)\n| where ExpirationDateTime > now() and Active == true\n| where Description has_any (\"Shai-Hulud\", \"tanstack\", \"mini-shai-hulud\")\n    or ExternalId has_any (CompromisedPackages)\n| extend Actor = coalesce(tostring(AdditionalData.actor), \"ti_feed\"),\n    Repository = coalesce(tostring(AdditionalData.package), Description),\n    DetectionReason = \"ti_feed_match\", PublishCount = 1, DataStr = Description\n| project TimeGenerated, Actor, Repository, DetectionReason, PublishCount, DataStr, Packages = pack_array(Repository);\nunion PublishBurst, ManifestPublish, TiPackageMatch\n| project TimeGenerated, Actor, Repository, DetectionReason, PublishCount, DataStr\n| order by TimeGenerated desc\n"
+            }
+        }
+    },
+    "0924c742-8fdb-4ee2-95fe-91d2e5725a90": {
+        "name": "MDE Shai-Hulud Large Encoded Payload Outbound HTTP Exfiltration",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "0924c742-8fdb-4ee2-95fe-91d2e5725a90",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "21a527de-8635-4187-87d4-c9e5f5c1badc",
+        "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`21a527de-8635-4187-87d4-c9e5f5c1badc` (Large Encoded Payload in Outbound\nHTTP from Developer or Build Hosts). Flags high-volume outbound connections\nfrom package-runtime processes to Shai-Hulud exfiltration destinations in\n`DeviceNetworkEvents`, using `SentBytes` as a proxy for encoded credential\nblob uploads where HTTP body inspection is unavailable.\n\n#### Detection Criteria\n- `SentBytes >= 50000` to IOC destinations (`git-tanstack.com`,\n  `filev2.getsession.org`, `api.github.com`, or `83.142.209.194`).\n- Initiating process is node, python, bun, curl, or npm family.\n- Frequency: 1 hour; severity Medium.\n\n#### Exclusion Criteria\n- Legitimate artefact uploads to internal registries \u2014 exclude corporate\n  registry hostnames per deployment.\n- Crash-dump and telemetry uploads \u2014 require IOC destination match.\n",
+        "response": {
+            "alert_severity": "Medium",
+            "procedure": {
+                "analysis": "1. Review bytes sent and destination host.\n2. Correlate with recent package install activity on the device.\n3. Check for preceding bulk secret-file access signals.\n4. Inspect proxy logs if available for request body encoding patterns.\n",
+                "containment": "Block egress to campaign IOC domains and rotate credentials if\nexfiltration coincides with secret-file access.\n"
+            }
+        },
+        "configurations": {
+            "defender_for_endpoint": {
+                "schema": "defender_for_endpoint::2.1",
+                "status": "DEVELOPMENT",
+                "scheduling": "1H",
+                "alert": {
+                    "title": "Shai-Hulud large outbound transfer to {{FileName}} from {{DeviceName}}",
+                    "category": "Exfiltration",
+                    "techniques": [
+                        "T1567.002",
+                        "T1071.001",
+                        "T1027"
+                    ],
+                    "recommendation": "A package-runtime process sent a large payload to a Shai-Hulud\nexfiltration destination. Correlate with secret harvesting signals.\n"
+                },
+                "impacted_entities": {
+                    "device": "DeviceName"
+                },
+                "scope": {
+                    "selection": "All"
+                },
+                "query": "// Detection: Shai-Hulud large encoded outbound HTTP exfiltration\n// DOM signal: 21a527de-8635-4187-87d4-c9e5f5c1badc\n// MITRE ATT&CK: T1567.002, T1071.001\n// Platform: DEFENDER\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"filev2.getsession.org\", \"api.github.com\"\n]);\nlet ExfilIp = \"83.142.209.194\";\nlet MinSentBytes = 50000;\nlet PackageRuntimes = dynamic([\n    \"node\", \"node.exe\", \"npm\", \"npm.cmd\", \"pnpm\", \"python\", \"python3\",\n    \"bun\", \"bun.exe\", \"curl\", \"curl.exe\"\n]);\nDeviceNetworkEvents\n| where ActionType == \"ConnectionSuccess\"\n| where RemoteUrl has_any (IocDomains) or RemoteIP == ExfilIp\n| where SentBytes >= MinSentBytes\n| where InitiatingProcessFileName in~ (PackageRuntimes)\n| project Timestamp, DeviceId, ReportId, DeviceName,\n    AccountName = InitiatingProcessAccountName, AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine,\n    FileName = RemoteUrl, ProcessCommandLine = RemoteIP,\n    SentBytes, RemotePort\n"
+            }
+        }
+    },
+    "c82cfa6b-066f-4ba3-ba07-d7eb642c8099": {
+        "name": "MDE Shai-Hulud Bulk Credential-Candidate File Access on Developer Hosts",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "c82cfa6b-066f-4ba3-ba07-d7eb642c8099",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "b49d0a94-ae13-49b3-8ad8-6c035fa3d681",
+        "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`b49d0a94-ae13-49b3-8ad8-6c035fa3d681` (Bulk Credential-Candidate File\nAccess on Developer or CI Hosts). Aggregates `DeviceFileEvents` to flag\na single process tree touching \u2265 15 distinct secret-pattern paths within\na ten-minute window, filtered to non-interactive package-runtime parents.\n\n#### Detection Criteria\n- Threshold: `PathThreshold = 15` distinct credential-candidate paths per\n  process per 10-minute bin (agreed with stakeholders for developer hosts).\n- Initiating runtime is node, python, or bun without interactive shell parent.\n- Frequency: 1 hour; severity Medium.\n\n#### Exclusion Criteria\n- Backup, DLP, and deliberate secret-scanner service accounts should be\n  excluded via `InitiatingProcessFileName` allowlists per deployment.\n- IDE indexing may touch multiple config files \u2014 tune threshold upward on\n  developer workstations if noise persists.\n",
+        "response": {
+            "alert_severity": "Medium",
+            "procedure": {
+                "analysis": "1. Review the sample paths list for breadth of secret stores accessed.\n2. Confirm the initiating process is rooted in package-manager activity.\n3. Hunt for outbound IOC connections on the same device.\n4. Compare against known backup or security-scanning schedules.\n",
+                "searches": [
+                    {
+                        "purpose": "Check for Shai-Hulud network IOC egress from the device",
+                        "system": "defender_for_endpoint",
+                        "query": "DeviceNetworkEvents\n| where DeviceId == \"{{DeviceId}}\"\n| where RemoteUrl has_any (\"git-tanstack\", \"getsession\")\n| project Timestamp, RemoteUrl, RemoteIP, InitiatingProcessFileName\n"
+                    }
+                ],
+                "containment": "If bulk access coincides with IOC egress or install anomalies, isolate\nthe host and rotate all developer credentials.\n"
+            }
+        },
+        "configurations": {
+            "defender_for_endpoint": {
+                "schema": "defender_for_endpoint::2.1",
+                "status": "DEVELOPMENT",
+                "scheduling": "1H",
+                "alert": {
+                    "title": "Shai-Hulud bulk secret-file access on {{DeviceName}}",
+                    "category": "Credential Access",
+                    "techniques": [
+                        "T1552.001",
+                        "T1005"
+                    ],
+                    "recommendation": "A non-interactive runtime accessed many credential-candidate files in\na short window \u2014 consistent with automated secret harvesting after a\ncompromised package install.\n"
+                },
+                "impacted_entities": {
+                    "device": "DeviceName"
+                },
+                "scope": {
+                    "selection": "All"
+                },
+                "query": "// Detection: Shai-Hulud bulk credential-candidate file access\n// DOM signal: b49d0a94-ae13-49b3-8ad8-6c035fa3d681\n// MITRE ATT&CK: T1552.001\n// Platform: DEFENDER\nlet SecretPatterns = dynamic([\n    \".npmrc\", \".env\", \"credentials\", \"token\", \"secrets\",\n    \"id_rsa\", \"id_ed25519\", \"config.json\", \".ssh\", \".aws\",\n    \".azure\", \".kube\", \".vault\", \"serviceaccount\"\n]);\nlet PathThreshold = 15;\nlet PackageRuntimes = dynamic([\n    \"node\", \"node.exe\", \"python\", \"python3\", \"python.exe\", \"bun\", \"bun.exe\"\n]);\nlet InteractiveParents = dynamic([\n    \"explorer.exe\", \"cmd.exe\", \"powershell.exe\", \"pwsh.exe\",\n    \"WindowsTerminal.exe\", \"Terminal\", \"iTerm2\", \"bash\", \"zsh\", \"sh\"\n]);\nDeviceFileEvents\n| where ActionType in (\"FileCreated\", \"FileModified\") or ActionType has \"Read\"\n| where FolderPath has_any (SecretPatterns) or FileName has_any (SecretPatterns)\n| extend FullPath = strcat(FolderPath, \"\\\\\", FileName)\n| summarize DistinctPaths = dcount(FullPath),\n    SamplePaths = make_set(FullPath, 10)\n    by DeviceId, InitiatingProcessId, InitiatingProcessFileName, bin(Timestamp, 10m)\n| where DistinctPaths >= PathThreshold\n| join kind=inner (\n    DeviceProcessEvents\n    | where InitiatingProcessFileName in~ (PackageRuntimes)\n        or FileName in~ (PackageRuntimes)\n    | where InitiatingProcessFileName !in~ (InteractiveParents)\n    | distinct DeviceId, InitiatingProcessId\n) on DeviceId, InitiatingProcessId\n| join kind=inner (\n    DeviceProcessEvents\n    | summarize arg_max(Timestamp, *) by DeviceId, InitiatingProcessId\n    | project DeviceId, InitiatingProcessId, ReportId, DeviceName,\n        AccountName, AccountSid, Timestamp\n) on DeviceId, InitiatingProcessId\n| project Timestamp, DeviceId, ReportId, DeviceName, AccountName, AccountSid,\n    InitiatingProcessFileName,\n    InitiatingProcessCommandLine = strcat(\"distinct_paths=\", tostring(DistinctPaths)),\n    FileName = \"\", ProcessCommandLine = strcat_array(SamplePaths, \";\"),\n    DistinctPaths\n"
+            }
+        }
+    },
+    "bd5c57f3-bbb1-441f-8934-7a9b13c73f67": {
+        "name": "SEN Shai-Hulud Large Encoded Payload Outbound HTTP Exfiltration",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "bd5c57f3-bbb1-441f-8934-7a9b13c73f67",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "21a527de-8635-4187-87d4-c9e5f5c1badc",
+        "description": "#### MDR Technical Details\nMicrosoft Sentinel scheduled analytic rule implementing DOM signal\n`21a527de-8635-4187-87d4-c9e5f5c1badc` (Large Encoded Payload in Outbound\nHTTP from Developer or Build Hosts). Uses corporate web-proxy\n`CommonSecurityLog` entries for large POST/PUT requests to Shai-Hulud IOC\ndestinations, complementing the MDE endpoint-network variant.\n\n#### Detection Criteria\n- HTTP POST or PUT to `git-tanstack.com` or `filev2.getsession.org`.\n- Request or response bytes \u2265 50 KB (proxy-dependent field availability).\n- Frequency: 1 hour; severity Medium.\n\n#### Exclusion Criteria\n- Internal artefact registry uploads \u2014 exclude known internal registry\n  hostnames via deployment-specific `let` block.\n- Requires web-proxy connector with body-size or byte-count fields.\n",
+        "response": {
+            "alert_severity": "Medium",
+            "procedure": {
+                "analysis": "1. Review proxy log fields for source host and destination URL.\n2. Correlate source IP with developer workstation or CI runner inventory.\n3. Hunt endpoint telemetry for preceding package install activity.\n",
+                "containment": "Block IOC domains at the proxy and rotate credentials if the source\nhost matches a developer or CI asset.\n"
+            }
+        },
+        "configurations": {
+            "sentinel": {
+                "schema": "sentinel::2.4",
+                "status": "DEVELOPMENT",
+                "trigger": {
+                    "operator": "GreaterThan",
+                    "threshold": 0
+                },
+                "scheduling": {
+                    "frequency": "1h",
+                    "lookback": "1h"
+                },
+                "alert": {
+                    "create_incident": true,
+                    "suppression": false,
+                    "title": "Shai-Hulud large HTTP exfil to {{DestinationHostName}}",
+                    "description": "Web proxy telemetry shows a large POST/PUT to a Shai-Hulud\nexfiltration destination from a developer or build-network host.\n",
+                    "tactics": [
+                        "Exfiltration"
+                    ],
+                    "techniques": [
+                        "T1567.002",
+                        "T1071.001",
+                        "T1027"
+                    ]
+                },
+                "grouping": {
+                    "event": "AlertPerResult",
+                    "alert": {
+                        "enabled": false
+                    }
+                },
+                "entities": [
+                    {
+                        "entity": "IP",
+                        "mappings": [
+                            {
+                                "identifier": "Address",
+                                "column": "SourceIP"
+                            }
+                        ]
+                    },
+                    {
+                        "entity": "URL",
+                        "mappings": [
+                            {
+                                "identifier": "Url",
+                                "column": "RequestURL"
+                            }
+                        ]
+                    }
+                ],
+                "query": "// Detection: Shai-Hulud large encoded outbound HTTP exfiltration (proxy)\n// DOM signal: 21a527de-8635-4187-87d4-c9e5f5c1badc\n// MITRE ATT&CK: T1567.002, T1071.001\n// Platform: SENTINEL\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"filev2.getsession.org\"\n]);\nlet MinBytes = 50000;\nCommonSecurityLog\n| where TimeGenerated > ago(1h)\n| where RequestMethod in (\"POST\", \"PUT\")\n| where DestinationHostName has_any (IocDomains)\n    or DestinationIP == \"83.142.209.194\"\n| where ReceivedBytes >= MinBytes or SentBytes >= MinBytes\n| extend RequestURL = strcat(RequestMethod, \" \", DestinationHostName, DestinationURL)\n| project TimeGenerated, SourceIP, DestinationHostName, RequestURL,\n    ReceivedBytes, SentBytes, DeviceVendor, DeviceProduct\n"
+            }
+        }
+    },
+    "ecd096d2-7fc5-45e3-803f-82d13f940210": {
+        "name": "MDE Shai-Hulud Developer Secret-File Access Followed by Outbound Egress",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "ecd096d2-7fc5-45e3-803f-82d13f940210",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "365e23e8-0367-4adf-b18a-f1440cc66005",
+        "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`365e23e8-0367-4adf-b18a-f1440cc66005` (Developer Secret-File Access\nFollowed by Outbound Network Egress). Joins `DeviceFileEvents` secret-path\nreads with `DeviceNetworkEvents` outbound connections to Shai-Hulud IOC\ndestinations within a five-minute correlation window.\n\n#### Detection Criteria\n- File access on \u2265 2 distinct secret-marker paths (`.npmrc`, `.env`,\n  `.ssh`, cloud credential stores, Vault tokens, etc.).\n- Outbound connection within 5 minutes to `git-tanstack.com`,\n  `*.getsession.org`, or `83.142.209.194`.\n- Same initiating process ID on the device.\n- Frequency: 1 hour; severity High.\n\n#### Exclusion Criteria\n- Legitimate `gh auth login` and cloud SDK tooling may access secret paths \u2014\n  require IOC destination match (not secret access alone).\n- CI secret-injection agents should be excluded per deployment via\n  `InitiatingProcessFileName` allowlists.\n",
+        "response": {
+            "alert_severity": "High",
+            "procedure": {
+                "analysis": "1. Review secret paths accessed and the egress destination.\n2. Trace the initiating process tree back to package-manager activity.\n3. Check for worm propagation (GitHub repo creation, npm publish).\n4. Rotate credentials for all accessed secret stores.\n",
+                "searches": [
+                    {
+                        "purpose": "Reconstruct process tree around the alert timestamp",
+                        "system": "defender_for_endpoint",
+                        "query": "DeviceProcessEvents\n| where DeviceId == \"{{DeviceId}}\"\n| where Timestamp between (datetime(\"{{Timestamp}}\") - 30m .. datetime(\"{{Timestamp}}\") + 30m)\n| project Timestamp, FileName, ProcessCommandLine, InitiatingProcessFileName\n| order by Timestamp asc\n"
+                    }
+                ],
+                "containment": "Isolate the host and block egress to campaign IOC domains. Rotate all\ncredentials reachable from accessed secret paths before rejoining the network.\n"
+            }
+        },
+        "configurations": {
+            "defender_for_endpoint": {
+                "schema": "defender_for_endpoint::2.1",
+                "status": "DEVELOPMENT",
+                "scheduling": "1H",
+                "alert": {
+                    "title": "Shai-Hulud secret access and egress on {{DeviceName}}",
+                    "category": "Credential Access",
+                    "techniques": [
+                        "T1552.001",
+                        "T1071.001",
+                        "T1567.002"
+                    ],
+                    "recommendation": "A process read developer secret files and connected to a Shai-Hulud\nexfiltration destination within five minutes. Treat as confirmed\nstealer behaviour.\n"
+                },
+                "impacted_entities": {
+                    "device": "DeviceName"
+                },
+                "scope": {
+                    "selection": "All"
+                },
+                "query": "// Detection: Shai-Hulud secret-file access followed by outbound egress\n// DOM signal: 365e23e8-0367-4adf-b18a-f1440cc66005\n// MITRE ATT&CK: T1552.001, T1071.001\n// Platform: DEFENDER\nlet SecretMarkers = dynamic([\n    \".npmrc\", \".env\", \".git-credentials\", \"id_rsa\", \"id_ed25519\",\n    \".aws\", \"credentials\", \"serviceaccount\", \".vault-token\", \".docker\"\n]);\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"getsession.org\", \"filev2.getsession.org\",\n    \"seed1.getsession.org\", \"seed2.getsession.org\", \"seed3.getsession.org\"\n]);\nlet CorrelationWindow = 5m;\nlet SecretReads =\nDeviceFileEvents\n| where ActionType in (\"FileCreated\", \"FileModified\") or ActionType has \"Read\"\n| where FolderPath has_any (SecretMarkers) or FileName has_any (SecretMarkers)\n| summarize SecretReadTime = min(Timestamp),\n    SecretPathCount = dcount(strcat(FolderPath, FileName)),\n    SecretPaths = make_set(strcat(FolderPath, \"\\\\\", FileName), 10)\n    by DeviceId, InitiatingProcessId, InitiatingProcessFileName;\nlet SecretEgress =\nDeviceNetworkEvents\n| where ActionType == \"ConnectionSuccess\"\n| where RemoteUrl has_any (IocDomains) or RemoteIP == \"83.142.209.194\"\n| project EgressTime = Timestamp, DeviceId, ReportId, DeviceName,\n    InitiatingProcessId, InitiatingProcessFileName,\n    RemoteUrl, RemoteIP, RemotePort, SentBytes;\nSecretReads\n| where SecretPathCount >= 2\n| join kind=inner SecretEgress on DeviceId, InitiatingProcessId\n| where EgressTime between (SecretReadTime .. (SecretReadTime + CorrelationWindow))\n| project Timestamp = EgressTime, DeviceId, ReportId, DeviceName,\n    AccountName = \"\", AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine = strcat_array(SecretPaths, \";\"),\n    FileName = RemoteUrl, ProcessCommandLine = strcat(RemoteIP, \":\", tostring(RemotePort)),\n    SentBytes, SecretPathCount\n"
+            }
+        }
+    },
+    "2fe6575d-513c-4588-999f-19c13d0fa4f9": {
+        "name": "MDE Shai-Hulud Known On-Disk and Network IOC Match",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "2fe6575d-513c-4588-999f-19c13d0fa4f9",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "678d0786-dfd7-40fb-ba90-3c368ed00342",
+        "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`678d0786-dfd7-40fb-ba90-3c368ed00342` (Known Shai-Hulud On-Disk and\nNetwork Indicator Match). High-specificity artefact matching across\n`DeviceFileEvents` (campaign filenames, SHA-256 hashes, persistence\nartefacts) and `DeviceNetworkEvents` (IOC domains and exfil IP from\npackage-runtime process trees).\n\n#### Detection Criteria\n- File create/modify of `router_init.js`, `setup.mjs`, `gh-token-monitor`,\n  or published sample SHA-256 hashes.\n- OR network connection to `git-tanstack.com`, `*.getsession.org`, or\n  `83.142.209.194` from package-manager process trees.\n- Frequency: 1 hour; severity Critical.\n\n#### Exclusion Criteria\n- None for hash and filename matches \u2014 treat as strong execution evidence.\n- Network-only matches from non-package processes should be reviewed in\n  context of full device activity.\n",
+        "response": {
+            "alert_severity": "High",
+            "procedure": {
+                "analysis": "1. Treat any on-disk IOC match as confirmed execution, not mere dependency\n   declaration.\n2. Search for `gh-token-monitor` persistence before revoking GitHub tokens.\n3. Sweep lockfiles for compromised package versions.\n4. Rotate all reachable credentials.\n",
+                "searches": [
+                    {
+                        "purpose": "Hunt persistence artefacts on the alerted device",
+                        "system": "defender_for_endpoint",
+                        "query": "DeviceFileEvents\n| where DeviceId == \"{{DeviceId}}\"\n| where FileName has_any (\"gh-token-monitor\", \"com.user.gh-token-monitor\")\n| project Timestamp, FolderPath, FileName, SHA256\n"
+                    }
+                ],
+                "containment": "Isolate the endpoint immediately. Remove persistence, malicious packages,\nand IDE-resident copies under `.claude/` and `.vscode/` before token\nrevocation.\n"
+            }
+        },
+        "configurations": {
+            "defender_for_endpoint": {
+                "schema": "defender_for_endpoint::2.1",
+                "status": "DEVELOPMENT",
+                "scheduling": "1H",
+                "alert": {
+                    "title": "Shai-Hulud IOC match on {{DeviceName}} \u2014 {{DetectionType}}",
+                    "category": "Malware",
+                    "techniques": [
+                        "T1195.002",
+                        "T1547",
+                        "T1071.001"
+                    ],
+                    "recommendation": "Known Shai-Hulud file or network indicator detected. Assume the host\nis compromised and begin incident response immediately.\n"
+                },
+                "impacted_entities": {
+                    "device": "DeviceName"
+                },
+                "scope": {
+                    "selection": "All"
+                },
+                "query": "// Detection: Shai-Hulud known on-disk and network IOC match\n// DOM signal: 678d0786-dfd7-40fb-ba90-3c368ed00342\n// MITRE ATT&CK: T1195.002, T1547\n// Platform: DEFENDER\nlet PackageManagers = dynamic([\n    \"node\", \"node.exe\", \"npm\", \"npm.cmd\", \"pnpm\", \"pnpm.cmd\",\n    \"yarn\", \"yarn.cmd\", \"npx\", \"corepack\", \"pip\", \"pip3\",\n    \"python\", \"python3\", \"bun\", \"bun.exe\"\n]);\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"getsession.org\", \"filev2.getsession.org\",\n    \"seed1.getsession.org\", \"seed2.getsession.org\", \"seed3.getsession.org\"\n]);\nlet IocFiles = dynamic([\n    \"router_init.js\", \"setup.mjs\", \"router_runtime.js\",\n    \"tanstack_runner.js\", \"gh-token-monitor\",\n    \"com.user.gh-token-monitor.plist\", \"gh-token-monitor.service\",\n    \"transformers.pyz\"\n]);\nlet IocHashes = dynamic([\n    \"ab4fcadaec49c03278063dd269ea5eef82d24f2124a8e15d7b90f2fa8601266c\",\n    \"2ec78d556d696e208927cc503d48e4b5eb56b31abc2870c2ed2e98d6be27fc96\",\n    \"2258284d65f63829bd67eaba01ef6f1ada2f593f9bbe41678b2df360bd90d3df\"\n]);\nlet FileMatch =\nDeviceFileEvents\n| where FileName in~ (IocFiles) or SHA256 in (IocHashes)\n| project Timestamp, DeviceId, ReportId, DeviceName,\n    AccountName = InitiatingProcessAccountName, AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine = FolderPath,\n    FileName, ProcessCommandLine = SHA256,\n    DetectionType = \"file_ioc\";\nlet NetworkMatch =\nDeviceNetworkEvents\n| where ActionType == \"ConnectionSuccess\"\n| where RemoteUrl has_any (IocDomains) or RemoteIP == \"83.142.209.194\"\n| where InitiatingProcessFileName in~ (PackageManagers)\n    or InitiatingProcessCommandLine has_any (IocFiles)\n| project Timestamp, DeviceId, ReportId, DeviceName,\n    AccountName = InitiatingProcessAccountName, AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine,\n    FileName = RemoteUrl, ProcessCommandLine = RemoteIP,\n    DetectionType = \"network_ioc\";\nunion FileMatch, NetworkMatch\n"
+            }
+        }
+    },
+    "cf614690-69c4-4229-af59-072a9e18583b": {
+        "name": "SEN Shai-Hulud Known Network and IOC Indicator Match",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "cf614690-69c4-4229-af59-072a9e18583b",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "678d0786-dfd7-40fb-ba90-3c368ed00342",
+        "description": "#### MDR Technical Details\nMicrosoft Sentinel scheduled analytic rule implementing DOM signal\n`678d0786-dfd7-40fb-ba90-3c368ed00342` (Known Shai-Hulud On-Disk and\nNetwork Indicator Match). Correlates DNS queries and threat-intelligence\nfeed matches for campaign domains, exfiltration IP, and malicious package\nversion indicators across `DnsEvents`, `CommonSecurityLog`, and\n`ThreatIntelIndicators`.\n\n#### Detection Criteria\n- DNS resolution of `git-tanstack.com` or `*.getsession.org`.\n- OR proxy/firewall log connection to `83.142.209.194`.\n- OR active `ThreatIntelIndicators` entry referencing Shai-Hulud campaign\n  packages or infrastructure.\n- Frequency: 1 hour; severity Critical.\n\n#### Exclusion Criteria\n- Threat-intel feed matches require `Active == true` and unexpired indicators.\n- DNS matches alone on security-research sandboxes should be scoped to\n  developer and CI network segments where possible.\n",
+        "response": {
+            "alert_severity": "High",
+            "procedure": {
+                "analysis": "1. Identify the source host or client IP for the IOC match.\n2. Map the asset to developer workstation or CI runner inventory.\n3. Trigger endpoint IOC sweep on the correlated host.\n4. Check lockfiles and SBOM for compromised package versions.\n",
+                "containment": "Block IOC domains and IP at DNS and proxy layers. Initiate endpoint\nresponse on correlated developer and CI assets.\n"
+            }
+        },
+        "configurations": {
+            "sentinel": {
+                "schema": "sentinel::2.4",
+                "status": "DEVELOPMENT",
+                "trigger": {
+                    "operator": "GreaterThan",
+                    "threshold": 0
+                },
+                "scheduling": {
+                    "frequency": "1h",
+                    "lookback": "1h"
+                },
+                "alert": {
+                    "create_incident": true,
+                    "suppression": false,
+                    "title": "Shai-Hulud network IOC match \u2014 {{IndicatorValue}}",
+                    "description": "DNS, proxy, or threat-intelligence telemetry matches a known\nShai-Hulud campaign indicator.\n",
+                    "tactics": [
+                        "CommandAndControl",
+                        "Exfiltration"
+                    ],
+                    "techniques": [
+                        "T1071.001",
+                        "T1567.002",
+                        "T1195.002"
+                    ]
+                },
+                "grouping": {
+                    "event": "AlertPerResult",
+                    "alert": {
+                        "enabled": false
+                    }
+                },
+                "entities": [
+                    {
+                        "entity": "IP",
+                        "mappings": [
+                            {
+                                "identifier": "Address",
+                                "column": "ClientIP"
+                            }
+                        ]
+                    },
+                    {
+                        "entity": "DNS",
+                        "mappings": [
+                            {
+                                "identifier": "DomainName",
+                                "column": "IndicatorValue"
+                            }
+                        ]
+                    }
+                ],
+                "query": "// Detection: Shai-Hulud known network and IOC indicator match\n// DOM signal: 678d0786-dfd7-40fb-ba90-3c368ed00342\n// MITRE ATT&CK: T1071.001, T1195.002\n// Platform: SENTINEL\nlet IocDomains = dynamic([\n    \"git-tanstack.com\", \"getsession.org\", \"filev2.getsession.org\",\n    \"seed1.getsession.org\", \"seed2.getsession.org\", \"seed3.getsession.org\"\n]);\nlet ExfilIp = \"83.142.209.194\";\nlet DnsMatch =\nDnsEvents\n| where TimeGenerated > ago(1h)\n| where Name has_any (IocDomains)\n| project TimeGenerated, ClientIP = ClientIP, IndicatorValue = Name,\n    MatchSource = \"DnsEvents\", IndicatorType = \"domain\";\nlet ProxyMatch =\nCommonSecurityLog\n| where TimeGenerated > ago(1h)\n| where DestinationIP == ExfilIp\n    or DestinationHostName has_any (IocDomains)\n| project TimeGenerated, ClientIP = SourceIP,\n    IndicatorValue = coalesce(DestinationHostName, DestinationIP),\n    MatchSource = \"CommonSecurityLog\", IndicatorType = \"network\";\nlet TiMatch =\nThreatIntelIndicators\n| where TimeGenerated > ago(7d)\n| where ExpirationDateTime > now() and Active == true\n| where Description has_any (\"Shai-Hulud\", \"mini-shai-hulud\", \"git-tanstack\")\n    or DomainName has_any (IocDomains)\n    or NetworkIP == ExfilIp\n| extend IndicatorValue = coalesce(DomainName, NetworkIP, Description)\n| project TimeGenerated, ClientIP = \"\", IndicatorValue,\n    MatchSource = \"ThreatIntelIndicators\", IndicatorType = ThreatType;\nunion DnsMatch, ProxyMatch, TiMatch\n| order by TimeGenerated desc\n"
+            }
+        }
+    },
+    "bfae62bb-7ce1-46cd-a131-39803832fa9d": {
+        "name": "MDE Shai-Hulud Package Manager Install Spawning Suspicious Child Processes",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "bfae62bb-7ce1-46cd-a131-39803832fa9d",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "a3f7d796-146c-44b0-8d22-7a08daa0d963",
+        "description": "#### MDR Technical Details\nMicrosoft Defender for Endpoint custom detection implementing DOM signal\n`a3f7d796-146c-44b0-8d22-7a08daa0d963` (Package Manager Install Spawning\nUnexpected Download or Scripting Child Processes). Correlates\n`DeviceProcessEvents` for package-manager install trees spawning download\nutilities, shells, Bun, or hidden-window PowerShell, and `DeviceFileEvents`\nfor campaign artefact drops (`router_init.js`, `setup.mjs`, etc.).\n\n#### Detection Criteria\n- Parent is npm, pnpm, yarn, pip, python, or node with install/ci/add/update\n  in the command line.\n- Child within the engine lookback is curl, wget, bash, sh, zsh, bun,\n  powershell (hidden/bypass flags), or cscript/wscript.\n- OR file create of known Shai-Hulud hook files outside npm cache paths.\n- Frequency: 1 hour; severity High.\n\n#### Exclusion Criteria\n- Native module builds (`node-gyp`, `esbuild`) excluded by initiating process.\n- Files under npm cache / temp paths excluded for artefact drops.\n- Legitimate postinstall (husky, esbuild fetch) may fire \u2014 correlate with\n  secret-file access or IOC signals before escalation.\n",
+        "response": {
+            "alert_severity": "High",
+            "procedure": {
+                "analysis": "1. Confirm package manager parent command line references install, ci,\n   add, or update.\n2. Inspect child process command line for remote fetch or pipe-to-shell.\n3. Search the device for `router_init.js`, `setup.mjs`, and lockfile\n   entries for `@tanstack/*` compromised versions.\n4. Correlate with other Shai-Hulud DOM signals on the same host.\n",
+                "searches": [
+                    {
+                        "purpose": "Hunt related file and network IOC activity on the device",
+                        "system": "defender_for_endpoint",
+                        "query": "let IocFiles = dynamic([\"router_init.js\", \"setup.mjs\", \"gh-token-monitor\"]);\nunion (\n    DeviceFileEvents\n    | where DeviceId == \"{{DeviceId}}\"\n    | where FileName in~ (IocFiles)\n), (\n    DeviceNetworkEvents\n    | where DeviceId == \"{{DeviceId}}\"\n    | where RemoteUrl has \"git-tanstack\"\n)\n"
+                    }
+                ],
+                "containment": "Isolate the endpoint if install-time child spawning coincides with IOC\nfile creation. Remove malicious packages and persistence before token\nrevocation.\n"
+            }
+        },
+        "configurations": {
+            "defender_for_endpoint": {
+                "schema": "defender_for_endpoint::2.1",
+                "status": "DEVELOPMENT",
+                "scheduling": "1H",
+                "alert": {
+                    "title": "Shai-Hulud install hook spawned {{FileName}} on {{DeviceName}}",
+                    "category": "Execution",
+                    "techniques": [
+                        "T1195.002",
+                        "T1546.016",
+                        "T1059.007",
+                        "T1059.006"
+                    ],
+                    "recommendation": "Package installation spawned an unexpected child process consistent\nwith Shai-Hulud lifecycle hooks. Treat the host as potentially\ncompromised and inspect for stealer activity and worm propagation.\n"
+                },
+                "impacted_entities": {
+                    "device": "DeviceName"
+                },
+                "scope": {
+                    "selection": "All"
+                },
+                "query": "// Detection: Shai-Hulud package manager install child process anomaly\n// DOM signal: a3f7d796-146c-44b0-8d22-7a08daa0d963\n// MITRE ATT&CK: T1195.002, T1546.016\n// Platform: DEFENDER\nlet PackageManagers = dynamic([\n    \"node\", \"node.exe\", \"npm\", \"npm.cmd\", \"pnpm\", \"pnpm.cmd\",\n    \"yarn\", \"yarn.cmd\", \"npx\", \"corepack\", \"pip\", \"pip3\",\n    \"python\", \"python3\", \"python.exe\"\n]);\nlet SuspiciousChildren = dynamic([\n    \"curl\", \"curl.exe\", \"wget\", \"wget.exe\", \"bash\", \"sh\", \"zsh\",\n    \"bun\", \"bun.exe\", \"cscript.exe\", \"wscript.exe\"\n]);\nlet InstallVerbs = dynamic([\"install\", \" ci\", \"add \", \"update\"]);\nlet MaliciousArtifacts = dynamic([\n    \"router_init.js\", \"setup.mjs\", \"router_runtime.js\", \"tanstack_runner.js\"\n]);\nlet ChildFromInstall =\nDeviceProcessEvents\n| where InitiatingProcessFileName in~ (PackageManagers)\n    or FileName in~ (PackageManagers)\n| where InitiatingProcessCommandLine has_any (InstallVerbs)\n    or ProcessCommandLine has_any (InstallVerbs)\n| where FileName in~ (SuspiciousChildren)\n    or (FileName =~ \"powershell.exe\"\n        and ProcessCommandLine has_any (\n            \"-w hidden\", \"-windowstyle hidden\", \"-ep bypass\",\n            \"-executionpolicy bypass\", \"-EncodedCommand\"))\n| where not(InitiatingProcessFileName in~ (\"node-gyp\", \"esbuild\"))\n| project Timestamp, DeviceId, ReportId, DeviceName, AccountName, AccountSid,\n    InitiatingProcessFileName, InitiatingProcessCommandLine,\n    FileName, ProcessCommandLine, DetectionPath = \"child_process\";\nlet ArtifactDrop =\nDeviceFileEvents\n| where ActionType == \"FileCreated\"\n| where FileName in~ (MaliciousArtifacts)\n| where not(FolderPath has_any (\"\\\\npm\\\\cache\\\\\", \"/.npm/\", \"/tmp/npm-\", \"\\\\AppData\\\\Local\\\\npm-cache\\\\\"))\n| project Timestamp, DeviceId, ReportId, DeviceName,\n    AccountName = InitiatingProcessAccountName, AccountSid = \"\",\n    InitiatingProcessFileName, InitiatingProcessCommandLine = FolderPath,\n    FileName, ProcessCommandLine = SHA256, DetectionPath = \"artifact_drop\";\nunion ChildFromInstall, ArtifactDrop\n"
+            }
+        }
+    },
+    "0be66eea-4ae4-4544-811b-52651e20d744": {
+        "name": "RBA_RR - WIN base64 encoded powershell payload",
+        "references": {
+            "public": {
+                "1": "https://github.com/Bert-JanP/Hunting-Queries-Detection-Rules/blob/main/Defender%20For%20Endpoint/PowerShellEncodedReconActivities.md",
+                "2": "https://kqlquery.com/posts/hunting-encoded-powershell/",
+                "3": "https://github.com/Javelinblog/PowerShell-Encoded-Commands-Tool/tree/main?tab=readme-ov-file"
+            }
+        },
+        "metadata": {
+            "uuid": "0be66eea-4ae4-4544-811b-52651e20d744",
+            "schema": "mdr::2.0",
+            "tlp": "clear",
+            "version": 6,
+            "created": "2024-05-16",
+            "modified": "2026-06-22",
+            "author": "ec-digit-catch@ec.europa.eu"
+        },
+        "description": "Detect base64 encoded PowerShell payload that could be used to launch \na process or a script.\nThe detection applies up to 2 levels of encoded payload (a first payload \ncontaining a PowerShell command with a second base64 payload).  \n\n### Splunk(Sentinel) investigation guidelines ###\n\nThe alert notification contains\n- host(src_host): the host on which the process was launched.\n- src_user: the account used.\n- ParentProcessName(parent_process): the process launching the PS with base64 payload.\n- NewProcessName(process): PS.\n- CommandLine(command_line): the original command line as seen in logs.\n- payload_b64_ascii [and payload_b64]: the first level of encoded payload. \nThey are always present.\n- payload_level2_b64_ascii [and payload_level2_b64] may also be provided \nif the first level was containing another base64 encoded payload.\nFor Sentinel Alert, you have to decode the base64 string present in command_line field,\nusing CyberChef or any base64 decoding tool.  \n\n### SENTINEL alerts triage ###\nCATCH uses TIDE_LD_005_CSIRC_WL_Win_Base64_Encoded_PS_Payload.csv\nto filter legitimate or benign base64 encoded payloads used by PowerShell \non EC Windows devices running on our Azure IaaS & PaaS tenant.\n\n### ES-SPLUNK alerts triage ###\nCATCH uses SOC_LT_289_WIN_reviewed_base64_encoded_payload-exclude.csv\nto filter legitimate or benign base64 encoded payloads used by PowerShell \non EC Windows devices.\n",
+        "response": {
+            "alert_severity": "High"
+        },
+        "configurations": {
+            "sentinel": {
+                "schema": "sentinel::2.0",
+                "status": "PRODUCTION",
+                "scheduling": {
+                    "frequency": "1h",
+                    "lookback": "1h"
+                },
+                "trigger": {
+                    "threshold": 1,
+                    "operator": "GreaterThan"
+                },
+                "alert": {
+                    "description": "{{description}}\n",
+                    "suppression": false,
+                    "create_incident": true
+                },
+                "grouping": {
+                    "event": "AlertPerResult"
+                },
+                "entities": [
+                    {
+                        "entity": "Process",
+                        "mappings": [
+                            {
+                                "identifier": "CommandLine",
+                                "column": "command_line"
+                            }
+                        ]
+                    },
+                    {
+                        "entity": "Host",
+                        "mappings": [
+                            {
+                                "identifier": "HostName",
+                                "column": "src_host"
+                            },
+                            {
+                                "identifier": "DnsDomain",
+                                "column": "src_nt_domain"
+                            }
+                        ]
+                    },
+                    {
+                        "entity": "Account",
+                        "mappings": [
+                            {
+                                "identifier": "Name",
+                                "column": "src_user"
+                            }
+                        ]
+                    }
+                ],
+                "query": "let Base64EncodedPS = (\n_GetWatchlist('CSIRC_WL_005')\n| project command_line);\nSecurityEvent\n//we look for process creation\n| where EventID==4688 \n| where isnotempty(CommandLine)\n//field renaming\n    | extend command_line = CommandLine\n    | extend src_host = tostring(split(Computer, '.', 0)[0])\n    | extend src_user = SubjectUserName\n    | extend src_nt_domain = tostring(strcat_array(array_slice(split(Computer, '.'), 1, -1), '.'))\n    | extend user_type = AccountType\n    | extend event_source = EventSourceName\n    | extend signature = Activity\n    | extend process = NewProcessName\n    | extend parent_process = ParentProcessName\n    | extend subscription_temp = split(_ResourceId, \"/subscriptions/\")[1]\n    | extend subscription_id = split(subscription_temp, \"/\")[0]\n//^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$\n| where (command_line has \"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" or command_line has \"C:\\\\Windows\\\\SysWOW64\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\") and (command_line has \"-e\" or command_line has \"-enc\" or command_line has \"-EncodedCommand\")\n| where parent_process !contains \"C:\\\\Packages\\\\Plugins\\\\Microsoft.GuestConfiguration.ConfigurationforWindows\\\\\"\n| where command_line <> \"\\\"C:\\\\windows\\\\System32\\\\WindowsPowershell\\\\v1.0\\\\powershell.exe\\\" -noninteractive -outputFormat xml -NonInteractive -encodedCommand IABbAEUAbgB2AGkAcgBvAG4AbQBlAG4AdABdADoAOgBPAFMAVgBlAHIAcwBpAG8AbgAuAFYAZQByAHMAaQBvAG4AIAA= -inputFormat xml\"\n| where command_line !in~ (Base64EncodedPS)\n| project\n    TimeGenerated,\n    src_host,\n    command_line,\n    src_user,\n    src_nt_domain,\n    user_type,\n    signature,\n    process,\n    parent_process,\n    subscription_id\n| extend description = strcat(\"command_line=\\\"\",command_line,\"\\\" src_host=\\\"\",src_host,\"\\\" src_user=\\\"\",src_user,\"\\\" user_type=\\\"\",user_type,\"\\\" signature=\\\"\",signature,\"\\\" src_nt_domain=\\\"\",src_nt_domain,\"\\\" process=\\\"\",process,\"\\\" parent_process=\\\"\",parent_process,\"\\\" alert_description=\\\" suspicious bases64 encoded PowerShell Payload launched by \",src_user,\" from \",src_host,\"\\\"\")\n"
+            },
+            "splunk": {
+                "schema": "splunk::2.0",
+                "status": "PRODUCTION",
+                "throttling": {
+                    "duration": "2h",
+                    "fields": [
+                        "host",
+                        "src_user",
+                        "CommandLine"
+                    ]
+                },
+                "scheduling": {
+                    "frequency": "15m",
+                    "lookback": "15m"
+                },
+                "risk": {
+                    "message": "Suspicious PowerShell Encoded Payload ($matching_pattern$) launched by $src_user$ on $orig_host$",
+                    "risk_objects": [
+                        {
+                            "field": "src_user",
+                            "type": "user",
+                            "score": 10
+                        },
+                        {
+                            "field": "host",
+                            "type": "system",
+                            "score": 10
+                        }
+                    ],
+                    "threat_objects": [
+                        {
+                            "field": "CommandLine",
+                            "type": "command"
+                        }
+                    ]
+                },
+                "query": "`win_security_logs` \n    AND TERM(EventID=4688)\n    AND NewProcessName IN (\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\",\"C:\\\\Windows\\\\SysWOW64\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\")\n    AND ( TERM(C:\\\\WINDOWS\\\\system32\\\\WindowsPowerShell\\\\v1.0\\\\PowerShell.exe) OR TERM(C:\\\\WINDOWS\\\\sysWOW64\\\\WindowsPowerShell\\\\v1.0\\\\PowerShell.exe) )\n    AND (TERM(-e) OR TERM(-enc) OR TERM(-EncodedCommand)) \n    NOT TERM(C:\\\\Windows\\\\CCM\\\\CcmExec.exe) \n| rex field=CommandLine \"(?i)\\s+(-e|-enc|-EncodedCommand)\\s+(?<payload_b64>(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)\" \n| where isnotnull(payload_b64) \n| search `exclude(SOC_LT_289_WIN_reviewed_base64_encoded_payload)` \n| `soc_macro_decode_b64(payload_b64)` \n| fields host, ParentProcessName, src_user, payload_b64_ascii, payload_b64, NewProcessName, CommandLine, _time \n| stats count min(_time) as et, max(_time) as lt, values(ParentProcessName) as ParentProcessName, values(payload_b64_ascii) as payload_b64_ascii, values(payload_b64) as payload_b64 by host src_user NewProcessName CommandLine \n| fields host, count, et, lt, ParentProcessName, src_user, payload_b64_ascii, payload_b64, NewProcessName, CommandLine \n| rename payload_* as payloadlevel1_* \n| rex field=payloadlevel1_b64_ascii \"(?i)\\s?(-e|-enc|-EncodedCommand)\\s?(?<payload_b64>(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$\" \n| search `exclude(SOC_LT_289_WIN_reviewed_base64_encoded_payload)` \n| `soc_macro_decode_b64(payload_b64)` \n| rename payload_* as payload_level2_*, payloadlevel1_* as payload_* \n| rex field=payload_level2_b64_ascii \"(?i)\\s?(-e|-enc|-EncodedCommand)\\s?(?<payload_level3_b64>(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$\" \n| eval payload_b64_ascii_sanitized=replace(payload_b64_ascii,\"\\s+\\\\\\\"[^\\\\\\\"]+\\\\\\\"\\s+\",\" \") \n| lookup SOC_LD_339_RBA_powershell_watch_list_risk_score risk_object_command as payload_b64_ascii_sanitized output comment_description as matching_pattern, risk_confidence, trigger_notable \n| eval payload_level2_b64_ascii_sanitized=replace(payload_level2_b64_ascii,\"\\s+\\\\\\\"[^\\\\\\\"]+\\\\\\\"\\s+\",\" \") \n| lookup SOC_LD_339_RBA_powershell_watch_list_risk_score risk_object_command as payload_level2_b64_ascii_sanitized outputnew comment_description as matching_pattern, risk_confidence, trigger_notable \n| eval RBA_RR_trigger_notable=if(isnotnull(payload_level3_b64) OR trigger_notable==1, 1, null()) \n| eval risk_score_default=10 \n| eval risk_score=if(isnotnull(risk_confidence),max(risk_confidence),risk_score_default) \n| eval matching_pattern=if(isnotnull(matching_pattern),matching_pattern,\"UNLISTED\") \n| fields host, count, RBA_RR_trigger_notable, risk_score, matching_pattern, et, lt, ParentProcessName, src_user, payload_b64_ascii, payload_b64, payload_level2_b64_ascii, payload_level2_b64, NewProcessName, CommandLine, _time \n| `soc_macro_ctime_utc(et)` \n| `soc_macro_ctime_utc(lt)`"
+            }
+        }
+    },
+    "7eb85d22-2e60-449f-b92c-8cecc28d34c6": {
+        "name": "SEN Shai-Hulud Unexpected GitHub Repository or Workflow Creation",
+        "references": {
+            "public": {
+                "1": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised",
+                "2": "https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised",
+                "3": "https://tanstack.com/blog/npm-supply-chain-compromise-postmortem",
+                "4": "https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem"
+            }
+        },
+        "metadata": {
+            "uuid": "7eb85d22-2e60-449f-b92c-8cecc28d34c6",
+            "schema": "mdr::2.1",
+            "version": 1,
+            "created": "2026-06-16",
+            "modified": "2026-06-22",
+            "tlp": "clear",
+            "organisation": {
+                "uuid": "56b0a0f0-b0bc-47d9-bb46-02f80ae2065a",
+                "name": "EC DIGIT CSOC"
+            }
+        },
+        "detection_model": "287114bd-7d58-422d-9711-f5516900b9ce",
+        "description": "#### MDR Technical Details\nMicrosoft Sentinel scheduled analytic rule implementing DOM signal\n`287114bd-7d58-422d-9711-f5516900b9ce` (Unexpected GitHub Repository or\nWorkflow Creation from Anomalous Context). Searches `GitHubAuditLog` and\n`CloudAppEvents` for dead-drop repository markers, suspicious workflow\ncommits, and package-related audit actions.\n\n#### Detection Criteria\n- GitHub audit `Data` or CloudApp `RawEventData` contains campaign strings:\n  `Shai-Hulud: Here We Go Again`, `PUSH UR T3MPRR`, or the token-wipe\n  commit message.\n- OR repository/workflow actions involving `router_init.js`, `setup.mjs`,\n  or `.github/workflows` from GitHub application telemetry.\n- Time window: 1 hour lookback with 1 hour frequency.\n- Severity: High.\n\n#### Exclusion Criteria\n- Legitimate open-source forks and hobby repositories \u2014 correlate with\n  endpoint install anomalies on linked CI runners before escalation.\n- Dune-themed repository names alone are insufficient; require marker\n  strings or malicious workflow file references.\n",
+        "response": {
+            "alert_severity": "High",
+            "procedure": {
+                "analysis": "1. Identify the GitHub actor and repositories affected.\n2. Review repository description and commit messages for campaign markers.\n3. Check whether the actor's token was used from a compromised CI runner.\n4. Correlate with npm publish and endpoint IOC signals.\n",
+                "searches": [
+                    {
+                        "purpose": "Expand GitHub audit activity for the alerted actor",
+                        "system": "sentinel",
+                        "query": "GitHubAuditLog\n| where TimeGenerated > ago(24h)\n| where Actor == \"{{Actor}}\"\n| project TimeGenerated, Action, Repository, Data\n| order by TimeGenerated desc\n"
+                    }
+                ],
+                "containment": "Revoke the compromised GitHub token, delete dead-drop repositories,\nand audit workflow files for malicious publish steps.\n"
+            }
+        },
+        "configurations": {
+            "sentinel": {
+                "schema": "sentinel::2.4",
+                "status": "DEVELOPMENT",
+                "trigger": {
+                    "operator": "GreaterThan",
+                    "threshold": 0
+                },
+                "scheduling": {
+                    "frequency": "1h",
+                    "lookback": "1h"
+                },
+                "alert": {
+                    "create_incident": true,
+                    "suppression": false,
+                    "title": "Shai-Hulud GitHub dead-drop activity by {{Actor}}",
+                    "description": "GitHub audit or cloud application telemetry matches Shai-Hulud worm\npropagation markers \u2014 dead-drop repositories, workflow injection, or\nsuspicious package-related actions.\n",
+                    "tactics": [
+                        "InitialAccess",
+                        "Persistence",
+                        "Exfiltration"
+                    ],
+                    "techniques": [
+                        "T1195.002",
+                        "T1078",
+                        "T1567.002"
+                    ]
+                },
+                "grouping": {
+                    "event": "AlertPerResult",
+                    "alert": {
+                        "enabled": false
+                    }
+                },
+                "entities": [
+                    {
+                        "entity": "Account",
+                        "mappings": [
+                            {
+                                "identifier": "Name",
+                                "column": "Actor"
+                            }
+                        ]
+                    },
+                    {
+                        "entity": "IP",
+                        "mappings": [
+                            {
+                                "identifier": "Address",
+                                "column": "IPAddress"
+                            }
+                        ]
+                    }
+                ],
+                "query": "// Detection: Shai-Hulud unexpected GitHub repository or workflow creation\n// DOM signal: 287114bd-7d58-422d-9711-f5516900b9ce\n// MITRE ATT&CK: T1195.002, T1078\n// Platform: SENTINEL\nlet ShaiHuludMarkers = dynamic([\n    \"Shai-Hulud: Here We Go Again\",\n    \"PUSH UR T3MPRR\",\n    \"IfYouRevokeThisTokenItWillWipeTheComputerOfTheOwner\"\n]);\nlet MaliciousPaths = dynamic([\n    \"router_init.js\", \"setup.mjs\", \".github/workflows\"\n]);\nlet GitHubAudit =\nGitHubAuditLog\n| where TimeGenerated > ago(1h)\n| extend DataStr = tostring(Data)\n| where Action has_any (\"repo.\", \"workflows.\", \"packages.\")\n| where DataStr has_any (ShaiHuludMarkers)\n    or (Action has \"repo.create\" and DataStr has \"dune\")\n| project TimeGenerated, Actor, Action, Repository, DataStr,\n    IPAddress = \"\", Source = \"GitHubAuditLog\";\nlet CloudAppGitHub =\nCloudAppEvents\n| where TimeGenerated > ago(1h)\n| where Application has \"GitHub\"\n| where ActionType has_any (\"Create\", \"Publish\", \"Push\", \"Commit\")\n| extend RawStr = tostring(RawEventData)\n| where RawStr has_any (ShaiHuludMarkers)\n    or ObjectName has_any (MaliciousPaths)\n| project TimeGenerated, Actor = AccountDisplayName, Action = ActionType,\n    Repository = ObjectName, DataStr = RawStr,\n    IPAddress, Source = \"CloudAppEvents\";\nunion GitHubAudit, CloudAppGitHub\n| order by TimeGenerated desc\n"
+            }
+        }
+    }
+}

@@ -83,10 +83,12 @@
 &nbsp; 
 
 <details>
-<summary>Splunk Enterprise <b>PRODUCTION</b></summary>
+<summary>Splunk Enterprise <b>PRODUCTION</b>[DISABLED]</summary>
 
 >**Status** : `PRODUCTION` - _Deployed in active production environment, potentially raising alerts_
 >**Strategy** : `RELEASE` - _Deployment from the default branch (also called trunk, or main branch)_
+
+This system is not enabled in your System Configurations, this documentation is only informational
 
 | Parameter                     | System Config                     | Description                                                                                                                                                                                                                                    | Config                                                                                                   |
 |:------------------------------|:----------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------|
