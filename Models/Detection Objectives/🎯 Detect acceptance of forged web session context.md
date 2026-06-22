@@ -59,9 +59,9 @@ Root[🎯 Detect acceptance of forged web session context]
 
 | 📡 Detection Objective Signals (3)                                                                                                                                                                                                                                                                 | 🚨 Detection Rules    |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
-| [Session variable probing across protected routes](#session-variable-probing-across-protected-routes 'Alert on repeated attempts to discover accepted session variables by trying many cookie orheader names and simple values across protected routes Usefu...')                                 | ❌ No Detection Rules |
-| [Fabricated session value grants protected access](#fabricated-session-value-grants-protected-access 'Alert when controlled validation shows a protected endpoint returning successful access after afabricated cookie, Authorization header, or request var...')                                 | ❌ No Detection Rules |
 | [Client-side role or identity claim changes authorisation outcome](#client-side-role-or-identity-claim-changes-authorisation-outcome 'Alert when modifying a client-controlled identity, username, role, or feature flag changes theauthorisation decision for the same route and source con...') | ❌ No Detection Rules |
+| [Fabricated session value grants protected access](#fabricated-session-value-grants-protected-access 'Alert when controlled validation shows a protected endpoint returning successful access after afabricated cookie, Authorization header, or request var...')                                 | ❌ No Detection Rules |
+| [Session variable probing across protected routes](#session-variable-probing-across-protected-routes 'Alert on repeated attempts to discover accepted session variables by trying many cookie orheader names and simple values across protected routes Usefu...')                                 | ❌ No Detection Rules |
 
 ## 📡 Signals
 

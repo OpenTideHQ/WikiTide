@@ -82,8 +82,8 @@ Root[🎯 Detect LINE VIPER ICMP Covert Channel on Network Devices]
 
 | 📡 Detection Objective Signals (2)                                                                                                                                                                                                                                                                     | 🚨 Detection Rules    |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
-| [Unexpected Outbound Raw TCP from Cisco ASA on High Ephemeral Ports](#unexpected-outbound-raw-tcp-from-cisco-asa-on-high-ephemeral-ports 'Detects unexpected outbound TCP connections initiated from aCisco ASA device to external IP addresses using high-ephemeralsource andor destination por...') | ❌ No Detection Rules |
 | [Anomalous ICMP Traffic to Cisco ASA LAN Interface via VPN](#anomalous-icmp-traffic-to-cisco-asa-lan-interface-via-vpn 'Detects unusual ICMP Echo Request traffic directed at the LANinterface of a Cisco ASA device originating from VPN-connectedclients, consistent with LI...')                   | ❌ No Detection Rules |
+| [Unexpected Outbound Raw TCP from Cisco ASA on High Ephemeral Ports](#unexpected-outbound-raw-tcp-from-cisco-asa-on-high-ephemeral-ports 'Detects unexpected outbound TCP connections initiated from aCisco ASA device to external IP addresses using high-ephemeralsource andor destination por...') | ❌ No Detection Rules |
 
 ## 📡 Signals
 

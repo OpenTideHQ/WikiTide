@@ -105,9 +105,9 @@ Root[🎯 Detect LINE VIPER WebVPN Command and Control on Cisco ASA]
 
 | 📡 Detection Objective Signals (3)                                                                                                                                                                                                                                                                 | 🚨 Detection Rules    |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
+| [Anomalous XML Payload in WebVPN Authentication Form Elements](#anomalous-xml-payload-in-webvpn-authentication-form-elements 'Detects WebVPN authentication requests where standard XML formelements carry anomalously large, encoded, or encrypted payloadsinconsistent with legiti...')         | ❌ No Detection Rules |
 | [Malformed PKCS7 Certificate in WebVPN Authentication Request](#malformed-pkcs7-certificate-in-webvpn-authentication-request 'Detects WebVPN client authentication requests to a Cisco ASAdevice where the certificate field contains a malformed orpartial PKCS7 structure, consist...')         | ❌ No Detection Rules |
 | [Non-Standard Content in Cisco ASA WebVPN Authentication Response](#non-standard-content-in-cisco-asa-webvpn-authentication-response 'Detects Cisco ASA WebVPN authentication responses that embeddata in the XML message element in a manner inconsistent withlegitimate authentication out...') | ❌ No Detection Rules |
-| [Anomalous XML Payload in WebVPN Authentication Form Elements](#anomalous-xml-payload-in-webvpn-authentication-form-elements 'Detects WebVPN authentication requests where standard XML formelements carry anomalously large, encoded, or encrypted payloadsinconsistent with legiti...')         | ❌ No Detection Rules |
 
 ## 📡 Signals
 

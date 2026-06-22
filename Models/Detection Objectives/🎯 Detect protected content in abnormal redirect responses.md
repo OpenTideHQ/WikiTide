@@ -60,9 +60,9 @@ Root[🎯 Detect protected content in abnormal redirect responses]
 
 | 📡 Detection Objective Signals (3)                                                                                                                                                                                                                                                         | 🚨 Detection Rules    |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
-| [Restricted route enumeration through repeated redirects](#restricted-route-enumeration-through-repeated-redirects 'Alert when a source repeatedly requests distinct authenticated or role-restricted URLs andreceives 302 redirects without completing a normal authentic...')           | ❌ No Detection Rules |
-| [Redirect body differs from expected unauthenticated template](#redirect-body-differs-from-expected-unauthenticated-template 'Use controlled synthetic checks to compare unauthenticated requests to protected routes againsta known-safe redirect template Alert when the response ...') | ❌ No Detection Rules |
 | [Large 302 response body on protected route](#large-302-response-body-on-protected-route 'Alert when an HTTP 302 response from an authenticated or role-restricted route has an unusuallylarge response body Required fields include request pat...')                                     | ❌ No Detection Rules |
+| [Redirect body differs from expected unauthenticated template](#redirect-body-differs-from-expected-unauthenticated-template 'Use controlled synthetic checks to compare unauthenticated requests to protected routes againsta known-safe redirect template Alert when the response ...') | ❌ No Detection Rules |
+| [Restricted route enumeration through repeated redirects](#restricted-route-enumeration-through-repeated-redirects 'Alert when a source repeatedly requests distinct authenticated or role-restricted URLs andreceives 302 redirects without completing a normal authentic...')           | ❌ No Detection Rules |
 
 ## 📡 Signals
 

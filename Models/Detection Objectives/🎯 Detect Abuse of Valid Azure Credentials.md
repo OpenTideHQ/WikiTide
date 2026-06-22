@@ -75,10 +75,10 @@ Root[🎯 Detect Abuse of Valid Azure Credentials]
 
 | 📡 Detection Objective Signals (4)                                                                                                                                                                                                                                       | 🚨 Detection Rules    |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------|
-| [Privilege Escalation After Initial Access](#privilege-escalation-after-initial-access 'Detects attempts to escalate privileges within Azure following successful authentication with valid credentials This signal identifies when an attacke...')                     | ❌ No Detection Rules |
 | [Anomalous Azure AD Sign-In Patterns](#anomalous-azure-ad-sign-in-patterns 'Detects authentication activities to Azure ADEntra ID that deviate from established baseline patterns for user accounts This includes monitoring for i...')                                 | ❌ No Detection Rules |
-| [Suspicious Resource Enumeration and Access Patterns](#suspicious-resource-enumeration-and-access-patterns 'Detects unusual patterns of resource enumeration and access that indicate an attacker is exploring the Azure environment to identify high-value target...') | ❌ No Detection Rules |
+| [Privilege Escalation After Initial Access](#privilege-escalation-after-initial-access 'Detects attempts to escalate privileges within Azure following successful authentication with valid credentials This signal identifies when an attacke...')                     | ❌ No Detection Rules |
 | [Service Principal Credential Abuse](#service-principal-credential-abuse 'Detects suspicious activities involving Azure service principal credentials client secrets, certificates Service principals are non-human identities t...')                                   | ❌ No Detection Rules |
+| [Suspicious Resource Enumeration and Access Patterns](#suspicious-resource-enumeration-and-access-patterns 'Detects unusual patterns of resource enumeration and access that indicate an attacker is exploring the Azure environment to identify high-value target...') | ❌ No Detection Rules |
 
 ## 📡 Signals
 
